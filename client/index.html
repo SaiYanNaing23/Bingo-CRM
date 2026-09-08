@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#ffffff" />
+    <link rel="icon" type="image/png" href="/branding/bingo-crm-logo.png" />
+    <link rel="apple-touch-icon" href="/branding/bingo-crm-logo.png" />
+    <script>
+      // Apply saved appearance before styles and React load to avoid a light flash.
+      // Keep this storage key in sync with features/settings/appearance.ts.
+      try {
+        const appearance = JSON.parse(localStorage.getItem('devtrack.appearance') || '{}')
+        const dark =
+          appearance?.mode === 'dark' ||
+          (appearance?.mode === 'system' && matchMedia('(prefers-color-scheme: dark)').matches)
+        document.documentElement.classList.toggle('dark', dark)
+        document.documentElement.style.colorScheme = dark ? 'dark' : 'light'
+        if (typeof appearance?.preset === 'string')
+          document.documentElement.dataset.theme = appearance.preset
+      } catch {
+        /* Use the default theme when storage is unavailable or invalid. */
+      }
+    </script>
+    <meta
+      name="description"
+      content="BINGO CRM — your workspace for companies, contacts, applications, and daily tasks."
+    />
+    <title>BINGO CRM · Career workspace</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

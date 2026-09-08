@@ -1,0 +1,54 @@
+/* Alternate palettes retain the supplied Stone surfaces, spacing, and typography.
+   Add matching metadata in features/settings/appearance.ts for a new preset. */
+:root[data-theme='slate'] {
+  --primary: oklch(0.379 0.046 257.287);
+  --primary-foreground: oklch(0.984 0.003 247.858);
+}
+:root.dark[data-theme='slate'] {
+  --primary: oklch(0.704 0.04 256.788);
+  --primary-foreground: oklch(0.129 0.042 264.695);
+}
+:root[data-theme='blue'] {
+  --primary: oklch(0.488 0.243 264.376);
+  --primary-foreground: oklch(0.97 0.014 254.604);
+}
+:root.dark[data-theme='blue'] {
+  --primary: oklch(0.707 0.165 254.624);
+  --primary-foreground: oklch(0.282 0.091 267.935);
+}
+:root[data-theme='forest'] {
+  --primary: oklch(0.508 0.118 165.612);
+  --primary-foreground: oklch(0.979 0.021 166.113);
+}
+:root.dark[data-theme='forest'] {
+  --primary: oklch(0.765 0.177 163.223);
+  --primary-foreground: oklch(0.262 0.051 172.552);
+}
+:root[data-theme='violet'] {
+  --primary: oklch(0.491 0.27 292.581);
+  --primary-foreground: oklch(0.969 0.016 293.756);
+}
+:root.dark[data-theme='violet'] {
+  --primary: oklch(0.811 0.111 293.571);
+  --primary-foreground: oklch(0.283 0.141 291.089);
+}
+:root[data-theme='rose'] {
+  --primary: oklch(0.514 0.222 16.935);
+  --primary-foreground: oklch(0.969 0.015 12.422);
+}
+:root.dark[data-theme='rose'] {
+  --primary: oklch(0.81 0.117 11.638);
+  --primary-foreground: oklch(0.271 0.105 12.094);
+}
+:root:is(
+  [data-theme='slate'],
+  [data-theme='blue'],
+  [data-theme='forest'],
+  [data-theme='violet'],
+  [data-theme='rose']
+) {
+  --ring: var(--primary);
+  --sidebar-primary: var(--primary);
+  --sidebar-primary-foreground: var(--primary-foreground);
+  --sidebar-ring: var(--primary);
+}

@@ -1,0 +1,43 @@
+import type { ResourceConfig } from '@/lib/fields'
+export const contactsConfig: ResourceConfig = {
+  kind: 'contacts',
+  singular: 'contact',
+  title: 'Contacts',
+  nameKey: 'name',
+  description: 'Keep the people behind your opportunities close.',
+  defaultSort: 'updatedAt',
+  sorts: ['name', 'lastContactAt', 'createdAt', 'updatedAt'],
+  columns: [
+    { key: 'name', label: 'Contact' },
+    { key: 'companyId', label: 'Company' },
+    { key: 'role', label: 'Role' },
+    { key: 'email', label: 'Email' },
+    { key: 'nextFollowUpAt', label: 'Next follow-up' },
+  ],
+  filters: [{ key: 'companyId', label: 'Company', type: 'company' }],
+  fields: [
+    { key: 'name', label: 'Full name', required: true, min: 2 },
+    { key: 'companyId', label: 'Company', type: 'company', required: true },
+    { key: 'email', label: 'Email', type: 'email', required: true },
+    { key: 'phone', label: 'Phone', required: true, min: 5 },
+    { key: 'role', label: 'Role', required: true, min: 2 },
+    {
+      key: 'photo',
+      label: 'Photo URL',
+      type: 'url',
+      required: true,
+      hint: 'Paste the image URL, without Markdown formatting.',
+    },
+    { key: 'linkedIn', label: 'LinkedIn URL', type: 'url', required: true },
+    {
+      key: '_timezone',
+      label: 'Date display timezone',
+      type: 'timezone',
+      required: true,
+      hint: 'Used to enter these dates; timestamps are saved in UTC.',
+    },
+    { key: 'lastContactAt', label: 'Last contacted', type: 'datetime', required: true },
+    { key: 'nextFollowUpAt', label: 'Next follow-up', type: 'datetime', required: true },
+    { key: 'notes', label: 'Notes', type: 'textarea', section: 'details' },
+  ],
+}

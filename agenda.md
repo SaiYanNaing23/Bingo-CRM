@@ -2,6 +2,10 @@
 
 Goal: build a production-grade backend first for a career + project CRM, then wire frontend modules cleanly.
 
+Client roadmap: [client-agenda.md](./client-agenda.md). This file remains the backend agenda.
+
+Workstream status (2026-09-08): backend implementation is paused after Phase 4 at the user's request. Client Phases 0-5 are implemented and verified; see the separate client agenda. Backend Phases 5-11 remain future work. Backend Phase 4 implementation and automated checks are complete; its user manual testing remains pending as recorded below.
+
 ## Implementation Progress
 
 - [x] 0.1 Backend shell

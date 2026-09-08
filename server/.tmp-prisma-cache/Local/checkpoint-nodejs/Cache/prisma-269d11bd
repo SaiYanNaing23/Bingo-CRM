@@ -1,0 +1,53 @@
+{
+  "last_reminder": 1786701542926,
+  "cached_at": 1786701514042,
+  "version": "7.9.0",
+  "cli_path": "C:\\Users\\User\\Desktop\\Bingo CRM\\server\\node_modules\\prisma\\build\\index.js",
+  "output": {
+    "product": "prisma",
+    "previous_version": "7.9.0",
+    "checkpoint_version": 4,
+    "local_timestamp_without_timezone": "2026-08-14T16:28:32Z",
+    "current_version": "7.9.1",
+    "current_release_date": 1785160149,
+    "client_event_id": "485a8e25-110e-47ed-bf31-664d1ea11386",
+    "current_download_url": "https://github.com/prisma/prisma",
+    "package": "prisma",
+    "release_tag": "latest",
+    "install_command": "npm install --save-dev prisma",
+    "schema_providers": [
+      "postgresql"
+    ],
+    "schema_preview_features": [],
+    "schema_generators_providers": [
+      "prisma-client-js"
+    ],
+    "current_changelog_url": "https://github.com/prisma/prisma",
+    "outdated": true,
+    "project_website": "https://prisma.io",
+    "alerts": []
+  },
+  "product": "prisma",
+  "cli_install_type": "local",
+  "local_timestamp": "2026-08-14T16:32:01+06:30",
+  "project_hash": "9fb1c176",
+  "cli_path_hash": "269d11bd",
+  "endpoint": "https://checkpoint.prisma.io",
+  "arch": "x64",
+  "os": "win32",
+  "node_version": "v22.15.1",
+  "command": "db seed",
+  "schema_providers": [
+    "postgresql"
+  ],
+  "schema_preview_features": [],
+  "schema_generators_providers": [
+    "prisma-client-js"
+  ],
+  "cache_file": "C:\\Users\\User\\Desktop\\Bingo CRM\\server\\.tmp-prisma-cache\\Local\\checkpoint-nodejs\\Cache\\prisma-269d11bd",
+  "cache_duration": 43200000,
+  "remind_duration": 172800000,
+  "timeout": 5000,
+  "unref": true,
+  "child_path": "C:\\Users\\User\\Desktop\\Bingo CRM\\server\\node_modules\\prisma\\build\\child"
+}

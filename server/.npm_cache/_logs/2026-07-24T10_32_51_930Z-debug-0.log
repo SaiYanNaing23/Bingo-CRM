@@ -1,0 +1,675 @@
+0 verbose cli C:\nvm4w\nodejs\node.exe C:\nvm4w\nodejs\node_modules\npm\bin\npm-cli.js
+1 info using npm@10.9.2
+2 info using node@v22.15.1
+3 silly config load:file:C:\Users\User\AppData\Local\nvm\v22.15.1\node_modules\npm\npmrc
+4 silly config load:file:C:\Users\User\Desktop\Bingo CRM\server\.npmrc
+5 silly config load:file:C:\Users\User\.npmrc
+6 silly config load:file:C:\nvm4w\nodejs\etc\npmrc
+7 verbose title npm install @prisma/adapter-pg@7.9.0
+8 verbose argv "install" "@prisma/adapter-pg@7.9.0"
+9 verbose logfile logs-max:10 dir:C:\Users\User\Desktop\Bingo CRM\server\.npm_cache\_logs\2026-07-24T10_32_51_930Z-
+10 verbose logfile C:\Users\User\Desktop\Bingo CRM\server\.npm_cache\_logs\2026-07-24T10_32_51_930Z-debug-0.log
+11 silly logfile done cleaning log files
+12 silly packumentCache heap:4345298944 maxSize:1086324736 maxEntrySize:543162368
+13 silly idealTree buildDeps
+14 silly fetch manifest @prisma/adapter-pg@7.9.0
+15 silly packumentCache full:https://registry.npmjs.org/@prisma%2fadapter-pg cache-miss
+16 verbose shrinkwrap failed to load node_modules/.package-lock.json out of date, updated: node_modules
+17 http fetch GET 200 https://registry.npmjs.org/npm 1236ms
+18 http fetch GET 200 https://registry.npmjs.org/@prisma%2fadapter-pg 2515ms (cache miss)
+19 silly packumentCache full:https://registry.npmjs.org/@prisma%2fadapter-pg set size:undefined disposed:false
+20 silly placeDep ROOT @prisma/adapter-pg@7.9.0 OK for: server@1.0.0 want: 7.9.0
+21 silly fetch manifest pg@^8.16.3
+22 silly packumentCache full:https://registry.npmjs.org/pg cache-miss
+23 silly fetch manifest @types/pg@^8.16.0
+24 silly packumentCache full:https://registry.npmjs.org/@types%2fpg cache-miss
+25 silly fetch manifest postgres-array@3.0.4
+26 silly packumentCache full:https://registry.npmjs.org/postgres-array cache-miss
+27 silly fetch manifest @prisma/driver-adapter-utils@7.9.0
+28 silly packumentCache full:https://registry.npmjs.org/@prisma%2fdriver-adapter-utils cache-miss
+29 http fetch GET 200 https://registry.npmjs.org/pg 201ms (cache miss)
+30 silly packumentCache full:https://registry.npmjs.org/pg set size:undefined disposed:false
+31 http fetch GET 200 https://registry.npmjs.org/@types%2fpg 235ms (cache miss)
+32 silly packumentCache full:https://registry.npmjs.org/@types%2fpg set size:undefined disposed:false
+33 http fetch GET 200 https://registry.npmjs.org/postgres-array 427ms (cache miss)
+34 silly packumentCache full:https://registry.npmjs.org/postgres-array set size:undefined disposed:false
+35 http fetch GET 200 https://registry.npmjs.org/@prisma%2fdriver-adapter-utils 1271ms (cache miss)
+36 silly packumentCache full:https://registry.npmjs.org/@prisma%2fdriver-adapter-utils set size:undefined disposed:false
+37 silly fetch manifest pg-native@>=3.0.1
+38 silly packumentCache full:https://registry.npmjs.org/pg-native cache-miss
+39 http fetch GET 200 https://registry.npmjs.org/pg-native 152ms (cache miss)
+40 silly packumentCache full:https://registry.npmjs.org/pg-native set size:undefined disposed:false
+41 silly placeDep ROOT @prisma/driver-adapter-utils@7.9.0 OK for: @prisma/adapter-pg@7.9.0 want: 7.9.0
+42 silly placeDep ROOT @types/pg@8.20.0 OK for: @prisma/adapter-pg@7.9.0 want: ^8.16.0
+43 silly placeDep ROOT pg@8.22.0 OK for: @prisma/adapter-pg@7.9.0 want: ^8.16.3
+44 silly placeDep ROOT postgres-array@3.0.4 OK for: @prisma/adapter-pg@7.9.0 want: 3.0.4
+45 silly fetch manifest pg-types@^2.2.0
+46 silly packumentCache full:https://registry.npmjs.org/pg-types cache-miss
+47 silly fetch manifest pg-protocol@*
+48 silly packumentCache full:https://registry.npmjs.org/pg-protocol cache-miss
+49 silly fetch manifest pgpass@1.0.5
+50 silly packumentCache full:https://registry.npmjs.org/pgpass cache-miss
+51 silly fetch manifest pg-pool@^3.14.0
+52 silly packumentCache full:https://registry.npmjs.org/pg-pool cache-miss
+53 silly fetch manifest pg-types@2.2.0
+54 silly packumentCache full:https://registry.npmjs.org/pg-types cache-miss
+55 silly fetch manifest pg-protocol@^1.15.0
+56 silly packumentCache full:https://registry.npmjs.org/pg-protocol cache-miss
+57 silly fetch manifest pg-connection-string@^2.14.0
+58 silly packumentCache full:https://registry.npmjs.org/pg-connection-string cache-miss
+59 silly fetch manifest pg-cloudflare@^1.4.0
+60 silly packumentCache full:https://registry.npmjs.org/pg-cloudflare cache-miss
+61 http fetch GET 200 https://registry.npmjs.org/pgpass 92ms (cache miss)
+62 silly packumentCache full:https://registry.npmjs.org/pgpass set size:undefined disposed:false
+63 http fetch GET 200 https://registry.npmjs.org/pg-protocol 151ms (cache miss)
+64 silly packumentCache full:https://registry.npmjs.org/pg-protocol set size:undefined disposed:false
+65 http fetch GET 200 https://registry.npmjs.org/pg-types 152ms (cache miss)
+66 silly packumentCache full:https://registry.npmjs.org/pg-types set size:undefined disposed:false
+67 http fetch GET 200 https://registry.npmjs.org/pg-types 194ms (cache miss)
+68 silly packumentCache full:https://registry.npmjs.org/pg-types set size:undefined disposed:false
+69 http fetch GET 200 https://registry.npmjs.org/pg-protocol 476ms (cache miss)
+70 silly packumentCache full:https://registry.npmjs.org/pg-protocol set size:undefined disposed:false
+71 http fetch GET 200 https://registry.npmjs.org/pg-cloudflare 480ms (cache miss)
+72 silly packumentCache full:https://registry.npmjs.org/pg-cloudflare set size:undefined disposed:false
+73 http fetch GET 200 https://registry.npmjs.org/pg-connection-string 570ms (cache miss)
+74 silly packumentCache full:https://registry.npmjs.org/pg-connection-string set size:undefined disposed:false
+75 http fetch GET 200 https://registry.npmjs.org/pg-pool 573ms (cache miss)
+76 silly packumentCache full:https://registry.npmjs.org/pg-pool set size:undefined disposed:false
+77 silly placeDep ROOT pg-protocol@1.15.0 OK for: @types/pg@8.20.0 want: *
+78 silly placeDep ROOT pg-types@2.2.0 OK for: @types/pg@8.20.0 want: ^2.2.0
+79 silly fetch manifest pg-int8@1.0.1
+80 silly packumentCache full:https://registry.npmjs.org/pg-int8 cache-miss
+81 silly fetch manifest postgres-date@~1.0.4
+82 silly packumentCache full:https://registry.npmjs.org/postgres-date cache-miss
+83 silly fetch manifest postgres-array@~2.0.0
+84 silly packumentCache full:https://registry.npmjs.org/postgres-array cache-miss
+85 silly fetch manifest postgres-bytea@~1.0.0
+86 silly packumentCache full:https://registry.npmjs.org/postgres-bytea cache-miss
+87 silly fetch manifest postgres-interval@^1.1.0
+88 silly packumentCache full:https://registry.npmjs.org/postgres-interval cache-miss
+89 http cache https://registry.npmjs.org/postgres-array 21ms (cache hit)
+90 silly packumentCache full:https://registry.npmjs.org/postgres-array set size:21967 disposed:false
+91 http fetch GET 200 https://registry.npmjs.org/postgres-date 152ms (cache miss)
+92 silly packumentCache full:https://registry.npmjs.org/postgres-date set size:undefined disposed:false
+93 http fetch GET 200 https://registry.npmjs.org/postgres-interval 153ms (cache miss)
+94 silly packumentCache full:https://registry.npmjs.org/postgres-interval set size:undefined disposed:false
+95 http fetch GET 200 https://registry.npmjs.org/pg-int8 155ms (cache miss)
+96 silly packumentCache full:https://registry.npmjs.org/pg-int8 set size:undefined disposed:false
+97 http fetch GET 200 https://registry.npmjs.org/postgres-bytea 163ms (cache miss)
+98 silly packumentCache full:https://registry.npmjs.org/postgres-bytea set size:undefined disposed:false
+99 silly fetch manifest pg@>=8.0
+100 silly packumentCache full:https://registry.npmjs.org/pg cache-miss
+101 http cache https://registry.npmjs.org/pg 9ms (cache hit)
+102 silly packumentCache full:https://registry.npmjs.org/pg set size:479959 disposed:false
+103 silly placeDep ROOT pg-cloudflare@1.4.0 OK for: pg@8.22.0 want: ^1.4.0
+104 silly placeDep ROOT pg-connection-string@2.14.0 OK for: pg@8.22.0 want: ^2.14.0
+105 silly placeDep ROOT pg-pool@3.14.0 OK for: pg@8.22.0 want: ^3.14.0
+106 silly placeDep ROOT pgpass@1.0.5 OK for: pg@8.22.0 want: 1.0.5
+107 silly placeDep ROOT pg-int8@1.0.1 OK for: pg-types@2.2.0 want: 1.0.1
+108 silly placeDep node_modules/pg-types postgres-array@2.0.0 OK for: pg-types@2.2.0 want: ~2.0.0
+109 silly placeDep ROOT postgres-bytea@1.0.1 OK for: pg-types@2.2.0 want: ~1.0.0
+110 silly placeDep ROOT postgres-date@1.0.7 OK for: pg-types@2.2.0 want: ~1.0.4
+111 silly placeDep ROOT postgres-interval@1.2.0 OK for: pg-types@2.2.0 want: ^1.1.0
+112 silly reify moves {}
+113 silly audit bulk request {
+113 silly audit   '@cspotcode/source-map-support': [ '0.8.1' ],
+113 silly audit   '@electric-sql/pglite': [ '0.4.3' ],
+113 silly audit   '@electric-sql/pglite-socket': [ '0.1.3' ],
+113 silly audit   '@electric-sql/pglite-tools': [ '0.3.3' ],
+113 silly audit   '@jridgewell/resolve-uri': [ '3.1.2' ],
+113 silly audit   '@jridgewell/sourcemap-codec': [ '1.5.5' ],
+113 silly audit   '@jridgewell/trace-mapping': [ '0.3.9' ],
+113 silly audit   '@pinojs/redact': [ '0.4.0' ],
+113 silly audit   '@prisma/client': [ '7.9.0' ],
+113 silly audit   '@prisma/client-runtime-utils': [ '7.9.0' ],
+113 silly audit   '@prisma/config': [ '7.9.0' ],
+113 silly audit   '@prisma/debug': [ '7.9.0', '7.2.0' ],
+113 silly audit   '@prisma/dev': [ '0.24.14' ],
+113 silly audit   '@prisma/engines': [ '7.9.0' ],
+113 silly audit   '@prisma/engines-version': [ '7.9.0-1.e922089b7d7502aff4249d5da3420f6fa55fc6ad' ],
+113 silly audit   '@prisma/get-platform': [ '7.9.0', '7.2.0' ],
+113 silly audit   '@prisma/fetch-engine': [ '7.9.0' ],
+113 silly audit   '@prisma/query-plan-executor': [ '7.2.0' ],
+113 silly audit   '@prisma/streams-local': [ '0.1.11' ],
+113 silly audit   '@prisma/studio-core': [ '0.33.0' ],
+113 silly audit   '@radix-ui/primitive': [ '1.1.3' ],
+113 silly audit   '@radix-ui/react-compose-refs': [ '1.1.2' ],
+113 silly audit   '@radix-ui/react-primitive': [ '2.1.3' ],
+113 silly audit   '@radix-ui/react-slot': [ '1.2.3' ],
+113 silly audit   '@radix-ui/react-toggle': [ '1.1.10' ],
+113 silly audit   '@radix-ui/react-use-controllable-state': [ '1.2.2' ],
+113 silly audit   '@radix-ui/react-use-effect-event': [ '0.0.2' ],
+113 silly audit   '@radix-ui/react-use-layout-effect': [ '1.1.1' ],
+113 silly audit   '@standard-schema/spec': [ '1.1.0' ],
+113 silly audit   '@tsconfig/node10': [ '1.0.12' ],
+113 silly audit   '@tsconfig/node12': [ '1.0.11' ],
+113 silly audit   '@tsconfig/node14': [ '1.0.3' ],
+113 silly audit   '@tsconfig/node16': [ '1.0.4' ],
+113 silly audit   '@types/bcrypt': [ '6.0.0' ],
+113 silly audit   '@types/body-parser': [ '1.19.6' ],
+113 silly audit   '@types/compression': [ '1.8.1' ],
+113 silly audit   '@types/connect': [ '3.4.38' ],
+113 silly audit   '@types/cookie-parser': [ '1.4.10' ],
+113 silly audit   '@types/cors': [ '2.8.19' ],
+113 silly audit   '@types/d3-array': [ '3.0.3' ],
+113 silly audit   '@types/d3-color': [ '3.1.0' ],
+113 silly audit   '@types/d3-delaunay': [ '6.0.1' ],
+113 silly audit   '@types/d3-format': [ '3.0.1' ],
+113 silly audit   '@types/d3-geo': [ '3.1.0' ],
+113 silly audit   '@types/d3-interpolate': [ '3.0.1' ],
+113 silly audit   '@types/d3-path': [ '3.1.1' ],
+113 silly audit   '@types/d3-scale': [ '4.0.2' ],
+113 silly audit   '@types/d3-shape': [ '3.1.7' ],
+113 silly audit   '@types/d3-time': [ '3.0.0' ],
+113 silly audit   '@types/d3-time-format': [ '2.1.0' ],
+113 silly audit   '@types/express': [ '5.0.6' ],
+113 silly audit   '@types/express-rate-limit': [ '5.1.3' ],
+113 silly audit   '@types/express-serve-static-core': [ '5.1.2' ],
+113 silly audit   '@types/geojson': [ '7946.0.16' ],
+113 silly audit   '@types/http-errors': [ '2.0.5' ],
+113 silly audit   '@types/jsonwebtoken': [ '9.0.10' ],
+113 silly audit   '@types/lodash': [ '4.17.24' ],
+113 silly audit   '@types/morgan': [ '1.9.10' ],
+113 silly audit   '@types/ms': [ '2.1.0' ],
+113 silly audit   '@types/node': [ '26.1.1' ],
+113 silly audit   '@types/qs': [ '6.15.1' ],
+113 silly audit   '@types/range-parser': [ '1.2.7' ],
+113 silly audit   '@types/react': [ '19.2.17' ],
+113 silly audit   '@types/send': [ '1.2.1' ],
+113 silly audit   '@types/serve-static': [ '2.2.0' ],
+113 silly audit   '@types/strip-bom': [ '3.0.0' ],
+113 silly audit   '@types/strip-json-comments': [ '0.0.30' ],
+113 silly audit   '@typescript/typescript-aix-ppc64': [ '7.0.2' ],
+113 silly audit   '@typescript/typescript-darwin-arm64': [ '7.0.2' ],
+113 silly audit   '@typescript/typescript-darwin-x64': [ '7.0.2' ],
+113 silly audit   '@typescript/typescript-freebsd-arm64': [ '7.0.2' ],
+113 silly audit   '@typescript/typescript-freebsd-x64': [ '7.0.2' ],
+113 silly audit   '@typescript/typescript-linux-arm': [ '7.0.2' ],
+113 silly audit   '@typescript/typescript-linux-arm64': [ '7.0.2' ],
+113 silly audit   '@typescript/typescript-linux-loong64': [ '7.0.2' ],
+113 silly audit   '@typescript/typescript-linux-mips64el': [ '7.0.2' ],
+113 silly audit   '@typescript/typescript-linux-ppc64': [ '7.0.2' ],
+113 silly audit   '@typescript/typescript-linux-riscv64': [ '7.0.2' ],
+113 silly audit   '@typescript/typescript-linux-s390x': [ '7.0.2' ],
+113 silly audit   '@typescript/typescript-linux-x64': [ '7.0.2' ],
+113 silly audit   '@typescript/typescript-netbsd-arm64': [ '7.0.2' ],
+113 silly audit   '@typescript/typescript-netbsd-x64': [ '7.0.2' ],
+113 silly audit   '@typescript/typescript-openbsd-arm64': [ '7.0.2' ],
+113 silly audit   '@typescript/typescript-openbsd-x64': [ '7.0.2' ],
+113 silly audit   '@typescript/typescript-sunos-x64': [ '7.0.2' ],
+113 silly audit   '@typescript/typescript-win32-arm64': [ '7.0.2' ],
+113 silly audit   '@typescript/typescript-win32-x64': [ '7.0.2' ],
+113 silly audit   '@visx/curve': [ '4.0.1-alpha.0' ],
+113 silly audit   '@visx/event': [ '4.0.1-alpha.0' ],
+113 silly audit   '@visx/grid': [ '4.0.1-alpha.0' ],
+113 silly audit   '@visx/group': [ '4.0.1-alpha.0' ],
+113 silly audit   '@visx/point': [ '4.0.1-alpha.0' ],
+113 silly audit   '@visx/responsive': [ '4.0.1-alpha.0' ],
+113 silly audit   '@visx/scale': [ '4.0.1-alpha.0' ],
+113 silly audit   '@visx/shape': [ '4.0.1-alpha.0' ],
+113 silly audit   '@visx/vendor': [ '4.0.0-alpha.0' ],
+113 silly audit   'd3-array': [ '3.2.1', '3.2.4' ],
+113 silly audit   accepts: [ '2.0.0' ],
+113 silly audit   negotiator: [ '1.0.0', '0.6.4' ],
+113 silly audit   acorn: [ '8.17.0' ],
+113 silly audit   'acorn-walk': [ '8.3.5' ],
+113 silly audit   ajv: [ '8.20.0' ],
+113 silly audit   anymatch: [ '3.1.3' ],
+113 silly audit   arg: [ '4.1.3' ],
+113 silly audit   'atomic-sleep': [ '1.0.0' ],
+113 silly audit   'aws-ssl-profiles': [ '1.1.2' ],
+113 silly audit   'balanced-match': [ '1.0.2' ],
+113 silly audit   bcrypt: [ '6.0.0' ],
+113 silly audit   'better-result': [ '2.10.0' ],
+113 silly audit   'binary-extensions': [ '2.3.0' ],
+113 silly audit   'body-parser': [ '2.3.0' ],
+113 silly audit   'content-type': [ '2.0.0', '1.0.5' ],
+113 silly audit   debug: [ '4.4.3', '2.6.9' ],
+113 silly audit   ms: [ '2.1.3', '2.0.0' ],
+113 silly audit   'brace-expansion': [ '1.1.16' ],
+113 silly audit   braces: [ '3.0.3' ],
+113 silly audit   'buffer-equal-constant-time': [ '1.0.1' ],
+113 silly audit   'buffer-from': [ '1.1.2' ],
+113 silly audit   bytes: [ '3.1.2' ],
+113 silly audit   c12: [ '3.3.4' ],
+113 silly audit   'call-bind-apply-helpers': [ '1.0.2' ],
+113 silly audit   'call-bound': [ '1.0.4' ],
+113 silly audit   chokidar: [ '5.0.0', '3.6.0' ],
+113 silly audit   classnames: [ '2.5.1' ],
+113 silly audit   colorette: [ '2.0.20' ],
+113 silly audit   compressible: [ '2.0.18' ],
+113 silly audit   compression: [ '1.8.1' ],
+113 silly audit   'concat-map': [ '0.0.1' ],
+113 silly audit   confbox: [ '0.2.4' ],
+113 silly audit   'content-disposition': [ '1.1.0' ],
+113 silly audit   cookie: [ '0.7.2' ],
+113 silly audit   'cookie-parser': [ '1.4.7' ],
+113 silly audit   'cookie-signature': [ '1.0.6', '1.2.2' ],
+113 silly audit   cors: [ '2.8.6' ],
+113 silly audit   'create-require': [ '1.1.1' ],
+113 silly audit   'cross-spawn': [ '7.0.6' ],
+113 silly audit   csstype: [ '3.2.3' ],
+113 silly audit   'd3-color': [ '3.1.0' ],
+113 silly audit   'd3-delaunay': [ '6.0.2' ],
+113 silly audit   'd3-format': [ '3.1.0' ],
+113 silly audit   'd3-geo': [ '3.1.0' ],
+113 silly audit   'd3-interpolate': [ '3.0.1' ],
+113 silly audit   'd3-path': [ '3.1.0' ],
+113 silly audit   'd3-scale': [ '4.0.2' ],
+113 silly audit   'd3-shape': [ '3.2.0' ],
+113 silly audit   'd3-time': [ '3.1.0' ],
+113 silly audit   'd3-time-format': [ '4.1.0' ],
+113 silly audit   dateformat: [ '4.6.3' ],
+113 silly audit   'deepmerge-ts': [ '7.1.5' ],
+113 silly audit   defu: [ '6.1.7' ],
+113 silly audit   delaunator: [ '5.1.0' ],
+113 silly audit   denque: [ '2.1.0' ],
+113 silly audit   depd: [ '2.0.0' ],
+113 silly audit   destr: [ '2.0.5' ],
+113 silly audit   diff: [ '4.0.4' ],
+113 silly audit   dotenv: [ '17.4.2' ],
+113 silly audit   'dunder-proto': [ '1.0.1' ],
+113 silly audit   'dynamic-dedupe': [ '0.3.0' ],
+113 silly audit   'ecdsa-sig-formatter': [ '1.0.11' ],
+113 silly audit   'ee-first': [ '1.1.1' ],
+113 silly audit   effect: [ '3.20.0' ],
+113 silly audit   elkjs: [ '0.11.1' ],
+113 silly audit   empathic: [ '2.0.0' ],
+113 silly audit   encodeurl: [ '2.0.0' ],
+113 silly audit   'end-of-stream': [ '1.4.5' ],
+113 silly audit   'env-paths': [ '3.0.0' ],
+113 silly audit   'es-define-property': [ '1.0.1' ],
+113 silly audit   'es-errors': [ '1.3.0' ],
+113 silly audit   'es-object-atoms': [ '1.1.2' ],
+113 silly audit   'escape-html': [ '1.0.3' ],
+113 silly audit   etag: [ '1.8.1' ],
+113 silly audit   express: [ '5.2.1' ],
+113 silly audit   'express-rate-limit': [ '8.6.0' ],
+113 silly audit   exsolve: [ '1.1.0' ],
+113 silly audit   'fast-check': [ '3.23.2' ],
+113 silly audit   'fast-copy': [ '4.0.4' ],
+113 silly audit   'fast-decode-uri-component': [ '1.0.1' ],
+113 silly audit   'fast-deep-equal': [ '3.1.3' ],
+113 silly audit   'fast-querystring': [ '1.1.2' ],
+113 silly audit   'fast-safe-stringify': [ '2.1.1' ],
+113 silly audit   'fast-uri': [ '3.1.4' ],
+113 silly audit   'fill-range': [ '7.1.1' ],
+113 silly audit   finalhandler: [ '2.1.1' ],
+113 silly audit   'find-my-way': [ '9.6.0' ],
+113 silly audit   'foreground-child': [ '3.3.1' ],
+113 silly audit   forwarded: [ '0.2.0' ],
+113 silly audit   fresh: [ '2.0.0' ],
+113 silly audit   'fs.realpath': [ '1.0.0' ],
+113 silly audit   fsevents: [ '2.3.3' ],
+113 silly audit   'function-bind': [ '1.1.2' ],
+113 silly audit   'generate-function': [ '2.3.1' ],
+113 silly audit   'get-caller-file': [ '2.0.5' ],
+113 silly audit   'get-intrinsic': [ '1.3.0' ],
+113 silly audit   'get-port-please': [ '3.2.0' ],
+113 silly audit   'get-proto': [ '1.0.1' ],
+113 silly audit   giget: [ '3.3.0' ],
+113 silly audit   glob: [ '7.2.3' ],
+113 silly audit   'glob-parent': [ '5.1.2' ],
+113 silly audit   gopd: [ '1.2.0' ],
+113 silly audit   'graceful-fs': [ '4.2.11' ],
+113 silly audit   grammex: [ '3.1.13' ],
+113 silly audit   graphmatch: [ '1.1.1' ],
+113 silly audit   'has-symbols': [ '1.1.0' ],
+113 silly audit   hasown: [ '2.0.4' ],
+113 silly audit   helmet: [ '8.3.0' ],
+113 silly audit   'help-me': [ '5.0.0' ],
+113 silly audit   'http-errors': [ '2.0.1' ],
+113 silly audit   'iconv-lite': [ '0.7.3' ],
+113 silly audit   inflight: [ '1.0.6' ],
+113 silly audit   inherits: [ '2.0.4' ],
+113 silly audit   internmap: [ '2.0.3' ],
+113 silly audit   'ip-address': [ '10.2.0' ],
+113 silly audit   'ipaddr.js': [ '1.9.1' ],
+113 silly audit   'is-binary-path': [ '2.1.0' ],
+113 silly audit   'is-core-module': [ '2.16.2' ],
+113 silly audit   'is-extglob': [ '2.1.1' ],
+113 silly audit   'is-glob': [ '4.0.3' ],
+113 silly audit   'is-number': [ '7.0.0' ],
+113 silly audit   'is-promise': [ '4.0.0' ],
+113 silly audit   'is-property': [ '1.0.2' ],
+113 silly audit   isexe: [ '2.0.0' ],
+113 silly audit   jiti: [ '2.7.0' ],
+113 silly audit   joycon: [ '3.1.1' ],
+113 silly audit   'json-schema-traverse': [ '1.0.0' ],
+113 silly audit   jsonwebtoken: [ '9.0.3' ],
+113 silly audit   jwa: [ '2.0.1' ],
+113 silly audit   jws: [ '4.0.1' ],
+113 silly audit   lodash: [ '4.18.1' ],
+113 silly audit   'lodash.includes': [ '4.3.0' ],
+113 silly audit   'lodash.isboolean': [ '3.0.3' ],
+113 silly audit   'lodash.isinteger': [ '4.0.4' ],
+113 silly audit   'lodash.isnumber': [ '3.0.3' ],
+113 silly audit   'lodash.isplainobject': [ '4.0.6' ],
+113 silly audit   'lodash.isstring': [ '4.0.1' ],
+113 silly audit   'lodash.once': [ '4.1.1' ],
+113 silly audit   long: [ '5.3.2' ],
+113 silly audit   'lru.min': [ '1.1.4' ],
+113 silly audit   'make-error': [ '1.3.6' ],
+113 silly audit   'math-intrinsics': [ '1.1.0' ],
+113 silly audit   'media-typer': [ '1.1.1' ],
+113 silly audit   'merge-descriptors': [ '2.0.0' ],
+113 silly audit   'mime-db': [ '1.54.0' ],
+113 silly audit   'mime-types': [ '3.0.2' ],
+113 silly audit   minimatch: [ '3.1.5' ],
+113 silly audit   minimist: [ '1.2.8' ],
+113 silly audit   mkdirp: [ '1.0.4' ],
+113 silly audit   mysql2: [ '3.15.3' ],
+113 silly audit   'named-placeholders': [ '1.1.6' ],
+113 silly audit   'node-addon-api': [ '8.9.0' ],
+113 silly audit   'node-gyp-build': [ '4.8.4' ],
+113 silly audit   'normalize-path': [ '3.0.0' ],
+113 silly audit   'object-assign': [ '4.1.1' ],
+113 silly audit   'object-inspect': [ '1.13.4' ],
+113 silly audit   ohash: [ '2.0.11' ],
+113 silly audit   'on-exit-leak-free': [ '2.1.2' ],
+113 silly audit   'on-finished': [ '2.4.1' ],
+113 silly audit   'on-headers': [ '1.1.0' ],
+113 silly audit   once: [ '1.4.0' ],
+113 silly audit   parseurl: [ '1.3.3' ],
+113 silly audit   'path-is-absolute': [ '1.0.1' ],
+113 silly audit   'path-key': [ '3.1.1' ],
+113 silly audit   'path-parse': [ '1.0.7' ],
+113 silly audit   'path-to-regexp': [ '8.4.2' ],
+113 silly audit   pathe: [ '2.0.3' ],
+113 silly audit   'perfect-debounce': [ '2.1.0' ],
+113 silly audit   picomatch: [ '2.3.2' ],
+113 silly audit   pino: [ '10.3.1' ],
+113 silly audit   'pino-abstract-transport': [ '3.0.0' ],
+113 silly audit   'pino-http': [ '11.0.0' ],
+113 silly audit   'pino-pretty': [ '13.1.3' ],
+113 silly audit   'pino-std-serializers': [ '7.1.0' ],
+113 silly audit   'pkg-types': [ '2.3.1' ],
+113 silly audit   postgres: [ '3.4.7' ],
+113 silly audit   prisma: [ '7.9.0' ],
+113 silly audit   'process-warning': [ '5.0.0' ],
+113 silly audit   'proper-lockfile': [ '4.1.2' ],
+113 silly audit   'signal-exit': [ '3.0.7', '4.1.0' ],
+113 silly audit   'proxy-addr': [ '2.0.7' ],
+113 silly audit   pump: [ '3.0.4' ],
+113 silly audit   'pure-rand': [ '6.1.0' ],
+113 silly audit   qs: [ '6.15.3' ],
+113 silly audit   'quick-format-unescaped': [ '4.0.4' ],
+113 silly audit   'range-parser': [ '1.3.0' ],
+113 silly audit   'raw-body': [ '3.0.2' ],
+113 silly audit   rc9: [ '3.0.1' ],
+113 silly audit   react: [ '19.2.8' ],
+113 silly audit   'react-dom': [ '19.2.8' ],
+113 silly audit   readdirp: [ '5.0.0', '3.6.0' ],
+113 silly audit   'real-require': [ '0.2.0', '1.0.0' ],
+113 silly audit   remeda: [ '2.33.4' ],
+113 silly audit   'require-from-string': [ '2.0.2' ],
+113 silly audit   resolve: [ '1.22.12' ],
+113 silly audit   ret: [ '0.5.0' ],
+113 silly audit   retry: [ '0.12.0' ],
+113 silly audit   rimraf: [ '2.7.1' ],
+113 silly audit   'robust-predicates': [ '3.0.3' ],
+113 silly audit   router: [ '2.2.0' ],
+113 silly audit   'safe-buffer': [ '5.2.1' ],
+113 silly audit   'safe-regex2': [ '5.1.1' ],
+113 silly audit   'safe-stable-stringify': [ '2.5.0' ],
+113 silly audit   'safer-buffer': [ '2.1.2' ],
+113 silly audit   scheduler: [ '0.27.0' ],
+113 silly audit   'secure-json-parse': [ '4.1.0' ],
+113 silly audit   semver: [ '7.8.5' ],
+113 silly audit   send: [ '1.2.1' ],
+113 silly audit   'seq-queue': [ '0.0.5' ],
+113 silly audit   'serve-static': [ '2.2.1' ],
+113 silly audit   setprototypeof: [ '1.2.0' ],
+113 silly audit   'shebang-command': [ '2.0.0' ],
+113 silly audit   'shebang-regex': [ '3.0.0' ],
+113 silly audit   'side-channel': [ '1.1.1' ],
+113 silly audit   'side-channel-list': [ '1.0.1' ],
+113 silly audit   'side-channel-map': [ '1.0.1' ],
+113 silly audit   'side-channel-weakmap': [ '1.0.2' ],
+113 silly audit   'sonic-boom': [ '4.2.1' ],
+113 silly audit   'source-map': [ '0.6.1' ],
+113 silly audit   'source-map-support': [ '0.5.21' ],
+113 silly audit   split2: [ '4.2.0' ],
+113 silly audit   sqlstring: [ '2.3.3' ],
+113 silly audit   statuses: [ '2.0.2' ],
+113 silly audit   'std-env': [ '3.10.0' ],
+113 silly audit   'strip-bom': [ '3.0.0' ],
+113 silly audit   'strip-json-comments': [ '5.0.3', '2.0.1' ],
+113 silly audit   'supports-preserve-symlinks-flag': [ '1.0.0' ],
+113 silly audit   'thread-stream': [ '4.2.0' ],
+113 silly audit   'to-regex-range': [ '5.0.1' ],
+113 silly audit   toidentifier: [ '1.0.1' ],
+113 silly audit   'tree-kill': [ '1.2.2' ],
+113 silly audit   'ts-node': [ '10.9.2' ],
+113 silly audit   'ts-node-dev': [ '2.0.0' ],
+113 silly audit   tsconfig: [ '7.0.0' ],
+113 silly audit   'type-is': [ '2.1.0' ],
+113 silly audit   typescript: [ '7.0.2' ],
+113 silly audit   'undici-types': [ '8.3.0' ],
+113 silly audit   unpipe: [ '1.0.0' ],
+113 silly audit   'v8-compile-cache-lib': [ '3.0.1' ],
+113 silly audit   valibot: [ '1.2.0' ],
+113 silly audit   vary: [ '1.1.2' ],
+113 silly audit   which: [ '2.0.2' ],
+113 silly audit   wrappy: [ '1.0.2' ],
+113 silly audit   xtend: [ '4.0.2' ],
+113 silly audit   yn: [ '3.1.1' ],
+113 silly audit   zeptomatch: [ '2.1.0' ],
+113 silly audit   zod: [ '4.4.3' ],
+113 silly audit   '@prisma/adapter-pg': [ '7.9.0' ],
+113 silly audit   '@prisma/driver-adapter-utils': [ '7.9.0' ],
+113 silly audit   '@types/pg': [ '8.20.0' ],
+113 silly audit   pg: [ '8.22.0' ],
+113 silly audit   'postgres-array': [ '3.0.4', '2.0.0' ],
+113 silly audit   'pg-protocol': [ '1.15.0' ],
+113 silly audit   'pg-types': [ '2.2.0' ],
+113 silly audit   'pg-cloudflare': [ '1.4.0' ],
+113 silly audit   'pg-connection-string': [ '2.14.0' ],
+113 silly audit   'pg-pool': [ '3.14.0' ],
+113 silly audit   pgpass: [ '1.0.5' ],
+113 silly audit   'pg-int8': [ '1.0.1' ],
+113 silly audit   'postgres-bytea': [ '1.0.1' ],
+113 silly audit   'postgres-date': [ '1.0.7' ],
+113 silly audit   'postgres-interval': [ '1.2.0' ]
+113 silly audit }
+114 verbose reify failed optional dependency C:\Users\User\Desktop\Bingo CRM\server\node_modules\fsevents
+115 silly reify mark deleted [
+115 silly reify   'C:\\Users\\User\\Desktop\\Bingo CRM\\server\\node_modules\\fsevents'
+115 silly reify ]
+116 verbose reify failed optional dependency C:\Users\User\Desktop\Bingo CRM\server\node_modules\@typescript\typescript-win32-arm64
+117 silly reify mark deleted [
+117 silly reify   'C:\\Users\\User\\Desktop\\Bingo CRM\\server\\node_modules\\@typescript\\typescript-win32-arm64'
+117 silly reify ]
+118 verbose reify failed optional dependency C:\Users\User\Desktop\Bingo CRM\server\node_modules\@typescript\typescript-sunos-x64
+119 silly reify mark deleted [
+119 silly reify   'C:\\Users\\User\\Desktop\\Bingo CRM\\server\\node_modules\\@typescript\\typescript-sunos-x64'
+119 silly reify ]
+120 verbose reify failed optional dependency C:\Users\User\Desktop\Bingo CRM\server\node_modules\@typescript\typescript-openbsd-x64
+121 silly reify mark deleted [
+121 silly reify   'C:\\Users\\User\\Desktop\\Bingo CRM\\server\\node_modules\\@typescript\\typescript-openbsd-x64'
+121 silly reify ]
+122 verbose reify failed optional dependency C:\Users\User\Desktop\Bingo CRM\server\node_modules\@typescript\typescript-openbsd-arm64
+123 silly reify mark deleted [
+123 silly reify   'C:\\Users\\User\\Desktop\\Bingo CRM\\server\\node_modules\\@typescript\\typescript-openbsd-arm64'
+123 silly reify ]
+124 verbose reify failed optional dependency C:\Users\User\Desktop\Bingo CRM\server\node_modules\@typescript\typescript-netbsd-x64
+125 silly reify mark deleted [
+125 silly reify   'C:\\Users\\User\\Desktop\\Bingo CRM\\server\\node_modules\\@typescript\\typescript-netbsd-x64'
+125 silly reify ]
+126 verbose reify failed optional dependency C:\Users\User\Desktop\Bingo CRM\server\node_modules\@typescript\typescript-netbsd-arm64
+127 silly reify mark deleted [
+127 silly reify   'C:\\Users\\User\\Desktop\\Bingo CRM\\server\\node_modules\\@typescript\\typescript-netbsd-arm64'
+127 silly reify ]
+128 verbose reify failed optional dependency C:\Users\User\Desktop\Bingo CRM\server\node_modules\@typescript\typescript-linux-x64
+129 silly reify mark deleted [
+129 silly reify   'C:\\Users\\User\\Desktop\\Bingo CRM\\server\\node_modules\\@typescript\\typescript-linux-x64'
+129 silly reify ]
+130 verbose reify failed optional dependency C:\Users\User\Desktop\Bingo CRM\server\node_modules\@typescript\typescript-linux-s390x
+131 silly reify mark deleted [
+131 silly reify   'C:\\Users\\User\\Desktop\\Bingo CRM\\server\\node_modules\\@typescript\\typescript-linux-s390x'
+131 silly reify ]
+132 verbose reify failed optional dependency C:\Users\User\Desktop\Bingo CRM\server\node_modules\@typescript\typescript-linux-riscv64
+133 silly reify mark deleted [
+133 silly reify   'C:\\Users\\User\\Desktop\\Bingo CRM\\server\\node_modules\\@typescript\\typescript-linux-riscv64'
+133 silly reify ]
+134 verbose reify failed optional dependency C:\Users\User\Desktop\Bingo CRM\server\node_modules\@typescript\typescript-linux-ppc64
+135 silly reify mark deleted [
+135 silly reify   'C:\\Users\\User\\Desktop\\Bingo CRM\\server\\node_modules\\@typescript\\typescript-linux-ppc64'
+135 silly reify ]
+136 verbose reify failed optional dependency C:\Users\User\Desktop\Bingo CRM\server\node_modules\@typescript\typescript-linux-mips64el
+137 silly reify mark deleted [
+137 silly reify   'C:\\Users\\User\\Desktop\\Bingo CRM\\server\\node_modules\\@typescript\\typescript-linux-mips64el'
+137 silly reify ]
+138 verbose reify failed optional dependency C:\Users\User\Desktop\Bingo CRM\server\node_modules\@typescript\typescript-linux-loong64
+139 silly reify mark deleted [
+139 silly reify   'C:\\Users\\User\\Desktop\\Bingo CRM\\server\\node_modules\\@typescript\\typescript-linux-loong64'
+139 silly reify ]
+140 verbose reify failed optional dependency C:\Users\User\Desktop\Bingo CRM\server\node_modules\@typescript\typescript-linux-arm64
+141 silly reify mark deleted [
+141 silly reify   'C:\\Users\\User\\Desktop\\Bingo CRM\\server\\node_modules\\@typescript\\typescript-linux-arm64'
+141 silly reify ]
+142 verbose reify failed optional dependency C:\Users\User\Desktop\Bingo CRM\server\node_modules\@typescript\typescript-linux-arm
+143 silly reify mark deleted [
+143 silly reify   'C:\\Users\\User\\Desktop\\Bingo CRM\\server\\node_modules\\@typescript\\typescript-linux-arm'
+143 silly reify ]
+144 verbose reify failed optional dependency C:\Users\User\Desktop\Bingo CRM\server\node_modules\@typescript\typescript-freebsd-x64
+145 silly reify mark deleted [
+145 silly reify   'C:\\Users\\User\\Desktop\\Bingo CRM\\server\\node_modules\\@typescript\\typescript-freebsd-x64'
+145 silly reify ]
+146 verbose reify failed optional dependency C:\Users\User\Desktop\Bingo CRM\server\node_modules\@typescript\typescript-freebsd-arm64
+147 silly reify mark deleted [
+147 silly reify   'C:\\Users\\User\\Desktop\\Bingo CRM\\server\\node_modules\\@typescript\\typescript-freebsd-arm64'
+147 silly reify ]
+148 verbose reify failed optional dependency C:\Users\User\Desktop\Bingo CRM\server\node_modules\@typescript\typescript-darwin-x64
+149 silly reify mark deleted [
+149 silly reify   'C:\\Users\\User\\Desktop\\Bingo CRM\\server\\node_modules\\@typescript\\typescript-darwin-x64'
+149 silly reify ]
+150 verbose reify failed optional dependency C:\Users\User\Desktop\Bingo CRM\server\node_modules\@typescript\typescript-darwin-arm64
+151 silly reify mark deleted [
+151 silly reify   'C:\\Users\\User\\Desktop\\Bingo CRM\\server\\node_modules\\@typescript\\typescript-darwin-arm64'
+151 silly reify ]
+152 verbose reify failed optional dependency C:\Users\User\Desktop\Bingo CRM\server\node_modules\@typescript\typescript-aix-ppc64
+153 silly reify mark deleted [
+153 silly reify   'C:\\Users\\User\\Desktop\\Bingo CRM\\server\\node_modules\\@typescript\\typescript-aix-ppc64'
+153 silly reify ]
+154 http cache postgres-date@https://registry.npmjs.org/postgres-date/-/postgres-date-1.0.7.tgz 0ms (cache hit)
+155 http cache postgres-interval@https://registry.npmjs.org/postgres-interval/-/postgres-interval-1.2.0.tgz 0ms (cache hit)
+156 http cache postgres-bytea@https://registry.npmjs.org/postgres-bytea/-/postgres-bytea-1.0.1.tgz 0ms (cache hit)
+157 http cache pg-pool@https://registry.npmjs.org/pg-pool/-/pg-pool-3.14.0.tgz 0ms (cache hit)
+158 http cache pg-cloudflare@https://registry.npmjs.org/pg-cloudflare/-/pg-cloudflare-1.4.0.tgz 0ms (cache hit)
+159 http cache pg-connection-string@https://registry.npmjs.org/pg-connection-string/-/pg-connection-string-2.14.0.tgz 0ms (cache hit)
+160 http cache pgpass@https://registry.npmjs.org/pgpass/-/pgpass-1.0.5.tgz 0ms (cache hit)
+161 http cache pg-protocol@https://registry.npmjs.org/pg-protocol/-/pg-protocol-1.15.0.tgz 0ms (cache hit)
+162 http cache pg-int8@https://registry.npmjs.org/pg-int8/-/pg-int8-1.0.1.tgz 0ms (cache hit)
+163 http cache @prisma/driver-adapter-utils@https://registry.npmjs.org/@prisma/driver-adapter-utils/-/driver-adapter-utils-7.9.0.tgz 0ms (cache hit)
+164 http cache @types/pg@https://registry.npmjs.org/@types/pg/-/pg-8.20.0.tgz 0ms (cache hit)
+165 http cache pg@https://registry.npmjs.org/pg/-/pg-8.22.0.tgz 0ms (cache hit)
+166 http cache postgres-array@https://registry.npmjs.org/postgres-array/-/postgres-array-2.0.0.tgz 0ms (cache hit)
+167 silly tarball no local data for postgres-date@https://registry.npmjs.org/postgres-date/-/postgres-date-1.0.7.tgz. Extracting by manifest.
+168 http cache pg-types@https://registry.npmjs.org/pg-types/-/pg-types-2.2.0.tgz 0ms (cache hit)
+169 silly tarball no local data for postgres-interval@https://registry.npmjs.org/postgres-interval/-/postgres-interval-1.2.0.tgz. Extracting by manifest.
+170 http cache postgres-array@https://registry.npmjs.org/postgres-array/-/postgres-array-3.0.4.tgz 0ms (cache hit)
+171 silly tarball no local data for postgres-bytea@https://registry.npmjs.org/postgres-bytea/-/postgres-bytea-1.0.1.tgz. Extracting by manifest.
+172 http cache @prisma/adapter-pg@https://registry.npmjs.org/@prisma/adapter-pg/-/adapter-pg-7.9.0.tgz 0ms (cache hit)
+173 silly tarball no local data for pg-pool@https://registry.npmjs.org/pg-pool/-/pg-pool-3.14.0.tgz. Extracting by manifest.
+174 silly tarball no local data for pg-cloudflare@https://registry.npmjs.org/pg-cloudflare/-/pg-cloudflare-1.4.0.tgz. Extracting by manifest.
+175 silly tarball no local data for pg-connection-string@https://registry.npmjs.org/pg-connection-string/-/pg-connection-string-2.14.0.tgz. Extracting by manifest.
+176 silly tarball no local data for pgpass@https://registry.npmjs.org/pgpass/-/pgpass-1.0.5.tgz. Extracting by manifest.
+177 silly tarball no local data for pg-protocol@https://registry.npmjs.org/pg-protocol/-/pg-protocol-1.15.0.tgz. Extracting by manifest.
+178 silly tarball no local data for pg-int8@https://registry.npmjs.org/pg-int8/-/pg-int8-1.0.1.tgz. Extracting by manifest.
+179 silly tarball no local data for @prisma/driver-adapter-utils@https://registry.npmjs.org/@prisma/driver-adapter-utils/-/driver-adapter-utils-7.9.0.tgz. Extracting by manifest.
+180 silly tarball no local data for @types/pg@https://registry.npmjs.org/@types/pg/-/pg-8.20.0.tgz. Extracting by manifest.
+181 silly tarball no local data for pg@https://registry.npmjs.org/pg/-/pg-8.22.0.tgz. Extracting by manifest.
+182 silly tarball no local data for postgres-array@https://registry.npmjs.org/postgres-array/-/postgres-array-2.0.0.tgz. Extracting by manifest.
+183 silly tarball no local data for pg-types@https://registry.npmjs.org/pg-types/-/pg-types-2.2.0.tgz. Extracting by manifest.
+184 silly tarball no local data for postgres-array@https://registry.npmjs.org/postgres-array/-/postgres-array-3.0.4.tgz. Extracting by manifest.
+185 silly tarball no local data for @prisma/adapter-pg@https://registry.npmjs.org/@prisma/adapter-pg/-/adapter-pg-7.9.0.tgz. Extracting by manifest.
+186 http fetch GET 200 https://registry.npmjs.org/postgres-interval/-/postgres-interval-1.2.0.tgz 187ms (cache miss)
+187 http fetch GET 200 https://registry.npmjs.org/postgres-date/-/postgres-date-1.0.7.tgz 188ms (cache miss)
+188 http fetch GET 200 https://registry.npmjs.org/pg-connection-string/-/pg-connection-string-2.14.0.tgz 196ms (cache miss)
+189 http fetch GET 200 https://registry.npmjs.org/pg-cloudflare/-/pg-cloudflare-1.4.0.tgz 203ms (cache miss)
+190 http fetch GET 200 https://registry.npmjs.org/pg-pool/-/pg-pool-3.14.0.tgz 205ms (cache miss)
+191 http fetch GET 200 https://registry.npmjs.org/pgpass/-/pgpass-1.0.5.tgz 205ms (cache miss)
+192 http fetch GET 200 https://registry.npmjs.org/postgres-bytea/-/postgres-bytea-1.0.1.tgz 209ms (cache miss)
+193 http fetch GET 200 https://registry.npmjs.org/postgres-array/-/postgres-array-3.0.4.tgz 245ms (cache miss)
+194 http fetch GET 200 https://registry.npmjs.org/@prisma/adapter-pg/-/adapter-pg-7.9.0.tgz 362ms (cache miss)
+195 http fetch POST 200 https://registry.npmjs.org/-/npm/v1/security/advisories/bulk 418ms
+196 silly audit report {
+196 silly audit report   'find-my-way': [
+196 silly audit report     {
+196 silly audit report       id: 1124273,
+196 silly audit report       url: 'https://github.com/advisories/GHSA-c96f-x56v-gq3h',
+196 silly audit report       title: 'find-my-way: DDoS with HTTP2',
+196 silly audit report       severity: 'high',
+196 silly audit report       vulnerable_versions: '<=9.6.0',
+196 silly audit report       cwe: [Array],
+196 silly audit report       cvss: [Object]
+196 silly audit report     }
+196 silly audit report   ]
+196 silly audit report }
+197 silly packumentCache corgi:https://registry.npmjs.org/find-my-way cache-miss
+198 http fetch GET 200 https://registry.npmjs.org/postgres-array/-/postgres-array-2.0.0.tgz 482ms (cache miss)
+199 http fetch GET 200 https://registry.npmjs.org/@types/pg/-/pg-8.20.0.tgz 493ms (cache miss)
+200 http fetch GET 200 https://registry.npmjs.org/@prisma/driver-adapter-utils/-/driver-adapter-utils-7.9.0.tgz 504ms (cache miss)
+201 http fetch GET 200 https://registry.npmjs.org/pg-int8/-/pg-int8-1.0.1.tgz 508ms (cache miss)
+202 http fetch GET 200 https://registry.npmjs.org/pg-types/-/pg-types-2.2.0.tgz 507ms (cache miss)
+203 http fetch GET 200 https://registry.npmjs.org/pg/-/pg-8.22.0.tgz 589ms (cache miss)
+204 http fetch GET 200 https://registry.npmjs.org/pg-protocol/-/pg-protocol-1.15.0.tgz 611ms (cache miss)
+205 http fetch GET 200 https://registry.npmjs.org/find-my-way 329ms (cache miss)
+206 silly packumentCache corgi:https://registry.npmjs.org/find-my-way set size:undefined disposed:false
+207 silly packumentCache corgi:https://registry.npmjs.org/@prisma%2fdev cache-miss
+208 http fetch GET 200 https://registry.npmjs.org/@prisma%2fdev 385ms (cache miss)
+209 silly packumentCache corgi:https://registry.npmjs.org/@prisma%2fdev set size:undefined disposed:false
+210 silly packumentCache corgi:https://registry.npmjs.org/prisma cache-miss
+211 http fetch GET 200 https://registry.npmjs.org/prisma 1883ms (cache miss)
+212 silly packumentCache corgi:https://registry.npmjs.org/prisma set size:undefined disposed:false
+213 silly packumentCache corgi:https://registry.npmjs.org/@prisma%2fclient cache-miss
+214 http fetch GET 200 https://registry.npmjs.org/@prisma%2fclient 1336ms (cache miss)
+215 silly packumentCache corgi:https://registry.npmjs.org/@prisma%2fclient set size:undefined disposed:false
+216 silly ADD node_modules/postgres-interval
+217 silly ADD node_modules/postgres-date
+218 silly ADD node_modules/postgres-bytea
+219 silly ADD node_modules/pg-int8
+220 silly ADD node_modules/pgpass
+221 silly ADD node_modules/pg-pool
+222 silly ADD node_modules/pg-connection-string
+223 silly ADD node_modules/pg-cloudflare
+224 silly ADD node_modules/pg-types
+225 silly ADD node_modules/pg-types/node_modules/postgres-array
+226 silly ADD node_modules/pg-protocol
+227 silly ADD node_modules/postgres-array
+228 silly ADD node_modules/pg
+229 silly ADD node_modules/@types/pg
+230 silly ADD node_modules/@prisma/driver-adapter-utils
+231 silly ADD node_modules/@prisma/adapter-pg
+232 silly ADD
+233 silly ADD
+234 silly ADD
+235 silly ADD
+236 silly ADD
+237 silly ADD
+238 silly ADD
+239 silly ADD
+240 silly ADD
+241 silly ADD
+242 silly ADD
+243 silly ADD
+244 silly ADD
+245 silly ADD
+246 silly ADD
+247 silly ADD
+248 silly ADD
+249 silly ADD
+250 silly ADD
+251 silly ADD
+252 verbose cwd C:\Users\User\Desktop\Bingo CRM\server
+253 verbose os Windows_NT 10.0.26200
+254 verbose node v22.15.1
+255 verbose npm  v10.9.2
+256 notice
+256 notice New major version of npm available! 10.9.2 -> 12.0.1
+256 notice Changelog: https://github.com/npm/cli/releases/tag/v12.0.1
+256 notice To update run: npm install -g npm@12.0.1
+256 notice  { force: true, [Symbol(proc-log.meta)]: true }
+257 verbose exit 0
+258 info ok

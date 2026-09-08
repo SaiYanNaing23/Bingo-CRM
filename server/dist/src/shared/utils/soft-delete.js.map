@@ -1,0 +1,1 @@
+{"version":3,"file":"soft-delete.js","sourceRoot":"","sources":["../../../../src/shared/utils/soft-delete.ts"],"names":[],"mappings":";;;AAAO,MAAM,sBAAsB,GAAG,CACpC,KAAa,EACb,EAAE;IACF,OAAO;QACL,GAAG,KAAK;QACR,SAAS,EAAE,IAAI;KACuB,CAAC;AAC3C,CAAC,CAAC;AAPW,QAAA,sBAAsB,0BAOjC"}

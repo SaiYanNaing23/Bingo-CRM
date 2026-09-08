@@ -1,0 +1,208 @@
+// Learn more about Prisma schema here:
+// https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum UserRole {
+  ADMIN
+  USER
+}
+
+enum CompanyStatus {
+  ACTIVE
+  ARCHIVED
+}
+
+enum ApplicationStage {
+  WISHLIST
+  APPLIED
+  HR
+  TECHNICAL
+  ASSIGNMENT
+  FINAL
+  OFFER
+  REJECTED
+  ARCHIVED
+}
+
+enum TaskType {
+  JOB_APPLICATION
+  FOLLOW_UP
+  INTERVIEW
+  LEARNING
+  PROJECT
+  OTHER
+}
+
+enum TaskPriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum TaskStatus {
+  TODO
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+enum TaskRepeatPattern {
+  NONE
+  DAILY
+  WEEKLY
+  MONTHLY
+}
+
+model User {
+  id           String    @id @default(uuid())
+  fullName     String
+  email        String    @unique
+  passwordHash String
+  role         UserRole  @default(USER)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  deletedAt    DateTime?
+  companies    Company[]
+  contacts     Contact[]
+  applications Application[]
+  stageChanges ApplicationStageHistory[]
+  tasks        Task[]
+
+  @@index([deletedAt])
+  @@index([role])
+}
+
+model Company {
+  id           String        @id @default(uuid())
+  userId       String
+  logo         String?
+  name         String
+  country      String?
+  industry     String?
+  website      String?
+  linkedIn     String?
+  careerPage   String?
+  techStack    String[]
+  size         Int?
+  salaryRange  String?
+  remote       Boolean       @default(false)
+  notes        String?
+  status       CompanyStatus @default(ACTIVE)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  deletedAt    DateTime?
+  contacts     Contact[]
+  applications Application[]
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([userId, deletedAt])
+  @@index([status])
+  @@index([country])
+}
+
+model Contact {
+  id             String     @id @default(uuid())
+  userId         String
+  companyId      String
+  photo          String
+  name           String
+  email          String
+  phone          String
+  linkedIn       String
+  role           String
+  notes          String?
+  lastContactAt  DateTime
+  nextFollowUpAt DateTime
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+  deletedAt      DateTime?
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  company Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  applications Application[]
+
+  @@index([userId])
+  @@index([userId, deletedAt])
+  @@index([companyId])
+}
+
+model Application {
+  id          String           @id @default(uuid())
+  userId      String
+  companyId   String
+  position    String
+  dateApplied DateTime?
+  salary      String?
+  timezone    String           @default("UTC")
+  recruiter   String?
+  stage       ApplicationStage @default(WISHLIST)
+  notes       String?
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  deletedAt   DateTime?
+
+  user             User                      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  company          Company                   @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  recruiterContact Contact?                  @relation(fields: [recruiter], references: [id], onDelete: SetNull)
+  stageHistory     ApplicationStageHistory[]
+
+  @@index([userId, deletedAt])
+  @@index([userId, companyId])
+  @@index([userId, stage])
+  @@index([userId, dateApplied])
+  @@index([companyId])
+  @@index([recruiter])
+}
+
+model ApplicationStageHistory {
+  id            String            @id @default(uuid())
+  applicationId String
+  fromStage     ApplicationStage?
+  toStage       ApplicationStage
+  changedById   String
+  createdAt     DateTime          @default(now())
+
+  application Application @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  changedBy   User        @relation(fields: [changedById], references: [id], onDelete: Cascade)
+
+  @@index([applicationId, createdAt, id])
+  @@index([changedById])
+}
+
+model Task {
+  id                 String            @id @default(uuid())
+  userId             String
+  title              String
+  type               TaskType          @default(OTHER)
+  priority           TaskPriority      @default(MEDIUM)
+  dueDate            DateTime?
+  timezone           String            @default("UTC")
+  status             TaskStatus        @default(TODO)
+  repeatPattern      TaskRepeatPattern @default(NONE)
+  completedAt        DateTime?
+  recurrenceSourceId String?           @unique
+  createdAt          DateTime          @default(now())
+  updatedAt          DateTime          @updatedAt
+  deletedAt          DateTime?
+
+  user             User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  recurrenceSource Task? @relation("TaskRecurrence", fields: [recurrenceSourceId], references: [id], onDelete: SetNull)
+  nextOccurrence   Task? @relation("TaskRecurrence")
+
+  @@index([userId, deletedAt])
+  @@index([userId, dueDate])
+  @@index([userId, status])
+  @@index([userId, type])
+  @@index([userId, priority])
+}

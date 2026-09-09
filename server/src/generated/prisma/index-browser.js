@@ -212,6 +212,51 @@ exports.Prisma.TaskScalarFieldEnum = {
   deletedAt: 'deletedAt'
 };
 
+exports.Prisma.ProjectScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  name: 'name',
+  githubUrl: 'githubUrl',
+  liveDemoUrl: 'liveDemoUrl',
+  status: 'status',
+  progress: 'progress',
+  stack: 'stack',
+  screenshots: 'screenshots',
+  lessonsLearned: 'lessonsLearned',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt'
+};
+
+exports.Prisma.ProjectActivityScalarFieldEnum = {
+  id: 'id',
+  projectId: 'projectId',
+  createdById: 'createdById',
+  type: 'type',
+  fromStatus: 'fromStatus',
+  toStatus: 'toStatus',
+  fromProgress: 'fromProgress',
+  toProgress: 'toProgress',
+  content: 'content',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.NoteScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  title: 'title',
+  content: 'content',
+  tags: 'tags',
+  companyId: 'companyId',
+  contactId: 'contactId',
+  applicationId: 'applicationId',
+  taskId: 'taskId',
+  projectId: 'projectId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -278,13 +323,30 @@ exports.TaskRepeatPattern = exports.$Enums.TaskRepeatPattern = {
   MONTHLY: 'MONTHLY'
 };
 
+exports.ProjectStatus = exports.$Enums.ProjectStatus = {
+  PLANNED: 'PLANNED',
+  IN_PROGRESS: 'IN_PROGRESS',
+  ON_HOLD: 'ON_HOLD',
+  COMPLETED: 'COMPLETED',
+  ARCHIVED: 'ARCHIVED'
+};
+
+exports.ProjectActivityType = exports.$Enums.ProjectActivityType = {
+  CREATED: 'CREATED',
+  PROGRESS_UPDATE: 'PROGRESS_UPDATE',
+  COMMENT: 'COMMENT'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   Company: 'Company',
   Contact: 'Contact',
   Application: 'Application',
   ApplicationStageHistory: 'ApplicationStageHistory',
-  Task: 'Task'
+  Task: 'Task',
+  Project: 'Project',
+  ProjectActivity: 'ProjectActivity',
+  Note: 'Note'
 };
 
 /**

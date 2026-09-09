@@ -154,6 +154,86 @@
   .page-width {
     @apply mx-auto w-full max-w-[1400px];
   }
+  .project-progress {
+    appearance: none;
+    background: var(--muted);
+    color: var(--primary);
+  }
+  .project-progress::-webkit-progress-bar {
+    background: var(--muted);
+  }
+  .project-progress::-webkit-progress-value {
+    background: var(--primary);
+    border-radius: 999px;
+  }
+  .project-progress::-moz-progress-bar {
+    background: var(--primary);
+    border-radius: 999px;
+  }
+  .markdown-content {
+    @apply leading-7;
+    overflow-wrap: anywhere;
+  }
+  .markdown-content > :first-child {
+    margin-top: 0;
+  }
+  .markdown-content :is(h1, h2, h3, h4, h5, h6) {
+    @apply mb-3 mt-7 font-semibold leading-snug;
+  }
+  .markdown-content h1 {
+    @apply text-2xl;
+  }
+  .markdown-content h2 {
+    @apply text-xl;
+  }
+  .markdown-content h3 {
+    @apply text-lg;
+  }
+  .markdown-content :is(p, ul, ol, blockquote, pre, table) {
+    @apply my-4;
+  }
+  .markdown-content ul {
+    @apply list-disc pl-6;
+  }
+  .markdown-content ol {
+    @apply list-decimal pl-6;
+  }
+  .markdown-content li {
+    @apply my-1;
+  }
+  .markdown-content a {
+    @apply text-link underline underline-offset-4;
+  }
+  .markdown-content blockquote {
+    @apply border-l-4 pl-4 text-muted-foreground;
+  }
+  .markdown-content pre {
+    @apply overflow-x-auto rounded-md border bg-muted p-4 text-sm;
+  }
+  .markdown-content :not(pre) > code {
+    @apply rounded bg-muted px-1.5 py-0.5 text-sm;
+  }
+  .markdown-content code {
+    @apply font-mono;
+  }
+  .markdown-content table {
+    @apply w-full border-collapse text-sm;
+  }
+  .markdown-content :is(th, td) {
+    @apply border px-3 py-2 text-left;
+  }
+  .markdown-content th {
+    @apply bg-muted font-medium;
+  }
+  .markdown-content hr {
+    @apply my-6 border-t;
+  }
+  .markdown-content .task-list-item {
+    list-style: none;
+  }
+  .markdown-content input[type='checkbox'] {
+    @apply mr-2 accent-primary;
+  }
 }
 @media (prefers-reduced-motion: reduce) {
   *,

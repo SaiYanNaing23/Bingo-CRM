@@ -62,20 +62,37 @@ enum TaskRepeatPattern {
   MONTHLY
 }
 
+enum ProjectStatus {
+  PLANNED
+  IN_PROGRESS
+  ON_HOLD
+  COMPLETED
+  ARCHIVED
+}
+
+enum ProjectActivityType {
+  CREATED
+  PROGRESS_UPDATE
+  COMMENT
+}
+
 model User {
-  id           String                    @id @default(uuid())
-  fullName     String
-  email        String                    @unique
-  passwordHash String
-  role         UserRole                  @default(USER)
-  createdAt    DateTime                  @default(now())
-  updatedAt    DateTime                  @updatedAt
-  deletedAt    DateTime?
-  companies    Company[]
-  contacts     Contact[]
-  applications Application[]
-  stageChanges ApplicationStageHistory[]
-  tasks        Task[]
+  id                String                    @id @default(uuid())
+  fullName          String
+  email             String                    @unique
+  passwordHash      String
+  role              UserRole                  @default(USER)
+  createdAt         DateTime                  @default(now())
+  updatedAt         DateTime                  @updatedAt
+  deletedAt         DateTime?
+  companies         Company[]
+  contacts          Contact[]
+  applications      Application[]
+  stageChanges      ApplicationStageHistory[]
+  tasks             Task[]
+  projects          Project[]
+  projectActivities ProjectActivity[]
+  notes             Note[]
 
   @@index([deletedAt])
   @@index([role])
@@ -102,6 +119,7 @@ model Company {
   deletedAt    DateTime?
   contacts     Contact[]
   applications Application[]
+  linkedNotes  Note[]
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -131,6 +149,7 @@ model Contact {
   user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   company      Company       @relation(fields: [companyId], references: [id], onDelete: Cascade)
   applications Application[]
+  linkedNotes  Note[]
 
   @@index([userId])
   @@index([userId, deletedAt])
@@ -156,6 +175,7 @@ model Application {
   company          Company                   @relation(fields: [companyId], references: [id], onDelete: Cascade)
   recruiterContact Contact?                  @relation(fields: [recruiter], references: [id], onDelete: SetNull)
   stageHistory     ApplicationStageHistory[]
+  linkedNotes      Note[]
 
   @@index([userId, deletedAt])
   @@index([userId, companyId])
@@ -196,13 +216,90 @@ model Task {
   updatedAt          DateTime          @updatedAt
   deletedAt          DateTime?
 
-  user             User  @relation(fields: [userId], references: [id], onDelete: Cascade)
-  recurrenceSource Task? @relation("TaskRecurrence", fields: [recurrenceSourceId], references: [id], onDelete: SetNull)
-  nextOccurrence   Task? @relation("TaskRecurrence")
+  user             User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  recurrenceSource Task?  @relation("TaskRecurrence", fields: [recurrenceSourceId], references: [id], onDelete: SetNull)
+  nextOccurrence   Task?  @relation("TaskRecurrence")
+  linkedNotes      Note[]
 
   @@index([userId, deletedAt])
   @@index([userId, dueDate])
   @@index([userId, status])
   @@index([userId, type])
   @@index([userId, priority])
+}
+
+model Project {
+  id             String        @id @default(uuid())
+  userId         String
+  name           String
+  githubUrl      String?
+  liveDemoUrl    String?
+  status         ProjectStatus @default(PLANNED)
+  progress       Int           @default(0)
+  stack          String[]      @default([])
+  screenshots    String[]      @default([])
+  lessonsLearned String?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  deletedAt      DateTime?
+
+  user        User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  activities  ProjectActivity[]
+  linkedNotes Note[]
+
+  @@index([userId, deletedAt])
+  @@index([userId, status])
+  @@index([userId, updatedAt])
+  @@index([stack], type: Gin)
+}
+
+model ProjectActivity {
+  id           String              @id @default(uuid())
+  projectId    String
+  createdById  String
+  type         ProjectActivityType
+  fromStatus   ProjectStatus?
+  toStatus     ProjectStatus?
+  fromProgress Int?
+  toProgress   Int?
+  content      String?
+  createdAt    DateTime            @default(now())
+
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  createdBy User    @relation(fields: [createdById], references: [id], onDelete: Cascade)
+
+  @@index([projectId, createdAt, id])
+  @@index([createdById])
+}
+
+model Note {
+  id            String    @id @default(uuid())
+  userId        String
+  title         String
+  content       String
+  tags          String[]  @default([])
+  companyId     String?
+  contactId     String?
+  applicationId String?
+  taskId        String?
+  projectId     String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  deletedAt     DateTime?
+
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  company     Company?     @relation(fields: [companyId], references: [id], onDelete: SetNull)
+  contact     Contact?     @relation(fields: [contactId], references: [id], onDelete: SetNull)
+  application Application? @relation(fields: [applicationId], references: [id], onDelete: SetNull)
+  task        Task?        @relation(fields: [taskId], references: [id], onDelete: SetNull)
+  project     Project?     @relation(fields: [projectId], references: [id], onDelete: SetNull)
+
+  @@index([userId, deletedAt])
+  @@index([userId, updatedAt])
+  @@index([companyId])
+  @@index([contactId])
+  @@index([applicationId])
+  @@index([taskId])
+  @@index([projectId])
+  @@index([tags], type: Gin)
 }

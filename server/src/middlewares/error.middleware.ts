@@ -6,6 +6,11 @@ import { logger } from "../lib/logger";
 import { sendError } from "../shared/utils/response";
 
 export const errorMiddleware: ErrorRequestHandler = (err, _req, res, _next) => {
+  if (err?.type === "entity.too.large") {
+    sendError(res, "Request body exceeds the 1 MB limit", 413, undefined, "PAYLOAD_TOO_LARGE");
+    return;
+  }
+
   if (
     err instanceof SyntaxError &&
     "type" in err &&

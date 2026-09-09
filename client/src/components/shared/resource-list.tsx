@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, type ReactNode } from 'react'
 import { Link, useSearchParams } from 'react-router'
 import { Plus, Search, SlidersHorizontal } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -50,7 +50,17 @@ function DateFilter({
   )
 }
 
-export function ResourceList({ config }: { config: ResourceConfig }) {
+export function ResourceList({
+  config,
+  additionalParams = {},
+  extraFilters,
+  filterNotice,
+}: {
+  config: ResourceConfig
+  additionalParams?: Params
+  extraFilters?: ReactNode
+  filterNotice?: string
+}) {
   const [params, setParams] = useSearchParams()
   const [filtersOpen, setFiltersOpen] = useState(false)
   const [filterError, setFilterError] = useState('')
@@ -66,7 +76,7 @@ export function ResourceList({ config }: { config: ResourceConfig }) {
     params.get('order') === 'asc' || (!params.has('order') && config.kind === 'tasks')
       ? 'asc'
       : 'desc'
-  const query: Params = { search, page, limit, sortBy, order }
+  const query: Params = { search, page, limit, sortBy, order, ...additionalParams }
   config.filters.forEach((filter) => {
     const value = params.get(filter.key)
     if (value && (!filter.options || filter.options.includes(value))) query[filter.key] = value
@@ -94,7 +104,10 @@ export function ResourceList({ config }: { config: ResourceConfig }) {
         { replace: true },
       )
   }, [records.data, page, setParams])
-  const filtered = !!search || config.filters.some((filter) => !!params.get(filter.key))
+  const filtered =
+    !!search ||
+    Object.values(additionalParams).some(Boolean) ||
+    config.filters.some((filter) => !!params.get(filter.key))
   return (
     <>
       <PageHeader
@@ -118,6 +131,11 @@ export function ResourceList({ config }: { config: ResourceConfig }) {
         </div>
       )}
       <section className="panel overflow-hidden" aria-label={`${config.title} list`}>
+        {filterNotice && (
+          <p role="status" className="border-b bg-muted/30 p-4 text-sm text-muted-foreground">
+            {filterNotice}
+          </p>
+        )}
         <div className="flex flex-wrap items-center justify-between gap-3 border-b p-4">
           <div className="relative w-full sm:max-w-xs">
             <Search className="absolute left-3 top-3 size-4 text-muted-foreground" />
@@ -232,6 +250,7 @@ export function ResourceList({ config }: { config: ResourceConfig }) {
                   )}
                 </div>
               ))}
+              {extraFilters}
             </div>
             {filterError && (
               <p role="alert" className="mt-2 text-destructive">

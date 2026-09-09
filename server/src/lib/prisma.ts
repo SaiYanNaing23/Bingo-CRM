@@ -20,7 +20,8 @@ const createPrismaClient = (): PrismaClientType =>
   });
 
 const hasCurrentDelegates = (client: PrismaClientType | undefined): boolean =>
-  Boolean(client?.company && client.contact && client.application && client.applicationStageHistory && client.task);
+  Boolean(client?.company && client.contact && client.application && client.applicationStageHistory && client.task
+    && client.project && client.projectActivity && client.note);
 
 const existingClient = global.__prisma;
 const needsNewClient = process.env.NODE_ENV !== "production" ? !hasCurrentDelegates(existingClient) : false;

@@ -10,7 +10,8 @@ const createPrismaClient = () => new PrismaClientFactory({
     adapter,
     log: env_1.env.NODE_ENV === "development" ? ["query", "info", "warn", "error"] : ["error"],
 });
-const hasCurrentDelegates = (client) => Boolean(client?.company && client.contact && client.application && client.applicationStageHistory && client.task);
+const hasCurrentDelegates = (client) => Boolean(client?.company && client.contact && client.application && client.applicationStageHistory && client.task
+    && client.project && client.projectActivity && client.note);
 const existingClient = global.__prisma;
 const needsNewClient = process.env.NODE_ENV !== "production" ? !hasCurrentDelegates(existingClient) : false;
 const prisma = needsNewClient ? createPrismaClient() : existingClient ?? createPrismaClient();

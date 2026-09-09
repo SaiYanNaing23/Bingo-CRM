@@ -46,6 +46,12 @@ Use `npm.cmd run prisma:migrate -- --name <change_name>` when authoring a new sc
 Use `npm.cmd run prisma:status` to check for unapplied migrations. Generating the Prisma client
 or building the server does not create database tables.
 
+Prisma CLI uses `DIRECT_URL` when supplied; it must address the same database as
+the runtime `DATABASE_URL`. When DIRECT_URL is absent and DATABASE_URL uses a Neon
+`-pooler` hostname, `prisma.config.ts` derives the direct hostname for CLI work.
+The API continues using DATABASE_URL. This keeps migration advisory locks on a
+single connection; [Neon recommends direct connections for migrations](https://neon.com/docs/connect/connection-pooling).
+
 ## Contacts verification (Phase 2)
 
 If contact creation returns `INTERNAL_ERROR` and the server log reports Prisma `P2021`
@@ -83,6 +89,39 @@ recurrence, concurrency/rollback, and today's timezone boundaries in a temporary
 
 See [Tasks sample requests](../docs/tasks-testing.md) for every endpoint's payload,
 expected results, recurrence rules, today-summary definitions, and a manual checklist.
+
+## Projects verification (Phase 5)
+
+Apply migrations with `npm.cmd run prisma:deploy`, regenerate the client with
+`npm.cmd run prisma:generate`, and build/restart a compiled API. Projects adds eight
+authenticated endpoints for CRUD, progress/status updates, and activity comments/history.
+General PUT edits details; status/progress updates use PATCH `/:id/progress` so the
+state change and its history entry commit together. Archived projects remain accessible
+until soft-deleted. Stack membership uses a [GIN array index](https://docs.prisma.io/docs/orm/prisma-schema/data-model/indexes).
+
+`npm.cmd run test:projects` runs the build and 14 integration scenarios against a
+disposable schema, including fresh migrations, constraints, validation, ownership,
+pagination, progress history, concurrency, and rollback. Fixtures are removed afterward.
+
+See [Projects sample requests](../docs/projects-testing.md) for every endpoint's
+payload, state rules, expected results, and the separate user testing checklist.
+
+## Notes verification (Phase 6)
+
+Apply migrations, regenerate Prisma, and build/restart a compiled API as above.
+Notes provides five authenticated CRUD endpoints under `/api/v1/notes`, with raw
+Markdown content, normalized tags, search/pagination, and optional entity links.
+Supported targets are Company, Contact, Application, Task, and Project. Links use
+real foreign keys and ownership checks. A soft-deleted target leaves its notes
+readable with entityAvailable:false; entity:null detaches a note.
+
+`npm.cmd run test:notes` runs the build and 19 integration scenarios in a disposable
+schema. It covers Markdown preservation, validation/body limits, ownership, all
+target types, batched availability, target deletion, concurrent links/edits, and rollback.
+
+See [Notes sample requests](../docs/notes-testing.md) for every endpoint's payload,
+entity-link examples, expected results, and a separate user checklist. Markdown is
+returned as source text; a future client renderer must disable or sanitize raw HTML.
 
 ## Phase 0 shared utilities
 

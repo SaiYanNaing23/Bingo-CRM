@@ -1,10 +1,10 @@
 # BINGO CRM Client Agenda
 
-Goal: build a clear, comfortable React workspace for managing companies, contacts, applications, and daily tasks, using shadcn/ui components and the existing Express API.
+Goal: build a clear, comfortable React workspace for managing companies, contacts, applications, daily tasks, projects, and notes, using shadcn/ui components and the existing Express API.
 
-Backend roadmap: [agenda.md](./agenda.md). Backend implementation is paused after Phase 4 at the user's request on 2026-09-08. Client phase numbers belong to this document and are independent of backend phase numbers.
+Backend roadmap: [agenda.md](./agenda.md). Backend Phases 5 (Projects) and 6 (Notes), and their client counterparts Phases 8 and 9, are implemented and verified as of 2026-09-08. Client phase numbers belong to this document and are independent of backend phase numbers.
 
-Status: client Phases 0-5 are implemented and verified in `client/`. Appearance settings (6.6) and a shadcn controls/sidebar refinement (0.8) are additional user-requested slices. Overview, a global default timezone preference, and later phases remain planned. Implementation checkmarks below are updated after verification; user manual checks remain separate.
+Status: client Phases 0-5 and 8-9 are implemented and verified in `client/`. Appearance settings (6.6) and a shadcn controls/sidebar refinement (0.8) are additional user-requested slices. The remaining Overview/preferences work, Phase 7 release verification, and Phases 10 onward remain planned. User manual checks remain separate from implementation verification.
 
 ## Decisions and recommendations
 
@@ -21,10 +21,10 @@ Status: client Phases 0-5 are implemented and verified in `client/`. Appearance 
 
 ### Implementation defaults (2026-09-08)
 
-- Code organization: feature folders, with shared CRUD behavior for the four modules.
+- Code organization: feature folders with shared lists, tables, transport, and actions; specialized forms where the domain contract needs them.
 - Launch appearance: Amber Stone in light mode, with responsive desktop/mobile layouts. Appearance preferences persist in this browser.
 
-The user authorized implementation through Tasks after the recommendations were presented. The two unanswered preferences initially used the recommended defaults. The subsequent theme request replaces the initial slate-blue accent and adds appearance controls now; backend implementation stays paused.
+The user authorized implementation through Tasks after the recommendations were presented. The two unanswered preferences initially used the recommended defaults. The subsequent theme request replaces the initial slate-blue accent. Backend Projects and Notes are now complete; implement their client screens next while retaining the existing design and shadcn controls.
 
 ## Stack architecture
 
@@ -38,6 +38,7 @@ The user authorized implementation through Tasks after the recommendations were 
 | Tables | TanStack Table with shadcn Table | Reusable columns and controls wired to API pagination, filtering, and sorting |
 | Icons | Lucide React | Small, consistent icons alongside readable labels |
 | Dates | shadcn Calendar/Popover + time Input, React DayPicker 9, `Intl`, date-fns/date-fns-tz | Calendar/date entry and second-precision time; convert the selected zone's wall-clock value to an API timestamp |
+| Markdown | react-markdown + remark-gfm | Render Notes headings, code, tables, and task lists with raw HTML disabled and controlled link/image behavior |
 | State | Query cache, URL parameters, local React state, small auth/preferences contexts | Give each kind of state one clear owner |
 | Verification | Vitest + React Testing Library; Playwright for important browser journeys | Verify form behavior, API integration, and complete user workflows |
 | Package management | npm with a checked-in client lockfile | Independent, repeatable installs in `client/` |
@@ -65,7 +66,7 @@ The browser communicates with Express. Database credentials, Prisma, and backend
 
 ### Folder pattern
 
-Implemented organization through Phase 5:
+Implemented organization:
 
 ```text
 client/
@@ -86,6 +87,8 @@ client/
       contacts/
       applications/
       tasks/
+      projects/             # form, progress action, and activity history
+      notes/                # editor, Markdown preview, entity picker, related notes
       settings/             # appearance presets, theme context, Settings page
     lib/
       api-client.ts
@@ -110,7 +113,7 @@ client/
   package-lock.json
 ```
 
-Each domain follows the Companies example. Applications additionally owns stage history and Tasks owns Today. Repeated CRUD forms/tables/actions share components, while domain types and configuration remain in their feature folders. Unit tests sit with the shared behaviors they verify; browser tests cover the real module workflows.
+Companies, Contacts, Applications, and Tasks share the initial CRUD form pattern. Applications owns stage history and Tasks owns Today. Projects and Notes reuse shared lists/tables/actions while owning their specialized forms, validation, progress/history, and Markdown/entity behavior. Unit tests sit with the behaviors they verify; browser tests cover real module workflows.
 
 ### Coding and state rules
 
@@ -163,6 +166,8 @@ Suggestions: start Applications with a table and stage filter, make today's task
 | `/contacts`, `/contacts/new`, `/contacts/:id`, `/contacts/:id/edit` | Contacts | 3 |
 | `/applications`, `/applications/new`, `/applications/:id`, `/applications/:id/edit` | Applications and stage history | 4 |
 | `/tasks`, `/tasks/today`, `/tasks/new`, `/tasks/:id`, `/tasks/:id/edit` | Tasks | 5 |
+| `/projects`, `/projects/new`, `/projects/:id`, `/projects/:id/edit` | Projects, progress, and activity history | 8 |
+| `/notes`, `/notes/new`, `/notes/:id`, `/notes/:id/edit` | Notes, Markdown preview, and entity links | 9 |
 | `/settings/appearance` (`/settings` redirects here) | Appearance settings, implemented | 6.6 |
 | `/overview`, `/preferences` | Daily overview and browser preferences | 6 |
 
@@ -179,6 +184,8 @@ All paths below have the `/api/v1` prefix. Source of truth: [server route regist
 | Contacts | CRUD + `PATCH /contacts/:id/follow-up` | Company picker, required fields, and follow-up editor |
 | Applications | CRUD + stage change + paginated stage history | Separate detail editing and stage-change actions |
 | Tasks | CRUD + `PATCH /tasks/:id/complete` + `GET /tasks/today` | Dedicated completion flow, recurrence feedback, timezone-aware Today screen |
+| Projects | CRUD + `PATCH /projects/:id/progress` + GET/POST activities | Detail edits exclude status/progress; separate progress action and paginated history/comments |
+| Notes | CRUD with tags, search, and paired entity filters | Preserve Markdown source, safely preview it, link at most one owned record, support unavailable links and detachment |
 
 ### Transport, session, and dates
 
@@ -201,7 +208,9 @@ All paths below have the `/api/v1` prefix. Source of truth: [server route regist
 - [x] Phase 5 - Tasks and Today
 - [ ] Phase 6 - Overview and preferences
 - [ ] Phase 7 - First-release verification and runbook
-- [ ] Phase 8 onward - Future modules, gated by backend availability
+- [x] Phase 8 - Projects (backend Phase 5)
+- [x] Phase 9 - Notes (backend Phase 6)
+- [ ] Phase 10 onward - Future modules, gated by backend availability
 
 ## Phase 0 - Design foundation and client setup
 
@@ -311,14 +320,44 @@ Goal: make the first client release dependable across the implemented modules.
 
 Acceptance checks: required client checks and important browser journeys pass; implemented screens use real APIs; manual results are recorded only after the user reports them. Deployment is a later action once a hosting target is chosen.
 
-## Future phases - Dependent on backend work resuming
+## Phase 8 - Projects
+
+Goal: manage portfolio projects through the completed backend Phase 5 API, using the established sidebar, tables, dedicated detail pages, and shadcn controls.
+
+Status: implemented and automatically verified (2026-09-08). [Testing guide and API payloads](client/docs/phase-8-testing.md).
+
+- [x] **8.1 Foundation and navigation:** typed project/activity contracts, account-scoped queries and mutations, lazy protected routes, Projects sidebar entry. Reuse shared transport, table, states, pagination, and delete confirmation.
+- [x] **8.2 List:** name, status, percentage progress, stack, and updated date; server search across name/lessons, status and full stack-entry filters, allowed sorting, pagination, URL state, filtered back navigation, and last-page recovery after deletion.
+- [x] **8.3 Create and edit:** name, GitHub/demo URLs, stack entries, screenshot URLs, and lessons learned. Initial status/progress on create only. Match API limits, HTTP(S) URLs, null/empty-array clearing, and state rules; retain failed form input and protect unsaved changes. Screenshots are URL metadata, with no upload flow.
+- [x] **8.4 Detail and lifecycle:** readable details, safe external links and screenshot previews with fallback, percent progress, edit and separate soft-delete confirmation. Archived projects remain readable/editable; archive is a progress action. Deleting a project leaves linked notes intact.
+- [x] **8.5 Progress action:** dedicated dialog using PATCH progress, explicit status plus percentage and optional message. Validate PLANNED=0, IN_PROGRESS/ON_HOLD=0–99, COMPLETED=100, ARCHIVED=0–100. Support pause, complete, archive, and reopen; do not infer status from a number. Handle no-op requests without implying a comment was added.
+- [x] **8.6 Activity history:** oldest-first paginated CREATED/PROGRESS_UPDATE/COMMENT entries with before/after values and timestamp; separate comment form. Refresh project, lists, and history after successful actions, preserve failed comments, and offer retry for history failures.
+- [x] **8.7 Verification and handoff:** typecheck/lint/build, payload/state tests, real-API browser journeys for CRUD, filtering/pagination, progress/history/comments, failure recovery, archive/reopen/delete, keyboard/mobile navigation, and account isolation. Add a Phase 8 testing guide with form values, matching request payloads, expected results, and separate manual checkboxes.
+
+Acceptance checks: all eight Projects endpoints are usable from the client; PUT never submits status/progress; percentages and history reflect server results; no user records are test fixtures. Screenshot failures must not break the page.
+
+## Phase 9 - Notes
+
+Goal: write reusable Markdown notes independently or attach them to a company, contact, application, task, or project through the completed backend Phase 6 API.
+
+Status: implemented and automatically verified (2026-09-08). [Testing guide and API payloads](client/docs/phase-9-testing.md).
+
+- [x] **9.1 Foundation and navigation:** typed note/entity contracts, authenticated lazy routes, Notes sidebar entry, account-scoped query keys, and consistent invalidation after note or linked-record changes.
+- [x] **9.2 List and filters:** title, tags, linked-record type/state, and updated date; server title/content search, exact normalized tag, paired entity type/record filters, allowed sorting, pagination, URL state and back navigation. Entity selection uses searchable paginated shadcn pickers, including applications/tasks/projects.
+- [x] **9.3 Editor:** title, exact Markdown source, tags, and an optional entity link. Enforce title 2–200, nonblank content up to 100,000 characters, up to 20 tags of 1–40 characters, and valid Unicode without NUL. Preserve whitespace/code indentation; use explicit payload mapping and protect unsaved changes and failed saves. Tags can be cleared.
+- [x] **9.4 Preview and detail:** accessible Write/Preview controls with headings, lists, links, code, tables, and task lists. Use a maintained React Markdown renderer, disable raw HTML execution and unsafe URLs, and do not load remote images automatically. Detail shows tags, timestamps, safe source/preview, and linked-record availability without exposing internal FK fields.
+- [x] **9.5 Entity binding and related notes:** allow standalone notes or one complete type/id pair; changing type clears the previous selection. Use record names, support rebind and explicit detach, and omit an unchanged entity on edit so unavailable links do not block text changes. Show Notes sections on all five supported record detail pages, with filtered View all and preselected New note actions.
+- [x] **9.6 Lifecycle and resilience:** separate soft-delete confirmation; retain readable/editable notes after linked-record soft deletion with an unavailable state. Handle invalid/foreign/missing IDs, incomplete filter URLs, expired sessions, slow/offline requests, API validation, failed rebinds, and last-page deletion without losing draft text.
+- [x] **9.7 Verification and handoff:** renderer/payload tests, real-API browser CRUD/filter/entity lifecycle journeys, retained source and safe preview, ownership/session boundaries, paginated pickers, and responsive keyboard operation. Add a Phase 9 guide with sample Markdown, API payloads, failure cases, and pending user checkboxes; verify all required client checks before marking complete.
+
+Acceptance checks: all five Notes endpoints are usable; preview never executes stored HTML or unsafe links; edits preserve Markdown exactly and keep or clear the single entity link as intended. Existing inline notes fields remain separate.
+
+## Future phases - Dependent on backend availability
 
 These phases remain planned. Before each starts, expand its steps and confirm the implemented API contract in the backend agenda.
 
 | Client phase | Backend prerequisite | Planned steps | Completion check |
 | --- | --- | --- | --- |
-| 8 - Projects | Backend Phase 5 | 8.1 List/filter; 8.2 form/detail; 8.3 progress/activity; 8.4 testing | Portfolio records and progress persist through the Projects API |
-| 9 - Notes | Backend Phase 6 | 9.1 List/search; 9.2 editor/preview; 9.3 tags and entity links; 9.4 testing | Notes render safely and remain linked to their selected records |
 | 10 - Calendar | Backend Phase 7 | 10.1 Calendar/agenda views; 10.2 event details; 10.3 source links/timezones; 10.4 testing | Events load by range and agree with linked source records |
 | 11 - Documents | Backend Phase 8 | 11.1 Library; 11.2 supported upload or metadata flow; 11.3 versions/delete; 11.4 testing | UI uses the storage capabilities actually available at implementation time |
 | 12 - Learning | Backend Phase 9 | 12.1 Topics; 12.2 progress entry; 12.3 resources/summary; 12.4 testing | Learning progress matches server calculations |
@@ -338,7 +377,7 @@ These phases remain planned. Before each starts, expand its steps and confirm th
 - Inspected the empty `client/` directory and the backend roadmap, routes, authentication, DTOs, and response shapes.
 - Matched the initial client scope to backend Phases 0-4 and identified later API dependencies.
 - Recorded the user's first three choices. The two additional preferences use the stated implementation defaults.
-- Client implementation was subsequently authorized through Phase 5; see the verification record below. Backend implementation remains paused after Phase 4.
+- Client implementation was subsequently authorized through Phase 5; see the verification record below. Backend Phases 5–6 are now complete, and client Phases 8–9 were broken down before their authorized implementation.
 
 ## Initial Phases 0-5 verification (2026-09-08)
 
@@ -351,7 +390,7 @@ These phases remain planned. Before each starts, expand its steps and confirm th
 - [x] Documentation links and all 16 sample JSON payloads verified.
 - [ ] User manual verification of client Phases 0-5 (awaiting the user's results).
 
-Run instructions and testing guides: [client/README.md](client/README.md). Each guide includes browser steps, sample values, API requests where applicable, expected outcomes, and separate manual checkboxes. The remaining Phase 6 items and later phases stay planned.
+Run instructions and testing guides: [client/README.md](client/README.md). Each guide includes browser steps, sample values, API requests where applicable, expected outcomes, and separate manual checkboxes. The remaining Phase 6 items, Phase 7, and Phases 10 onward stay planned; Projects/Notes were requested next.
 
 ### Appearance extension (2026-09-08)
 
@@ -374,3 +413,15 @@ Run instructions and testing guides: [client/README.md](client/README.md). Each 
 - [x] Reviewed desktop calendar/collapsed-sidebar and mobile calendar/sidebar screenshots. Documentation links and all 17 JSON examples remain valid.
 - [x] Temporary browser-test schema removed after verification. Windows Edge stalled during shutdown after all scenarios passed; stopping its completed automation worker allowed the runner's normal database cleanup to finish.
 - Verification and manual results: [shadcn controls testing guide](client/docs/shadcn-controls-testing.md). User manual checks remain pending.
+
+### Projects and Notes — client Phases 8–9 verification (2026-09-08)
+
+- Expanded both phases into seven steps each before implementation, retaining the client/backend phase mapping and existing shadcn design.
+- Implemented all eight Projects endpoints and all five Notes endpoints in the client, with related Notes sections on companies, contacts, applications, tasks, and projects. Added lazy authenticated routes and sidebar entries.
+- Typecheck, ESLint, and production build pass. All 28 unit/component tests pass, including project state/payload rules, exact Markdown handling, link changes, validation limits, safe rendering, and existing transport/date/appearance behavior.
+- All 14 browser scenarios pass against real APIs in disposable schemas: five Projects/Notes journeys on Edge, plus history/comment/delayed-save recovery and the eight existing workspace regressions on Chrome. Covers CRUD, status/progress/history, comments, tags/search/entity filters, pagination, all five entity links, rebind/detach, target deletion, failed writes, source preservation, ownership/sessions, theme, keyboard controls, and mobile layout.
+- Reviewed Projects and Notes desktop screens, dark mobile details, and the dark Notes editor. Markdown images stay links; raw HTML is not executed. Broken project screenshots use a fallback.
+- Fixed activity pagination when commenting before history finishes loading, and prevented a delayed save from redirecting after leaving the editor. Existing list filters remain available through save/cancel/back navigation.
+- Windows browser workers stalled during shutdown after scenarios passed; stopping only those completed automation workers allowed the runners to finish normal database cleanup. Test schemas were removed; existing CRM records were not used as fixtures.
+- Verified all 26 client guide JSON examples and local documentation links. The running client serves both new routes; the API health check succeeds and unauthenticated Projects/Notes requests remain protected.
+- [ ] User manual verification of [Projects](client/docs/phase-8-testing.md) and [Notes](client/docs/phase-9-testing.md). Their guide checkboxes remain pending until the user reports results.

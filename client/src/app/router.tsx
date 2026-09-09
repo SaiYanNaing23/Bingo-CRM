@@ -11,6 +11,8 @@ const CompanyPages = lazy(() => import('@/features/companies/pages'))
 const ContactPages = lazy(() => import('@/features/contacts/pages'))
 const ApplicationPages = lazy(() => import('@/features/applications/pages'))
 const TaskPages = lazy(() => import('@/features/tasks/pages'))
+const ProjectPages = lazy(() => import('@/features/projects/pages'))
+const NotePages = lazy(() => import('@/features/notes/pages'))
 const TodayPage = lazy(() => import('@/features/tasks/today-page'))
 const AppearancePage = lazy(() => import('@/features/settings/appearance-page'))
 const DesignPreview = import.meta.env.DEV ? lazy(() => import('@/app/design-preview')) : () => null
@@ -57,6 +59,8 @@ const routePages = [
   { path: 'contacts', Component: ContactPages },
   { path: 'applications', Component: ApplicationPages },
   { path: 'tasks', Component: TaskPages },
+  { path: 'projects', Component: ProjectPages },
+  { path: 'notes', Component: NotePages },
 ]
 export const router = createBrowserRouter([
   {

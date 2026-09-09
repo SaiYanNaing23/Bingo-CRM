@@ -8,6 +8,8 @@ const health_routes_1 = require("../modules/health/health.routes");
 const contacts_routes_1 = require("../modules/contacts/routes/contacts.routes");
 const applications_routes_1 = require("../modules/applications/routes/applications.routes");
 const tasks_routes_1 = require("../modules/tasks/routes/tasks.routes");
+const projects_routes_1 = require("../modules/projects/routes/projects.routes");
+const notes_routes_1 = require("../modules/notes/routes/notes.routes");
 exports.apiRouter = (0, express_1.Router)();
 exports.apiRouter.use(health_routes_1.healthRouter);
 exports.apiRouter.use("/auth", auth_routes_1.authRouter);
@@ -15,4 +17,6 @@ exports.apiRouter.use("/companies", companies_routes_1.companiesRouter);
 exports.apiRouter.use("/contacts", contacts_routes_1.contactsRouter);
 exports.apiRouter.use("/applications", applications_routes_1.applicationsRouter);
 exports.apiRouter.use("/tasks", tasks_routes_1.tasksRouter);
+exports.apiRouter.use("/projects", projects_routes_1.projectsRouter);
+exports.apiRouter.use("/notes", notes_routes_1.notesRouter);
 //# sourceMappingURL=index.js.map

@@ -6,6 +6,8 @@ import { healthRouter } from "../modules/health/health.routes";
 import { contactsRouter } from "../modules/contacts/routes/contacts.routes";
 import { applicationsRouter } from "../modules/applications/routes/applications.routes";
 import { tasksRouter } from "../modules/tasks/routes/tasks.routes";
+import { projectsRouter } from "../modules/projects/routes/projects.routes";
+import { notesRouter } from "../modules/notes/routes/notes.routes";
 
 export const apiRouter = Router();
 
@@ -15,3 +17,5 @@ apiRouter.use("/companies", companiesRouter);
 apiRouter.use("/contacts", contactsRouter);
 apiRouter.use("/applications", applicationsRouter);
 apiRouter.use("/tasks", tasksRouter);
+apiRouter.use("/projects", projectsRouter);
+apiRouter.use("/notes", notesRouter);

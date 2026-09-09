@@ -4,6 +4,20 @@ import "dotenv/config";
 import { defineConfig } from "prisma/config";
 
 const shadowDatabaseUrl = process.env["SHADOW_DATABASE_URL"]?.trim();
+// Session advisory locks used by Migrate must stay on one PostgreSQL connection.
+// Keep the runtime DATABASE_URL pooled; use a direct URL only for Prisma CLI work.
+const cliDatabaseUrl = (() => {
+  const explicit = process.env["DIRECT_URL"]?.trim();
+  if (explicit) return explicit;
+  const value = process.env["DATABASE_URL"];
+  if (!value) return value;
+  const url = new URL(value);
+  if (url.hostname.endsWith(".neon.tech") && url.hostname.includes("-pooler.")) {
+    url.hostname = url.hostname.replace(/-pooler(?=\.)/, "");
+    return url.toString();
+  }
+  return value;
+})();
 
 export default defineConfig({
   schema: "prisma/schema.prisma",
@@ -13,6 +27,6 @@ export default defineConfig({
     ...(shadowDatabaseUrl ? { shadowDatabaseUrl } : {}),
   },
   datasource: {
-    url: process.env["DATABASE_URL"],
+    url: cliDatabaseUrl,
   },
 });

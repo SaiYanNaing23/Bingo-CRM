@@ -6,6 +6,10 @@ const app_error_1 = require("../shared/errors/app-error");
 const logger_1 = require("../lib/logger");
 const response_1 = require("../shared/utils/response");
 const errorMiddleware = (err, _req, res, _next) => {
+    if (err?.type === "entity.too.large") {
+        (0, response_1.sendError)(res, "Request body exceeds the 1 MB limit", 413, undefined, "PAYLOAD_TOO_LARGE");
+        return;
+    }
     if (err instanceof SyntaxError &&
         "type" in err &&
         err.type === "entity.parse.failed") {

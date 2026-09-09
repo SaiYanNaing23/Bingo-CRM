@@ -9,11 +9,13 @@ export function PageHeader({
   description,
   action,
   back,
+  backState,
 }: {
   title: string
   description?: string
   action?: ReactNode
   back?: string
+  backState?: unknown
 }) {
   return (
     <header className="mb-7">
@@ -23,15 +25,17 @@ export function PageHeader({
           <span className="normal-case tracking-normal">
             {' '}
             /{' '}
-            <Link className="hover:underline" to={back}>
+            <Link className="hover:underline" to={back} state={backState}>
               Back to list
             </Link>
           </span>
         )}
       </div>
       <div className="flex flex-wrap items-start justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-semibold tracking-tight">{title}</h1>
+        <div className="min-w-0 flex-1">
+          <h1 className="text-3xl font-semibold tracking-tight [overflow-wrap:anywhere]">
+            {title}
+          </h1>
           {description && (
             <p className="mt-2 max-w-2xl leading-relaxed text-muted-foreground">{description}</p>
           )}

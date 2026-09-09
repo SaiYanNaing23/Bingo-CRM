@@ -15,6 +15,7 @@ import { StageHistory } from '@/features/applications/stage-history'
 import { RecordTable, Pagination } from './record-table'
 import { contactsConfig } from '@/features/contacts/config'
 import { applicationsConfig } from '@/features/applications/config'
+import { RelatedNotes } from '@/features/notes/related-notes'
 export function RelatedName({ kind, id }: { kind: Kind; id: string }) {
   const record = useRecord(kind, id)
   return record.data ? (
@@ -173,6 +174,22 @@ export function ResourceDetail({ config }: { config: ResourceConfig }) {
           <RelatedRecords config={contactsConfig} companyId={record.id} />
           <RelatedRecords config={applicationsConfig} companyId={record.id} />
         </>
+      )}
+      {config.kind !== 'notes' && (
+        <RelatedNotes
+          entity={{
+            type: (
+              {
+                companies: 'COMPANY',
+                contacts: 'CONTACT',
+                applications: 'APPLICATION',
+                tasks: 'TASK',
+                projects: 'PROJECT',
+              } as const
+            )[config.kind],
+            id: record.id,
+          }}
+        />
       )}
       <div className="mt-6">
         <Button variant="ghost" asChild>

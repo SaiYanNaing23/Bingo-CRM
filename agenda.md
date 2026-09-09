@@ -1,10 +1,10 @@
-# DevTrack CRM Backend Agenda
+# BINGO CRM Backend Agenda
 
 Goal: build a production-grade backend first for a career + project CRM, then wire frontend modules cleanly.
 
 Client roadmap: [client-agenda.md](./client-agenda.md). This file remains the backend agenda.
 
-Workstream status (2026-09-08): backend implementation is paused after Phase 4 at the user's request. Client Phases 0-5 are implemented and verified; see the separate client agenda. Backend Phases 5-11 remain future work. Backend Phase 4 implementation and automated checks are complete; its user manual testing remains pending as recorded below.
+Workstream status (2026-09-08): backend Phases 0-6 are implemented and verified, including Projects and Notes. Client Phases 0-5 and 8-9 (Projects and Notes) are implemented and verified in their separate agenda. Backend Phase 4-6 user manual checks remain separate and pending; client manual checks are also recorded separately. Backend Phases 7-11 remain future work.
 
 ## Implementation Progress
 
@@ -19,8 +19,8 @@ Workstream status (2026-09-08): backend implementation is paused after Phase 4 a
 - [x] Phase 2 - Contacts module
 - [x] Phase 3 - Applications module
 - [x] Phase 4 - Tasks module
-- [ ] Phase 5 - Projects module
-- [ ] Phase 6 - Notes module
+- [x] Phase 5 - Projects module
+- [x] Phase 6 - Notes module
 - [ ] Phase 7 - Calendar module
 - [ ] Phase 8 - Documents module
 - [ ] Phase 9 - Learning module
@@ -670,14 +670,319 @@ Phase 4 verification (2026-09-08):
 
 ## Phase 5 - Projects module
 
-- Purpose: portfolio tracking.
-- Fields: name, githubUrl, liveDemoUrl, status, stack, screenshots, lessonsLearned.
-- APIs: CRUD + filter by status/stack + progress.
+Purpose: track portfolio projects, record progress, and retain a timeline of meaningful updates.
+
+Implementation status: complete and automatically verified (2026-09-08), following the user's request to implement the Phase 5 breakdown. Ready-to-use requests and the separate pending manual checklist are in [Projects sample requests](server/docs/projects-testing.md).
+
+### Phase 5 API decisions
+
+- Required create field: `name` (trimmed, 2-200 characters).
+- Fields: `name`, nullable `githubUrl` and `liveDemoUrl`, `status`, `stack`, `screenshots`, nullable `lessonsLearned`, and integer `progress` (0-100).
+- Defaults: `status: PLANNED`, `progress: 0`, empty stack/screenshots arrays, and null optional text/URLs.
+- Statuses: `PLANNED`, `IN_PROGRESS`, `ON_HOLD`, `COMPLETED`, `ARCHIVED`.
+- PLANNED requires progress 0; IN_PROGRESS and ON_HOLD allow 0-99; COMPLETED requires 100; ARCHIVED retains any progress from 0-100. Check the final merged values on every create/progress update. No automatic status changes.
+- URLs are plain absolute HTTP(S) strings, at most 2,048 characters. Screenshot entries are URL metadata; the API does not upload or fetch images.
+- Stack: at most 30 trimmed entries of 1-50 characters; lowercase and deduplicate while retaining the first occurrence's order. Screenshot URLs: at most 20, trimmed and deduplicated; preserve URL case. Reject blank entries and null arrays. `lessonsLearned` allows up to 50,000 characters and preserves line breaks.
+- General PUT edits project details. Existing `status` and `progress` change only through the dedicated progress endpoint, which writes activity history atomically.
+- ARCHIVED is a status, separate from soft deletion. Archived projects remain readable and editable; reopening requires a valid status/progress pair.
+- Server-owned fields: UUID `id`, `userId`, timestamps, `deletedAt`, and all generated activity fields. Never accept these from a project payload.
+
+### 5.1 Projects foundation data model
+
+Goal: store user-owned portfolio records and their activity history.
+
+Deliverables:
+
+- Add `Project` with the field set above, UUID-generated TEXT keys, User relation, timestamps, and nullable deletedAt.
+- Add `ProjectStatus` and `ProjectActivityType` enums. Activity types: `CREATED`, `PROGRESS_UPDATE`, `COMMENT`.
+- Add `ProjectActivity`: id, projectId, createdById, type, nullable fromStatus/toStatus, nullable fromProgress/toProgress, nullable content, and createdAt.
+- CREATED records have null previous values and the project's initial status/progress. PROGRESS_UPDATE records store both previous and resulting values. COMMENT records have content and null state-change fields.
+- Add ownership/soft-delete, status, date, and activity-ordering indexes, plus a GIN index for stack membership filters.
+- Enforce progress range and status/progress consistency with database checks as well as request/service validation.
+- Add a new migration after Tasks and regenerate the Prisma client.
+
+Acceptance checks:
+
+- Full migration history replays in a temporary schema; the new migration applies to the existing database without resetting records.
+- Foreign keys match the current TEXT identifiers, and invalid progress/state combinations cannot be inserted directly.
+
+### 5.2 Projects module structure and validation
+
+Goal: follow the existing module architecture and reject malformed inputs consistently.
+
+Deliverables:
+
+- Add `src/modules/projects/{controllers,services,dto,routes,validators,types}` and mount `/api/v1/projects`.
+- Reuse JWT authentication, AppError, success/pagination envelopes, and active-record filtering.
+- Validate create, detail update, progress update, activity comment, UUID parameters, and list/history queries with strict schemas.
+- Reject unknown fields, empty updates, invalid types, non-integer/out-of-range progress, malformed URLs, oversized text/arrays, and invalid status/progress combinations.
+- Derive ownership and activity actor from the authenticated user.
+
+Acceptance checks:
+
+- Missing/invalid authentication returns 401. Invalid requests return 400 with `VALIDATION_ERROR`.
+- Clients cannot set userId, fabricate activity actors/history, or bypass progress history using PUT.
+
+### 5.3 Projects API baseline
+
+Goal: consistent authenticated CRUD for portfolio details.
+
+Deliverables:
+
+- `POST /api/v1/projects` creates a project and its CREATED activity in one transaction.
+- `GET /api/v1/projects` lists projects.
+- `GET /api/v1/projects/:id` reads one project.
+- `PUT /api/v1/projects/:id` updates name, URLs, stack, screenshots, and lessonsLearned. Omitted values remain unchanged; null clears optional text/URLs; empty arrays clear collections.
+- `DELETE /api/v1/projects/:id` sets deletedAt and preserves the project and activity rows.
+- Scope every operation to the authenticated owner and active rows. Return activity history separately to keep project detail payloads bounded.
+
+Acceptance checks:
+
+- Create returns 201; read/list/update/delete return 200. Delete returns `data: { id, deleted: true }`.
+- Missing, another user's, and soft-deleted IDs return 404 with `PROJECT_NOT_FOUND`.
+- General detail edits do not generate progress events. Deletion hides the project from normal list/read and activity routes.
+
+### 5.4 Projects list behavior
+
+Goal: find portfolio projects with predictable filters and pagination.
+
+Deliverables:
+
+- Support page/limit, exact status, single stack membership, and case-insensitive search over name/lessonsLearned.
+- Normalize stack query values with the same trim/lowercase rules as writes; match full entries, not substrings.
+- Support sortBy=name|progress|createdAt|updatedAt and order=asc|desc; default updatedAt desc, with id asc as tie-breaker.
+- Return the shared top-level meta. Records and totals must use the same owner, deletion, and filter conditions and a consistent database snapshot.
+
+Acceptance checks:
+
+- Combined filters, empty results, page boundaries, stable ordering, and accurate totals work.
+- Other-owner and soft-deleted projects never appear in records or totals.
+
+### 5.5 Project progress and status updates
+
+Goal: update progress consistently and retain an accurate history under retries/concurrency.
+
+Deliverables:
+
+- `PATCH /api/v1/projects/:id/progress` accepts status and/or progress plus optional content describing the change (trimmed, 1-5,000 characters when supplied).
+- Require at least status or progress; merge omitted fields with the current record, then validate the status/progress rules above.
+- Return the updated project in data. An unchanged status/progress pair is a no-op and creates no activity, even when content was supplied; use the comment endpoint for a standalone update message.
+- Serialize project detail updates, progress updates, comment creation, and deletion through the same project row lock.
+- Update the project and insert a PROGRESS_UPDATE event in one transaction. Preserve the sequence with monotonically increasing per-project activity timestamps plus an ID tie-breaker.
+
+Acceptance checks:
+
+- Starting, pausing, resuming, completing, archiving, and reopening work with valid status/progress pairs.
+- Invalid merged values return 400 `VALIDATION_ERROR` without changing the project/history.
+- Consecutive identical retries create no duplicate activity. Concurrent state changes produce a consistent from/to chain; an injected activity-write failure rolls back the project change.
+- This is state-based retry behavior, not a general idempotency-key API: a later request after an intervening state change is a new change.
+
+### 5.6 Project activity timeline
+
+Goal: retrieve automatic progress events and add short manual project updates.
+
+Deliverables:
+
+- `GET /api/v1/projects/:id/activities?page=1&limit=20` returns immutable activity records with shared pagination, oldest first by createdAt then id.
+- `POST /api/v1/projects/:id/activities` accepts only `{ content }` (trimmed, 1-5,000 characters), creates a COMMENT, and returns 201 with the activity in data.
+- Authorize both routes through the active, user-owned project. Populate actor, event type, state snapshots, and timestamp on the server.
+- Do not expose update/delete routes for activity events. Repeated comment POSTs create separate comments; no duplicate suppression is promised for comment creation.
+
+Acceptance checks:
+
+- Creation, progress/status changes, and manual comments appear in the correct order with accurate actor/state values.
+- Detail-only PUT does not create a progress entry; comment creation does not change project progress/status.
+- Missing/other-owner/deleted projects return 404 `PROJECT_NOT_FOUND` from both activity routes.
+
+### 5.7 Phase 5 verification and testing requests
+
+Goal: complete Projects before starting Notes implementation.
+
+Deliverables:
+
+- Add `test:projects` integration coverage using the existing disposable-schema test pattern.
+- Cover migration replay/constraints, CRUD, validation, normalization, ownership, archive vs deletion, filters/pagination, progress/history, concurrent changes, no-op retries, and rollback.
+- Run build, Projects integration tests, and Contacts/Applications/Tasks regressions. Exercise the existing Companies workflow as part of regression coverage.
+- Apply the checked-in migration, regenerate, verify migration status/schema agreement, and restart a compiled API as needed.
+- Reconcile [Projects sample requests](server/docs/projects-testing.md) with the implemented responses and remove the draft label only after verification.
+
+Acceptance checks:
+
+- All required automated checks and migration checks pass; temporary fixtures are removed.
+- Manual request examples cover every endpoint and failure rules, with delete checks last. User manual checkboxes stay separate from implementation progress.
+
+### 5.8 Progress
+
+- [x] 5.1 Projects foundation data model
+- [x] 5.2 Projects module structure and validation
+- [x] 5.3 Projects API baseline
+- [x] 5.4 Projects list behavior
+- [x] 5.5 Project progress and status updates
+- [x] 5.6 Project activity timeline
+- [x] 5.7 Phase 5 verification and testing requests
+
+Phase 5 verification (2026-09-08):
+
+- Applied `20260908020000_projects` to the configured database and regenerated the Prisma client. Migration status is up to date; database-to-schema comparison reports no difference.
+- Build and all 14 Projects integration scenarios pass (15 tests including the parent). Coverage includes fresh migration replay, database constraints, CRUD/defaults, strict validation, URL/array normalization, ownership, filters/pagination, progress/status history, comments, concurrent updates, no-op retries, injected-write rollback, and soft deletion.
+- Contacts, Applications, and Tasks regression suites pass: 37 scenarios, 40 tests including the parent tests. Existing Companies workflows are exercised in Applications coverage.
+- Disposable schemas were removed; Contacts fixtures were rolled back. The local compiled API was restarted to load the new routes.
+- Sample requests and expected responses cover all eight endpoints in [Projects sample requests](server/docs/projects-testing.md). User manual completion has not yet been reported.
 
 ## Phase 6 - Notes module
 
-- Purpose: reusable markdown notes connected to entities.
-- Features: markdown storage, tagging, entity binding, search by text.
+Purpose: keep reusable Markdown notes, organize them with tags, and optionally attach each note to a CRM record.
+
+Implementation status: complete and automatically verified (2026-09-08), following verified backend Phase 5. Ready-to-use requests and the separate pending manual checklist are in [Notes sample requests](server/docs/notes-testing.md).
+
+### Phase 6 API decisions
+
+- Required create fields: `title` (trimmed, 2-200 characters) and `content` (a non-whitespace Markdown string, at most 100,000 characters).
+- Preserve content exactly, including indentation, line endings, code fences, and leading/trailing whitespace; use trimming only to check that content is not blank.
+- Text must be valid Unicode without NUL characters, so it can be stored without alteration. Invalid text/field limits return 400 `VALIDATION_ERROR`; JSON bodies over the shared 1 MB transport limit return 413 `PAYLOAD_TOO_LARGE`.
+- `tags` defaults to []; allow at most 20 input entries, each trimmed and 1-40 characters. Lowercase and deduplicate, preserving first occurrence order. Reject null arrays and blank entries; [] clears tags.
+- `entity` defaults to null for a standalone note. Otherwise send the complete pair `{ "type": "PROJECT", "id": "<projectId>" }`.
+- Supported types: COMPANY, CONTACT, APPLICATION, TASK, PROJECT. Notes, activities, and future modules are not valid link targets in this phase.
+- One note has at most one target; an entity can have many notes. Omit entity on PUT to keep the link, supply a complete new pair to rebind, or use `entity: null` to detach.
+- The selected target must be owned by the authenticated user and not soft-deleted. Archived, completed, or cancelled records are valid targets when they still exist and belong to that user.
+- Response fields: id, userId, title, content, tags, entity, entityAvailable, createdAt, updatedAt, deletedAt. entityAvailable is true for an active owned target, false for an unavailable linked target, and null for a standalone note. It is read-only.
+- Existing inline Company/Contact/Application notes and Project lessonsLearned remain their own fields. No automatic import, synchronization, or deletion of those values is included.
+
+### 6.1 Notes foundation data model
+
+Goal: store Markdown and tags with real ownership and entity relationships.
+
+Deliverables:
+
+- Add Note with UUID-generated TEXT id/userId, title, content, tags, timestamps, and nullable deletedAt.
+- Internally store five nullable foreign keys: companyId, contactId, applicationId, taskId, projectId. Add a database check allowing at most one target FK to be non-null.
+- Translate the public entity object to/from those columns in the Notes service/serializer. Do not expose the internal FK columns as additional editable fields.
+- Add the User relation and reverse Note relations on each supported target; use SetNull for physical target deletion so a note becomes standalone. Normal API deletion remains soft deletion.
+- Add owner/deletedAt, updatedAt, and entity lookup indexes, plus a GIN index for tag membership.
+- Add a migration after Projects and regenerate the client.
+
+Acceptance checks:
+
+- Migrations replay in a temporary schema and apply without resetting existing records.
+- Foreign keys reject nonexistent physical targets; the one-target check rejects multiple links. Existing entity notes fields retain their data and API behavior.
+
+### 6.2 Notes module structure and validation
+
+Goal: follow the existing architecture and validate the complete public contract.
+
+Deliverables:
+
+- Add `src/modules/notes/{controllers,services,dto,routes,validators,types}` and mount `/api/v1/notes` with JWT authentication.
+- Add strict create/update/list schemas, UUID checks, and an allowlisted entity type mapping.
+- Reject empty updates, unknown fields, whitespace-only content/title, invalid tags, incomplete entity objects, unsupported entity types, and client-supplied ownership/lifecycle/internal FK fields.
+- Enforce the documented limits within the existing 1 MB JSON request limit; oversized transport bodies return the shared error envelope with 413 `PAYLOAD_TOO_LARGE`.
+
+Acceptance checks:
+
+- Missing/invalid authentication returns 401; malformed requests return 400 `VALIDATION_ERROR`.
+- Markdown text is not altered during validation or serialization.
+
+### 6.3 Notes API baseline
+
+Goal: authenticated CRUD for standalone and linked notes.
+
+Deliverables:
+
+- `POST /api/v1/notes` creates a note and returns 201.
+- `GET /api/v1/notes` lists notes with shared pagination.
+- `GET /api/v1/notes/:id` reads one note.
+- `PUT /api/v1/notes/:id` updates title/content/tags/entity; omitted fields remain unchanged and arrays replace the existing collection.
+- `DELETE /api/v1/notes/:id` soft-deletes only the note and returns `data: { id, deleted: true }` with 200.
+- Scope records and counts to the owner and deletedAt:null. Serialize update/delete with a row lock so a racing edit cannot return or modify an already deleted note.
+
+Acceptance checks:
+
+- Read/list/update return 200 with shared envelopes. Missing, another user's, and deleted note IDs return 404 `NOTE_NOT_FOUND`.
+- Soft deletion retains the note row, hides it from access/totals, and does not modify its linked entity.
+
+### 6.4 Entity binding and lifecycle
+
+Goal: attach notes safely while keeping the user's writing accessible when related records are removed.
+
+Deliverables:
+
+- Validate target existence, ownership, and deletedAt when an entity is assigned/reassigned; return 404 `NOTE_ENTITY_NOT_FOUND` for missing, other-owner, or deleted targets without revealing which case occurred.
+- Perform target validation and note write in one transaction. Lock a target row before checking its active state so link creation and the target's soft-delete serialize consistently; a target may become unavailable after a successful link if it is subsequently deleted.
+- Retain the stored link when a target is soft-deleted. Notes remain readable/listable by their owner, with entityAvailable:false and no embedded target details.
+- Allow content/tag/title edits of a note whose target is now unavailable when entity is omitted. Explicitly assigning the same deleted target still fails; entity:null or a valid replacement can detach/rebind it.
+- Batch target availability lookups for list results to avoid one query per note. Apply ownership checks to availability as well as assignment.
+
+Acceptance checks:
+
+- Standalone notes, all five target types, reassignment, detachment, and invalid cross-owner binding are covered.
+- A deleted target does not erase/hide the note or expose another user's record. A failed rebind leaves the note and original link unchanged.
+- Concurrency tests cover linking/rebinding vs target deletion and note editing vs note deletion; no mutation resurrects a deleted note or target.
+
+### 6.5 Notes tagging, search, and list behavior
+
+Goal: find notes by their content, tags, or linked entity.
+
+Deliverables:
+
+- Support page/limit, a single normalized tag membership filter, and case-insensitive search over title and raw Markdown content.
+- Support entityType and entityId together as an exact link filter. Require both or neither and validate the pair; unsupported/incomplete pairs return 400 `VALIDATION_ERROR`.
+- List filters operate on stored links and never return target details. A valid pair with no owned active notes returns an empty list, even if the target is missing or unavailable; this preserves access to notes of soft-deleted targets without exposing target existence.
+- Combine supplied filters with AND; search itself matches title OR content.
+- Support sortBy=title|createdAt|updatedAt, order=asc|desc; default updatedAt desc and id asc tie-breaker. Return records/totals from a consistent snapshot.
+
+Acceptance checks:
+
+- Tag normalization, duplicate removal, full-tag matching, combined filters, entity filtering, raw-Markdown search, ordering, and pagination work with accurate totals.
+- Another user's and soft-deleted notes are excluded everywhere.
+
+### 6.6 Markdown storage contract
+
+Goal: return faithful source text for the future client editor and preview.
+
+Deliverables:
+
+- Store Markdown as text and return it in JSON. Do not render HTML, execute code, or fetch URLs from note content.
+- Document that a future client Markdown renderer must disable or sanitize raw HTML before inserting rendered content into the page. Backend storage is not an HTML sanitization guarantee.
+- Include round-trip examples with headings, lists, fenced code, links, Unicode, and line breaks, plus maximum-length/blank-content cases.
+
+Acceptance checks:
+
+- Saved/retrieved content matches the submitted text exactly, including code indentation and Unicode.
+- Search operates on the stored source; there is no HTML execution or external URL request during CRUD.
+
+### 6.7 Phase 6 verification and testing requests
+
+Goal: finish Notes with integration coverage and runnable user requests.
+
+Deliverables:
+
+- Add `test:notes` with the existing disposable-schema pattern. Cover migration/FK/check constraints, Markdown round trips, CRUD, validation, tags/search/pagination, all entity types, cross-owner access, target deletion, detach/rebind, and concurrency/rollback.
+- Run build, Notes and Projects integration tests, and Contacts/Applications/Tasks regressions, including existing Companies workflows.
+- Apply the migration, regenerate, verify migration status/schema agreement, and restart a compiled API as needed.
+- Reconcile [Notes sample requests](server/docs/notes-testing.md) with the implemented API, then remove the draft label after verification.
+
+Acceptance checks:
+
+- All required checks pass and temporary schemas/fixtures are removed before marking completion.
+- Every endpoint has a copyable request, expected result, and negative checks. Manual completion is recorded only after the user reports it.
+
+### 6.8 Progress
+
+- [x] 6.1 Notes foundation data model
+- [x] 6.2 Notes module structure and validation
+- [x] 6.3 Notes API baseline
+- [x] 6.4 Entity binding and lifecycle
+- [x] 6.5 Notes tagging, search, and list behavior
+- [x] 6.6 Markdown storage contract
+- [x] 6.7 Phase 6 verification and testing requests
+
+Phase 6 verification (2026-09-08):
+
+- Applied `20260908030000_notes` and regenerated the Prisma client. Migration status is up to date; database-to-schema comparison reports no difference. The compiled local API was restarted with Notes enabled.
+- Build and all 19 Notes integration scenarios pass (20 tests including the parent), covering migration/FK/check constraints, exact Markdown round trips, CRUD, strict validation/body limits, tags/search/pagination, all five entity types, ownership, archive/completion rules, target deletion, detach/rebind, batched availability, rollback, and concurrent mutation/deletion.
+- Contacts, Applications, Tasks, and Projects regression suites pass: 51 scenarios, 55 tests including parent tests. Existing Companies workflows are included. Total for this verification: 75 passing tests.
+- Test schemas were removed and Contacts fixtures rolled back. No user manual completion has been reported; the separate checklist remains unchecked in [Notes sample requests](server/docs/notes-testing.md).
+- Repaired a migration advisory-lock timeout left on an idle Neon pooled connection: released the identified stale lock, then applied the migration using the direct endpoint. `prisma.config.ts` now honors optional DIRECT_URL, otherwise derives a direct endpoint for Neon CLI operations. Runtime API connections continue using DATABASE_URL.
 
 ## Phase 7 - Calendar module
 

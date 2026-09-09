@@ -9,6 +9,8 @@ import {
   UserRound,
   BriefcaseBusiness,
   CheckSquare2,
+  FolderKanban,
+  NotebookPen,
 } from 'lucide-react'
 import { useAuth } from '@/features/auth/auth-context'
 import {
@@ -21,7 +23,8 @@ import {
 } from '@/components/ui/table'
 import { Button } from '@/components/ui/button'
 import { StatusBadge } from './status-badge'
-import { resourceApi, titleOf, valueOf, type Entity } from '@/lib/resources'
+import { resourceApi, titleOf, valueOf, type Entity, type Kind } from '@/lib/resources'
+import { entityKinds, type NoteEntity } from '@/features/notes/types'
 import { displayDate } from '@/lib/dates'
 import { friendly, type ResourceConfig } from '@/lib/fields'
 import type { PageMeta } from '@/lib/api-types'
@@ -30,6 +33,8 @@ const icons = {
   contacts: UserRound,
   applications: BriefcaseBusiness,
   tasks: CheckSquare2,
+  projects: FolderKanban,
+  notes: NotebookPen,
 }
 
 function RecordAvatar({ record, kind }: { record: Entity; kind: ResourceConfig['kind'] }) {
@@ -62,13 +67,16 @@ function useRelationshipNames(rows: Entity[]) {
         .flatMap((row) => [
           valueOf(row, 'companyId') ? `companies:${valueOf(row, 'companyId')}` : '',
           valueOf(row, 'recruiter') ? `contacts:${valueOf(row, 'recruiter')}` : '',
+          valueOf(row, 'entityAvailable') && valueOf(row, 'entity')
+            ? `${entityKinds[(valueOf(row, 'entity') as NoteEntity).type]}:${(valueOf(row, 'entity') as NoteEntity).id}`
+            : '',
         ])
         .filter(Boolean),
     ),
   ]
   const queries = useQueries({
     queries: relationships.map((reference) => {
-      const [kind, id] = reference.split(':') as ['companies' | 'contacts', string]
+      const [kind, id] = reference.split(':') as [Kind, string]
       return {
         queryKey: ['crm', user?.id, kind, 'detail', id],
         queryFn: ({ signal }: { signal: AbortSignal }) => resourceApi(kind).get(id, signal),
@@ -78,7 +86,7 @@ function useRelationshipNames(rows: Entity[]) {
   })
   return Object.fromEntries(
     relationships.map((ref, index) => [
-      ref.split(':')[1],
+      ref,
       queries[index].data
         ? titleOf(queries[index].data.data)
         : queries[index].isError
@@ -131,18 +139,64 @@ export function RecordTable({
               </Link>
             )
           if (value === null || value === undefined || value === '')
-            return <span className="text-muted-foreground">—</span>
+            return (
+              <span className="text-muted-foreground">{key === 'entity' ? 'Standalone' : '—'}</span>
+            )
           if (['companyId', 'recruiter'].includes(key))
-            return <span className="block max-w-44 truncate">{names[String(value)]}</span>
+            return (
+              <span className="block max-w-44 truncate">
+                {names[`${key === 'companyId' ? 'companies' : 'contacts'}:${String(value)}`]}
+              </span>
+            )
+          if (key === 'entity') {
+            const entity = value as NoteEntity
+            const kind = entityKinds[entity.type]
+            return (
+              <div className="max-w-52 space-y-1">
+                <span className="block text-xs text-muted-foreground">{friendly(entity.type)}</span>
+                {valueOf(record, 'entityAvailable') ? (
+                  <Link
+                    to={`/${kind}/${entity.id}`}
+                    className="block truncate text-link hover:underline"
+                  >
+                    {names[`${kind}:${entity.id}`]}
+                  </Link>
+                ) : (
+                  <span className="text-muted-foreground">Unavailable record</span>
+                )}
+              </div>
+            )
+          }
+          if (key === 'progress')
+            return (
+              <div className="min-w-24 space-y-1">
+                <span>{String(value)}%</span>
+                <progress
+                  className="project-progress block h-1.5 w-full overflow-hidden rounded-full"
+                  aria-label={`${titleOf(record)} progress`}
+                  value={Number(value)}
+                  max={100}
+                />
+              </div>
+            )
           if (['status', 'stage', 'priority'].includes(key))
             return <StatusBadge value={String(value)} />
-          if (['dueDate', 'dateApplied', 'nextFollowUpAt'].includes(key))
+          if (['dueDate', 'dateApplied', 'nextFollowUpAt', 'updatedAt', 'createdAt'].includes(key))
             return (
               <span className="whitespace-nowrap text-muted-foreground">
                 {displayDate(value, valueOf(record, 'timezone') as string | undefined)}
               </span>
             )
           if (key === 'remote') return value ? 'Remote' : 'Not remote'
+          if (Array.isArray(value))
+            return (
+              <span
+                className="block max-w-52 truncate text-muted-foreground"
+                title={value.join(', ')}
+              >
+                {value.join(', ') || '—'}
+              </span>
+            )
           return (
             <span className="block max-w-52 truncate text-muted-foreground">
               {key === 'type' ? friendly(String(value)) : String(value)}

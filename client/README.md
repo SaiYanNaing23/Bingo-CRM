@@ -1,6 +1,6 @@
 # BINGO CRM client
 
-React + TypeScript + Vite, shadcn/ui and Tailwind, React Router, TanStack Query/Table, React Hook Form and Zod. Implements client Phases 0-5 against the existing Express API: authentication, Companies, Contacts, Applications, Tasks and Today. Also includes Settings → Appearance (client 6.6).
+React + TypeScript + Vite, shadcn/ui and Tailwind, React Router, TanStack Query/Table, React Hook Form and Zod. Implements authentication, Companies, Contacts, Applications, Tasks and Today (client Phases 0-5), plus Projects (client Phase 8) and Notes (client Phase 9) against the Express API. Also includes Settings → Appearance (client 6.6). Backend Projects/Notes are numbered 5/6; client numbering stays separate.
 
 Branding uses the supplied [BINGO CRM logo](public/branding/bingo-crm-logo.png) in the sidebar, authentication screens, and browser icon. The original PNG is kept intact, with a white backing in both color modes. Replace that asset to change the logo later. Existing `devtrack` storage keys are retained so saved sessions and appearance preferences continue working.
 
@@ -26,7 +26,7 @@ Open the URL Vite prints (normally `http://127.0.0.1:5173`). Use your existing b
 
 The client defaults to `http://localhost:4000/api/v1`. To override it, copy `.env.example` to `.env` and edit `VITE_API_BASE_URL`, then restart Vite. If the backend uses a specific `CORS_ORIGIN`, set it to the actual browser origin, including scheme and port. For example, `http://127.0.0.1:5173` and `http://localhost:5173` are different origins.
 
-The backend database migrations through Tasks must already be applied. Backend setup is documented in [server README](../server/src/README.md).
+The backend database migrations through Notes must already be applied. Backend setup is documented in [server README](../server/src/README.md).
 
 ## Verify
 
@@ -52,14 +52,14 @@ For a local production build preview, run `npm.cmd run preview` after building. 
 ## Structure and behavior
 
 - `src/app`: route composition, auth guards, responsive workspace shell, development-only design preview.
-- `src/features/<domain>`: domain types, field/filter configuration, and page entrypoints. Applications and Tasks own their history/Today screens.
+- `src/features/<domain>`: domain types, field/filter configuration, and page entrypoints. Applications and Tasks own their history/Today screens. Projects owns its form, progress dialog, and activity history; Notes owns its editor, preview, entity selection, and related-record sections.
 - `src/components/ui`: official shadcn component source, with local import paths and shared theme tokens.
 - `src/components/shared`: the repeated list/detail/editor pattern, relationship pickers, domain actions, and page states.
 - `src/lib`: typed transport/response contracts, resource query hooks, form validation/payload mapping, date conversion, and session management.
 - `src/features/settings`: appearance context, validated browser preferences, preset metadata, and the Settings page.
 - `src/styles`: the user's exact Amber Stone light/dark theme in `globals.css`, plus alternate accent palettes in `theme-presets.css`.
 
-Forms and filters use shadcn Select for fixed options and Popover/Command comboboxes for companies, recruiters, and timezones. Relationship search and pagination use the API; selected records remain visible across option pages. Date/time fields combine shadcn Calendar/Popover with a date text input (`YYYY-MM-DD`) and a separate shadcn time Input, including seconds. Calendar month/year selectors also use shadcn Select. Date filters have an explicit Apply button so incomplete typing does not change the list query.
+Forms and filters use shadcn Select for fixed options and Popover/Command comboboxes for related records and timezones. Relationship search and pagination use the API; selected records remain visible across option pages. Notes supports companies, contacts, applications, tasks, and projects. Date/time fields combine shadcn Calendar/Popover with a date text input (`YYYY-MM-DD`) and a separate shadcn time Input, including seconds. Calendar month/year selectors also use shadcn Select. Date filters have an explicit Apply button so incomplete typing does not change the list query.
 
 The workspace uses the official shadcn Sidebar in its inset layout: desktop icon collapse, tooltips, a mobile sheet, and an account Dropdown Menu for Appearance and Sign out. Use the header toggle or Ctrl/Cmd+B outside text fields. Desktop collapse is remembered in the `sidebar_state` browser cookie for seven days, independently of appearance settings. The workspace shell loads after authentication to keep sidebar dependencies off the initial sign-in bundle.
 
@@ -67,7 +67,13 @@ Search/filter/sort/page state lives in the URL. Lists use server pagination. Rel
 
 Form inputs use the chosen named timezone. Nonexistent daylight-saving times are rejected. Ambiguous fall-back times follow date-fns-tz's offset selection; unchanged existing timestamps preserve their exact original instant, including milliseconds. Task recurrence is calculated by the backend.
 
-The visual preview is at `/design-preview` in development. It contains labeled sample data and cannot create backend records. Overview, timezone/sidebar preferences, and later roadmap phases remain planned.
+Projects uses a separate progress action: detail PUT requests never include status/progress. Its oldest-first activity feed has server pagination and a separate comment form. Screenshot URLs display previews with a fallback; this is not an upload service.
+
+Notes uses [react-markdown](https://github.com/remarkjs/react-markdown) with [remark-gfm](https://github.com/remarkjs/remark-gfm) for tables and task lists. Raw HTML is skipped; links allow HTTP(S), mailto, and local fragments, with external links isolated from the opener. Markdown images are explicit links rather than automatically fetched images. Do not add raw-HTML execution plugins without reviewing this contract. The renderer is loaded with the lazy Notes route.
+
+Notes stores the original Markdown source. A title-only edit omits content, preserving preexisting CRLF line endings. An unchanged entity is also omitted, so text edits continue working after the target is deleted. Changed links replace the single type/id pair, and Standalone sends null. Tags/stack/screenshot lists use one entry per line; unchanged arrays are omitted on edits. Drafts stay in React Hook Form and are protected by a navigation confirmation; they are not persisted to browser storage.
+
+The visual preview is at `/design-preview` in development. It contains labeled sample data and cannot create backend records. Overview, a global timezone preference, release-wide verification, and client Phases 10 onward remain planned.
 
 ## Appearance
 
@@ -87,6 +93,8 @@ The additional `--link-foreground` token uses the primary color in light mode an
 - [Phase 3 - Contacts](docs/phase-3-testing.md)
 - [Phase 4 - Applications](docs/phase-4-testing.md)
 - [Phase 5 - Tasks and Today](docs/phase-5-testing.md)
+- [Phase 8 - Projects](docs/phase-8-testing.md)
+- [Phase 9 - Notes](docs/phase-9-testing.md)
 - [Appearance settings (6.6)](docs/appearance-testing.md)
 - [shadcn dropdowns, date/time picker, and sidebar](docs/shadcn-controls-testing.md)
 

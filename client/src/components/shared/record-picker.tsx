@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Check, ChevronsUpDown } from 'lucide-react'
-import { useRecord, useRecords, titleOf } from '@/lib/resources'
+import { useRecord, useRecords, titleOf, type Kind } from '@/lib/resources'
 import { Button } from '@/components/ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import {
@@ -27,7 +27,7 @@ export function RecordPicker({
   onBlur,
   ref,
 }: {
-  kind: 'companies' | 'contacts'
+  kind: Exclude<Kind, 'notes'>
   id: string
   label: string
   value: string

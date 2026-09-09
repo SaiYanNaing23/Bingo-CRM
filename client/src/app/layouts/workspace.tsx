@@ -11,6 +11,8 @@ import {
   Settings2,
   ChevronsUpDown,
   Palette,
+  FolderKanban,
+  NotebookPen,
 } from 'lucide-react'
 import { Separator } from '@/components/ui/separator'
 import {
@@ -58,7 +60,14 @@ const groups = [
       { label: 'Today', to: '/tasks/today', icon: CalendarDays },
     ],
   },
-  { label: 'Workspace', links: [{ label: 'Settings', to: '/settings', icon: Settings2 }] },
+  {
+    label: 'Workspace',
+    links: [
+      { label: 'Projects', to: '/projects', icon: FolderKanban },
+      { label: 'Notes', to: '/notes', icon: NotebookPen },
+      { label: 'Settings', to: '/settings', icon: Settings2 },
+    ],
+  },
 ]
 function savedSidebarOpen() {
   try {

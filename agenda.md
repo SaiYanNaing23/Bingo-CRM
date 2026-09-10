@@ -4,7 +4,7 @@ Goal: build a production-grade backend first for a career + project CRM, then wi
 
 Client roadmap: [client-agenda.md](./client-agenda.md). This file remains the backend agenda.
 
-Workstream status (2026-09-08): backend Phases 0-6 are implemented and verified, including Projects and Notes. Client Phases 0-5 and 8-9 (Projects and Notes) are implemented and verified in their separate agenda. Backend Phase 4-6 user manual checks remain separate and pending; client manual checks are also recorded separately. Backend Phases 7-11 remain future work.
+Workstream status (2026-09-09): backend Phases 0-7 are implemented and verified, including Projects, Notes, and Calendar. Client Phases 0-5 and 8-9 (Projects and Notes) are implemented and verified in their separate agenda. Backend Phase 4-7 user manual checks remain separate and pending; client manual checks are also recorded separately. Backend Phases 8-11 remain future work.
 
 ## Implementation Progress
 
@@ -21,7 +21,7 @@ Workstream status (2026-09-08): backend Phases 0-6 are implemented and verified,
 - [x] Phase 4 - Tasks module
 - [x] Phase 5 - Projects module
 - [x] Phase 6 - Notes module
-- [ ] Phase 7 - Calendar module
+- [x] Phase 7 - Calendar module
 - [ ] Phase 8 - Documents module
 - [ ] Phase 9 - Learning module
 - [ ] Phase 10 - Interviews
@@ -986,9 +986,103 @@ Phase 6 verification (2026-09-08):
 
 ## Phase 7 - Calendar module
 
-- Purpose: interviews + follow-ups + deadlines planning.
-- Fields: title, type, startAt, endAt, sourceEntityId, reminders.
-- APIs: range views + event list.
+Purpose: plan interviews, follow-ups, and deadlines with owned calendar events, named timezones, optional CRM source links, and reminder schedules.
+
+### Phase 7 API decisions
+
+- Mount the module at `/api/v1/calendar`. Event CRUD uses `/events` and `/events/:id`; `/range` supplies day/week/month or custom range views; `/reminders` lists scheduled reminder times. All routes require JWT authentication.
+- Event fields: title (trimmed, 2–200 characters), type (`INTERVIEW`, `FOLLOW_UP`, `DEADLINE`, `OTHER`; default OTHER), startAt, optional endAt, timezone (default UTC), optional sourceEntityType/sourceEntityId pair, and reminders (default []). Timestamps require an explicit UTC offset and at most millisecond precision. Null endAt is a point event; a supplied endAt must be strictly later than startAt.
+- Source types are COMPANY, CONTACT, APPLICATION, TASK, PROJECT. Use real nullable foreign keys internally and expose one source pair. Omitted update fields stay unchanged; both source fields set to null detach. Soft-deleted sources leave events readable with sourceAvailable:false. Source links do not change or synchronize the source record's dates.
+- Reminders are up to five unique integer minute offsets before startAt, from 0 through 10,080 (one week), sorted ascending. An empty array clears them. Reminder times are calculated from the current event; this phase exposes schedules, without claiming email/push delivery or adding a background notification service.
+- Range boundaries are inclusive from and exclusive to. Include intervals overlapping the window, including events that started earlier, and point events starting inside it. Named views resolve actual local midnight boundaries, including daylight-saving changes; weeks start Monday. Custom ranges span at most 366 days. Every event/reminder list is paginated with stable ordering.
+
+### 7.1 Calendar foundation data model
+
+Goal: durable event storage with ownership and source relationships.
+
+- Add CalendarEventType and CalendarEvent with UUID identity, owner, timestamps, soft deletion, event fields, reminders, and five optional source foreign keys.
+- Add owner/date/type/source indexes and database checks for event intervals, title length, reminders, and at most one source.
+- Check in the migration and regenerate Prisma. Replay migrations in an isolated schema before applying the new migration to the configured database.
+
+Acceptance: fresh migration replay works, database constraints reject invalid intervals/links/reminders, and existing models remain compatible.
+
+### 7.2 Calendar module structure and validation
+
+Goal: validate request shapes and calendar semantics before writes.
+
+- Create controllers, services, DTOs, routes, validators, and types using the existing module pattern.
+- Reject unknown/server-owned fields, empty updates, invalid Unicode/NUL, malformed dates, unsupported timezones, invalid source pairs, and invalid reminder arrays.
+- Validate merged start/end state on partial updates; retain field-specific validation errors.
+
+Acceptance: invalid payloads and queries return the existing VALIDATION_ERROR envelope, without partial writes.
+
+### 7.3 Calendar event CRUD
+
+Goal: create, list, read, update, and soft-delete events.
+
+- Implement POST/GET `/events` and GET/PUT/DELETE `/events/:id`.
+- Support title search, event type, paired source filters, optional paired overlap bounds, whitelisted sorting, and standard pagination.
+- Use ownership predicates on every operation, row locks for mutations, and consistent snapshots for list totals/items.
+
+Acceptance: CRUD, partial updates, reminder clearing, stable pagination, and missing/foreign/deleted-record behavior match the other modules.
+
+### 7.4 Source binding and lifecycle
+
+Goal: safely attach an event to at most one owned CRM record.
+
+- Lock and authorize newly selected active sources within the event write transaction.
+- Preserve unchanged unavailable sources, allow explicit detach/rebind, and batch source availability checks by type.
+- Physical source deletion clears the foreign key; soft deletion retains the reference without exposing another user's source details.
+
+Acceptance: all five types, cross-owner rejection, target deletion, concurrent deletion/rebinding, and rollback are covered.
+
+### 7.5 Calendar range views
+
+Goal: return complete, paginated overlap views with unambiguous boundaries.
+
+- GET `/range` accepts either view=day|week|month with date=YYYY-MM-DD, or a paired from/to timestamp range; timezone defaults to UTC.
+- Resolve local calendar boundaries in PostgreSQL, validate its timezone support, and return the resolved UTC range, timezone, view, events, and pagination metadata.
+- Apply the same type/search/source filters and stable startAt/id ordering as the event list.
+
+Acceptance: point/interval overlap edges, overnight events, local weeks/months, leap dates, DST transitions, empty ranges, and pagination are verified.
+
+### 7.6 Reminder schedules
+
+Goal: expose useful reminder times without stale duplicated schedules.
+
+- GET `/reminders?from=...&to=...` returns owned active event reminders due in a half-open window of at most 31 days.
+- Calculate remindAt from startAt minus each minute offset; include event identity/title/type/timezone and minutesBefore. Paginate with stable remindAt/eventId/offset ordering.
+- Event rescheduling, reminder replacement/clearing, and deletion immediately change the returned schedule.
+
+Acceptance: timezone offsets, boundary times, duplicate normalization, rescheduling, deletion, ownership, and pagination work without dispatching notifications.
+
+### 7.7 Verification and testing requests
+
+Goal: deliver a working module and a reproducible handoff.
+
+- Add `test:calendar` using the disposable-schema integration harness. Cover migration constraints, CRUD, validation, ranges/timezones, source lifecycle, reminder schedules, concurrency, and rollback.
+- Run the backend build, Calendar tests, and relevant existing module regressions. Apply the verified migration, confirm Prisma schema alignment, and restart the local compiled API if it is running.
+- Add `server/docs/calendar-testing.md` with requests, response shapes, failure examples, timezone/reminder semantics, and separate unchecked user manual tests. Update the server runbook and this progress record only after verification.
+
+### 7.8 Progress
+
+- [x] 7.1 Calendar foundation data model
+- [x] 7.2 Calendar module structure and validation
+- [x] 7.3 Calendar event CRUD
+- [x] 7.4 Source binding and lifecycle
+- [x] 7.5 Calendar range views
+- [x] 7.6 Reminder schedules
+- [x] 7.7 Verification and testing requests
+
+### 7.9 Automated verification (2026-09-09)
+
+- Implemented all seven authenticated Calendar routes with validated event CRUD, source binding, local calendar views, and reminder schedules. Added [sample requests and a separate manual checklist](server/docs/calendar-testing.md).
+- Prisma generation and the backend build pass. Applied `20260909000000_calendar` to the configured database; all nine migrations are applied and Prisma's datasource-to-schema comparison reports no differences.
+- Calendar passes all 18 integration scenarios (19 tests including the parent). Coverage includes fresh migrations and database constraints, validation, ownership, stable pagination, overlap boundaries, DST/leap dates, all five source types and deletion lifecycle, reminder rescheduling/clearing, concurrent mutations, and rollback.
+- Fixed the date-limit case found during verification: named views whose UTC boundaries fall outside years 0001-9999 return a validation error before database results are deserialized. Supported boundary dates and a timezone crossing the lower limit are also covered.
+- Contacts, Applications, Tasks, Projects, and Notes regressions pass: 70 scenarios, 75 tests including parents. Together with Calendar, this verification has 94 passing tests. Companies workflows are exercised by the existing suites.
+- Parallel test runs encountered hosted-database connection timeouts. Re-ran the affected Applications, Calendar, Projects, and Tasks suites sequentially: all 64 tests pass. Contacts and Notes had already passed all 30 tests. The request guide includes the sequential command for future full regression runs.
+- The existing local development API is running on port 4000 with Calendar routes loaded. Health returns 200; unauthenticated event, range, and reminder requests return 401 AUTH_MISSING_TOKEN. The generated runtime client successfully reads the deployed Calendar table. Automated fixtures use disposable schemas or rolled-back transactions; no disposable schemas remain. User manual results remain pending in the separate checklist.
 
 ## Phase 8 - Documents module
 

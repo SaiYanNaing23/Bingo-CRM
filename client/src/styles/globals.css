@@ -192,6 +192,9 @@
   .markdown-content :is(p, ul, ol, blockquote, pre, table) {
     @apply my-4;
   }
+  .markdown-content :is(p, h1, h2, h3, h4, h5, h6) {
+    white-space: pre-wrap;
+  }
   .markdown-content ul {
     @apply list-disc pl-6;
   }
@@ -233,6 +236,37 @@
   }
   .markdown-content input[type='checkbox'] {
     @apply mr-2 accent-primary;
+  }
+  .rich-text-content {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+  .rich-text-content:focus-visible {
+    outline: none;
+  }
+  .rich-text-content p:empty::after {
+    content: '\00a0';
+  }
+  .rich-text-content ul[data-type='taskList'] {
+    @apply list-none pl-0;
+  }
+  .rich-text-content li[data-type='taskItem'] {
+    @apply flex items-start gap-2;
+  }
+  .rich-text-content li[data-type='taskItem'] > label {
+    @apply mt-1 shrink-0;
+  }
+  .rich-text-content li[data-type='taskItem'] > div {
+    @apply min-w-0 flex-1;
+  }
+  .rich-text-content li p {
+    @apply my-0;
+  }
+  .rich-text-content table {
+    @apply table-fixed;
+  }
+  .rich-text-content .selectedCell {
+    @apply bg-accent;
   }
 }
 @media (prefers-reduced-motion: reduce) {

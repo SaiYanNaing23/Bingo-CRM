@@ -67,7 +67,7 @@ export async function request<T>(
 }
 export function safeReturnPath(value: unknown, fallback = '/companies') {
   return typeof value === 'string' &&
-    /^\/(companies|contacts|applications|tasks|projects|notes|settings)(\/|\?|$)/.test(value) &&
+    /^\/(companies|contacts|applications|tasks|projects|notes|calendar|settings)(\/|\?|$)/.test(value) &&
     !value.includes('\\')
     ? value
     : fallback

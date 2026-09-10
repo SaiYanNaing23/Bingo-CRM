@@ -1,23 +1,15 @@
 import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 
-function previewUrl(url: string) {
-  if (/^#[\w-]+$/.test(url)) return url
-  try {
-    const parsed = new URL(url)
-    if (['https:', 'http:', 'mailto:'].includes(parsed.protocol)) return url
-  } catch {
-    /* Relative or malformed destinations are shown as text. */
-  }
-  return ''
-}
+import { noteUrl } from './note-url'
+
 export function MarkdownPreview({ content }: { content: string }) {
   return (
-    <div className="markdown-content min-w-0 break-words" aria-label="Markdown preview">
+    <div className="markdown-content min-w-0 break-words" aria-label="Formatted note">
       <Markdown
         remarkPlugins={[remarkGfm]}
         skipHtml
-        urlTransform={previewUrl}
+        urlTransform={noteUrl}
         components={{
           a: ({ href, children }) =>
             href ? (

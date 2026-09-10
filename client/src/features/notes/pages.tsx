@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { Link, useLocation, useParams, useSearchParams } from 'react-router'
 import { useEditorNavigation } from '@/lib/use-editor-navigation'
 import { toast } from 'sonner'
@@ -79,7 +78,6 @@ function List() {
 function Detail() {
   const { id } = useParams(),
     location = useLocation()
-  const [source, setSource] = useState(false)
   const result = useRecord('notes', id)
   const from = safeReturnPath(location.state?.from, '/notes')
   if (result.isPending) return <Loading />
@@ -105,36 +103,9 @@ function Detail() {
       <section className="panel overflow-hidden">
         <div className="flex flex-wrap items-center justify-between gap-3 border-b px-6 py-4">
           <h2 className="font-semibold">Note content</h2>
-          <div className="flex gap-2" role="group" aria-label="Note view">
-            <Button
-              size="sm"
-              variant={source ? 'ghost' : 'secondary'}
-              aria-pressed={!source}
-              onClick={() => setSource(false)}
-            >
-              Preview
-            </Button>
-            <Button
-              size="sm"
-              variant={source ? 'secondary' : 'ghost'}
-              aria-pressed={source}
-              onClick={() => setSource(true)}
-            >
-              Source
-            </Button>
-          </div>
         </div>
         <div className="p-6">
-          {source ? (
-            <pre
-              aria-label="Markdown source"
-              className="overflow-x-auto whitespace-pre-wrap break-words font-mono text-sm leading-7"
-            >
-              {note.content}
-            </pre>
-          ) : (
-            <MarkdownPreview content={note.content} />
-          )}
+          <MarkdownPreview content={note.content} />
         </div>
       </section>
       <section className="panel mt-6 p-6">

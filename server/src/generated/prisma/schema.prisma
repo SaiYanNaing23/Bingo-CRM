@@ -76,6 +76,13 @@ enum ProjectActivityType {
   COMMENT
 }
 
+enum CalendarEventType {
+  INTERVIEW
+  FOLLOW_UP
+  DEADLINE
+  OTHER
+}
+
 model User {
   id                String                    @id @default(uuid())
   fullName          String
@@ -93,33 +100,35 @@ model User {
   projects          Project[]
   projectActivities ProjectActivity[]
   notes             Note[]
+  calendarEvents    CalendarEvent[]
 
   @@index([deletedAt])
   @@index([role])
 }
 
 model Company {
-  id           String        @id @default(uuid())
-  userId       String
-  logo         String?
-  name         String
-  country      String?
-  industry     String?
-  website      String?
-  linkedIn     String?
-  careerPage   String?
-  techStack    String[]
-  size         Int?
-  salaryRange  String?
-  remote       Boolean       @default(false)
-  notes        String?
-  status       CompanyStatus @default(ACTIVE)
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
-  deletedAt    DateTime?
-  contacts     Contact[]
-  applications Application[]
-  linkedNotes  Note[]
+  id             String          @id @default(uuid())
+  userId         String
+  logo           String?
+  name           String
+  country        String?
+  industry       String?
+  website        String?
+  linkedIn       String?
+  careerPage     String?
+  techStack      String[]
+  size           Int?
+  salaryRange    String?
+  remote         Boolean         @default(false)
+  notes          String?
+  status         CompanyStatus   @default(ACTIVE)
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  deletedAt      DateTime?
+  contacts       Contact[]
+  applications   Application[]
+  linkedNotes    Note[]
+  calendarEvents CalendarEvent[]
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -146,10 +155,11 @@ model Contact {
   updatedAt      DateTime  @updatedAt
   deletedAt      DateTime?
 
-  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-  company      Company       @relation(fields: [companyId], references: [id], onDelete: Cascade)
-  applications Application[]
-  linkedNotes  Note[]
+  user           User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  company        Company         @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  applications   Application[]
+  linkedNotes    Note[]
+  calendarEvents CalendarEvent[]
 
   @@index([userId])
   @@index([userId, deletedAt])
@@ -176,6 +186,7 @@ model Application {
   recruiterContact Contact?                  @relation(fields: [recruiter], references: [id], onDelete: SetNull)
   stageHistory     ApplicationStageHistory[]
   linkedNotes      Note[]
+  calendarEvents   CalendarEvent[]
 
   @@index([userId, deletedAt])
   @@index([userId, companyId])
@@ -216,10 +227,11 @@ model Task {
   updatedAt          DateTime          @updatedAt
   deletedAt          DateTime?
 
-  user             User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  recurrenceSource Task?  @relation("TaskRecurrence", fields: [recurrenceSourceId], references: [id], onDelete: SetNull)
-  nextOccurrence   Task?  @relation("TaskRecurrence")
+  user             User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  recurrenceSource Task?           @relation("TaskRecurrence", fields: [recurrenceSourceId], references: [id], onDelete: SetNull)
+  nextOccurrence   Task?           @relation("TaskRecurrence")
   linkedNotes      Note[]
+  calendarEvents   CalendarEvent[]
 
   @@index([userId, deletedAt])
   @@index([userId, dueDate])
@@ -243,9 +255,10 @@ model Project {
   updatedAt      DateTime      @updatedAt
   deletedAt      DateTime?
 
-  user        User              @relation(fields: [userId], references: [id], onDelete: Cascade)
-  activities  ProjectActivity[]
-  linkedNotes Note[]
+  user           User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  activities     ProjectActivity[]
+  linkedNotes    Note[]
+  calendarEvents CalendarEvent[]
 
   @@index([userId, deletedAt])
   @@index([userId, status])
@@ -302,4 +315,39 @@ model Note {
   @@index([taskId])
   @@index([projectId])
   @@index([tags], type: Gin)
+}
+
+model CalendarEvent {
+  id            String            @id @default(uuid())
+  userId        String
+  title         String
+  type          CalendarEventType @default(OTHER)
+  startAt       DateTime          @db.Timestamptz(3)
+  endAt         DateTime?         @db.Timestamptz(3)
+  timezone      String            @default("UTC")
+  reminders     Int[]             @default([])
+  companyId     String?
+  contactId     String?
+  applicationId String?
+  taskId        String?
+  projectId     String?
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+  deletedAt     DateTime?
+
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  company     Company?     @relation(fields: [companyId], references: [id], onDelete: SetNull)
+  contact     Contact?     @relation(fields: [contactId], references: [id], onDelete: SetNull)
+  application Application? @relation(fields: [applicationId], references: [id], onDelete: SetNull)
+  task        Task?        @relation(fields: [taskId], references: [id], onDelete: SetNull)
+  project     Project?     @relation(fields: [projectId], references: [id], onDelete: SetNull)
+
+  @@index([userId, deletedAt, startAt, id])
+  @@index([userId, endAt])
+  @@index([userId, type])
+  @@index([companyId])
+  @@index([contactId])
+  @@index([applicationId])
+  @@index([taskId])
+  @@index([projectId])
 }

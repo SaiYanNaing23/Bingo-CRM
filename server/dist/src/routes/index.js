@@ -10,6 +10,7 @@ const applications_routes_1 = require("../modules/applications/routes/applicatio
 const tasks_routes_1 = require("../modules/tasks/routes/tasks.routes");
 const projects_routes_1 = require("../modules/projects/routes/projects.routes");
 const notes_routes_1 = require("../modules/notes/routes/notes.routes");
+const calendar_routes_1 = require("../modules/calendar/routes/calendar.routes");
 exports.apiRouter = (0, express_1.Router)();
 exports.apiRouter.use(health_routes_1.healthRouter);
 exports.apiRouter.use("/auth", auth_routes_1.authRouter);
@@ -19,4 +20,5 @@ exports.apiRouter.use("/applications", applications_routes_1.applicationsRouter)
 exports.apiRouter.use("/tasks", tasks_routes_1.tasksRouter);
 exports.apiRouter.use("/projects", projects_routes_1.projectsRouter);
 exports.apiRouter.use("/notes", notes_routes_1.notesRouter);
+exports.apiRouter.use("/calendar", calendar_routes_1.calendarRouter);
 //# sourceMappingURL=index.js.map

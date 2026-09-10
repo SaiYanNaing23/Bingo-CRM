@@ -43,7 +43,10 @@ export const friendly = (value: string) =>
     HR: 'HR',
     NONE: 'Does not repeat',
     JOB_APPLICATION: 'Job application',
-    FOLLOW_UP: 'Follow-up',
+  FOLLOW_UP: 'Follow-up',
+  INTERVIEW: 'Interview',
+  DEADLINE: 'Deadline',
+  OTHER: 'Other',
   })[value] ||
   value
     .toLowerCase()

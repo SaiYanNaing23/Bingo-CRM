@@ -8,6 +8,7 @@ import { applicationsRouter } from "../modules/applications/routes/applications.
 import { tasksRouter } from "../modules/tasks/routes/tasks.routes";
 import { projectsRouter } from "../modules/projects/routes/projects.routes";
 import { notesRouter } from "../modules/notes/routes/notes.routes";
+import { calendarRouter } from "../modules/calendar/routes/calendar.routes";
 
 export const apiRouter = Router();
 
@@ -19,3 +20,4 @@ apiRouter.use("/applications", applicationsRouter);
 apiRouter.use("/tasks", tasksRouter);
 apiRouter.use("/projects", projectsRouter);
 apiRouter.use("/notes", notesRouter);
+apiRouter.use("/calendar", calendarRouter);

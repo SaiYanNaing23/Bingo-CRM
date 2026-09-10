@@ -174,7 +174,7 @@ test('Projects create/edit, state validation, activity/comment pagination, archi
   expect(errors).toEqual([])
 })
 
-test('Notes preserve Markdown, preview safely, guard drafts, retry saves, filter tags and keep CRLF on title edits', async ({
+test('Notes format text, guard drafts, retry saves, filter tags and keep existing content on title edits', async ({
   page,
 }) => {
   test.setTimeout(120_000)
@@ -188,20 +188,31 @@ test('Notes preserve Markdown, preview safely, guard drafts, retry saves, filter
   await page.getByRole('link', { name: 'Notes', exact: true }).click()
   await page.getByRole('link', { name: 'New note', exact: true }).click()
   await page.getByLabel('Note title').fill('Interview notebook')
-  const content =
-    '# Interview prep\n\n- [x] Review indexes\n\n```ts\n  const ready = true\n```\n\n| Topic | Ready |\n| --- | --- |\n| SQL | Yes |\n\n<script>window.notesUnsafe = true</script>\n\n[Bad](javascript:alert%281%29)\n\n![Diagram](https://markdown-image.example/pixel.png)\n\n  Closing line  \n'
-  await page.getByLabel('Markdown content').fill(content)
+  const content = 'Review indexes'
+  const editor = page.getByRole('textbox', { name: 'Content', exact: true })
+  await page.getByRole('button', { name: 'Create note', exact: true }).click()
+  await expect(page.getByRole('alert')).toContainText('Write some content')
+  await editor.fill(content)
+  await editor.press('ControlOrMeta+a')
+  await page.getByRole('button', { name: 'Bold', exact: true }).click()
+  await page.getByRole('button', { name: 'Italic', exact: true }).click()
+  await expect(editor.locator('strong em, em strong')).toHaveText(content)
+  await expect(page.getByRole('button', { name: 'Bold', exact: true })).toHaveAttribute(
+    'aria-pressed',
+    'true',
+  )
+  await page.getByRole('button', { name: 'Link', exact: true }).click()
+  await page.getByLabel('Link URL').fill('javascript:alert(1)')
+  await page.getByRole('button', { name: 'Apply link', exact: true }).click()
+  await expect(page.getByRole('alert')).toContainText('Enter an https://')
+  await page.getByLabel('Link URL').fill('https://example.com/indexes')
+  await page.getByRole('button', { name: 'Apply link', exact: true }).click()
+  await expect(editor.locator('a')).toHaveAttribute('href', 'https://example.com/indexes')
   await page.getByLabel('Tags', { exact: true }).fill(' Interview \nbackend\nINTERVIEW')
   await page.getByRole('link', { name: 'Projects', exact: true }).click()
   await expect(page.getByRole('dialog', { name: 'Leave without saving?' })).toBeVisible()
   await page.getByRole('button', { name: 'Keep editing' }).click()
-  await page.getByRole('button', { name: 'Preview', exact: true }).click()
-  await expect(page.getByRole('heading', { name: 'Interview prep' })).toBeVisible()
-  await expect(page.getByRole('table')).toBeVisible()
-  expect(await page.evaluate(() => window.notesUnsafe)).toBeUndefined()
-  await expect(page.locator('[aria-label="Markdown preview"] img')).toHaveCount(0)
-  await page.getByRole('button', { name: 'Write', exact: true }).click()
-  await expect(page.getByLabel('Markdown content')).toHaveValue(content)
+  await expect(editor.locator('strong em, em strong')).toHaveText(content)
   const failPost = (route) =>
     route.request().method() === 'POST'
       ? route.fulfill({
@@ -212,19 +223,41 @@ test('Notes preserve Markdown, preview safely, guard drafts, retry saves, filter
   await page.route('**/api/v1/notes', failPost)
   await page.getByRole('button', { name: 'Create note', exact: true }).click()
   await expect(page.getByRole('alert')).toContainText('Try saving again')
-  await expect(page.getByLabel('Markdown content')).toHaveValue(content)
+  await expect(editor.locator('strong em, em strong')).toHaveText(content)
   await page.unroute('**/api/v1/notes', failPost)
   const { data: note } = await save(page, 'Create note', '/notes', 'POST')
-  expect(note.content).toBe(content)
+  expect(note.content).toContain('Review indexes')
   expect(note.tags).toEqual(['interview', 'backend'])
   expect(note.entity).toBeNull()
-  await page.getByRole('button', { name: 'Source', exact: true }).click()
-  await expect(page.getByLabel('Markdown source')).toHaveText(content)
-  await page.getByRole('button', { name: 'Preview', exact: true }).click()
+  await expect(
+    page.locator(
+      '[aria-label="Formatted note"] strong em, [aria-label="Formatted note"] em strong',
+    ),
+  ).toHaveText(content)
   await page.screenshot({ path: 'test-results/notes-desktop.png', fullPage: true })
-  const crlf = content.replaceAll('\n', '\r\n')
+  await edit(page)
+  await expect(editor.locator('strong em, em strong')).toHaveText(content)
+  // A content-only change must also be protected when navigating away.
+  await editor.press('ControlOrMeta+End')
+  await editor.press('Enter')
+  await editor.pressSequentially('Extra context')
+  await page.getByRole('button', { name: 'Undo', exact: true }).click()
+  await expect(editor).not.toContainText('Extra context')
+  await page.getByRole('button', { name: 'Redo', exact: true }).click()
+  await expect(editor).toContainText('Extra context')
+  await page.getByRole('link', { name: 'Projects', exact: true }).click()
+  await expect(page.getByRole('dialog', { name: 'Leave without saving?' })).toBeVisible()
+  await page.getByRole('button', { name: 'Keep editing' }).click()
+  await save(page, 'Save changes', `/notes/${note.id}`, 'PUT')
+  const crlf =
+    '# Interview prep\r\n\r\n- [x] Review indexes\r\n\r\n```ts\r\n  const ready = true\r\n```\r\n\r\n| Topic | Ready |\r\n| --- | --- |\r\n| SQL | Yes |\r\n\r\n<script>window.notesUnsafe = true</script>\r\n\r\n[Bad](javascript:alert%281%29)\r\n\r\n![Diagram](https://markdown-image.example/pixel.png)\r\n'
   await send(page, token, 'put', `notes/${note.id}`, { content: crlf })
   await page.goto(`/notes/${note.id}/edit`)
+  await expect(editor.getByRole('heading', { name: 'Interview prep' })).toBeVisible()
+  await expect(editor.getByRole('table')).toBeVisible()
+  await expect(editor.locator('pre code')).toHaveText('  const ready = true')
+  await expect(editor.locator('script, img[src], iframe, [onerror]')).toHaveCount(0)
+  expect(await page.evaluate(() => window.notesUnsafe)).toBeUndefined()
   await page.getByLabel('Note title').fill('Interview notebook revised')
   const updated = await save(page, 'Save changes', `/notes/${note.id}`, 'PUT')
   expect(updated.body).toEqual({ title: 'Interview notebook revised' })
@@ -283,7 +316,9 @@ test('Notes link all five record types, appear on detail pages, retain unavailab
     project.name,
   )
   await page.getByLabel('Note title').fill('Linked decisions')
-  await page.getByLabel('Markdown content').fill('## Decision\n\nKeep these records connected.\n')
+  await page
+    .getByRole('textbox', { name: 'Content', exact: true })
+    .fill('Keep these records connected.')
   const { data: note } = await save(page, 'Create note', '/notes', 'POST')
   expect(note.entity).toEqual({ type: 'PROJECT', id: project.id })
   const bindings = [
@@ -326,11 +361,13 @@ test('Notes link all five record types, appear on detail pages, retain unavailab
   await edit(page)
   await choice(page, 'Link to', 'Project')
   await pick(page, doomed.name)
-  await page.getByLabel('Markdown content').fill('Draft preserved through failed rebind')
+  await page
+    .getByRole('textbox', { name: 'Content', exact: true })
+    .fill('Draft preserved through failed rebind')
   await send(page, token, 'delete', `projects/${doomed.id}`)
   await page.getByRole('button', { name: 'Save changes', exact: true }).click()
   await expect(page.getByRole('alert')).toBeVisible()
-  await expect(page.getByLabel('Markdown content')).toHaveValue(
+  await expect(page.getByRole('textbox', { name: 'Content', exact: true })).toHaveText(
     'Draft preserved through failed rebind',
   )
   expect((await send(page, token, 'get', `notes/${note.id}`)).data.entity).toBeNull()
@@ -425,10 +462,8 @@ test('New record pickers paginate and the Notes editor works on mobile in the ex
   await page.goto('/notes/new')
   await page.getByLabel('Note title').fill('Mobile note')
   await page
-    .getByLabel('Markdown content')
-    .fill(
-      '# Mobile review\n\n- Clear controls\n- Small screens\n\n```txt\nLong content stays inside the page.\n```\n',
-    )
+    .getByRole('textbox', { name: 'Content', exact: true })
+    .fill('Mobile review. Clear controls for small screens. Long content stays inside the page.')
   await choice(page, 'Link to', 'Project')
   await page.getByRole('combobox', { name: 'Linked record', exact: true }).click()
   await page.getByRole('button', { name: 'Next options' }).click()
@@ -442,9 +477,12 @@ test('New record pickers paginate and the Notes editor works on mobile in the ex
   expect(projects.find((project) => project.id === note.entity.id).name).toBe(selectedName)
   await page.goto('/settings/appearance')
   await page.getByRole('radio', { name: 'Dark', exact: true }).locator('..').click()
+  await page.emulateMedia({ reducedMotion: 'reduce' })
   await page.setViewportSize({ width: 390, height: 844 })
   await page.getByRole('button', { name: 'Open navigation' }).click()
-  await page.getByRole('link', { name: 'Notes', exact: true }).click()
+  const sidebar = page.getByRole('dialog', { name: 'Sidebar', exact: true })
+  await expect(sidebar).toBeVisible()
+  await sidebar.getByRole('link', { name: 'Notes', exact: true }).click()
   await expect(page.getByRole('dialog', { name: 'Sidebar', exact: true })).not.toBeVisible()
   await page.getByRole('link', { name: note.title, exact: true }).click()
   await expect(page.getByRole('heading', { name: note.title, exact: true })).toBeVisible()
@@ -452,7 +490,11 @@ test('New record pickers paginate and the Notes editor works on mobile in the ex
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
   await edit(page)
   await page.getByLabel('Note title').fill('Mobile edit')
-  await page.getByRole('button', { name: 'Preview', exact: true }).click()
+  await page.getByRole('textbox', { name: 'Content', exact: true }).press('ControlOrMeta+a')
+  await page.getByRole('button', { name: 'Bold', exact: true }).click()
+  await expect(
+    page.getByRole('textbox', { name: 'Content', exact: true }).locator('strong'),
+  ).toBeVisible()
   await page.screenshot({ path: 'test-results/notes-editor-dark-mobile.png', fullPage: true })
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
   await save(page, 'Save changes', `/notes/${note.id}`, 'PUT')

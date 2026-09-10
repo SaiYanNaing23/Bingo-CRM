@@ -2,9 +2,9 @@
 
 Goal: build a clear, comfortable React workspace for managing companies, contacts, applications, daily tasks, projects, and notes, using shadcn/ui components and the existing Express API.
 
-Backend roadmap: [agenda.md](./agenda.md). Backend Phases 5 (Projects) and 6 (Notes), and their client counterparts Phases 8 and 9, are implemented and verified as of 2026-09-08. Client phase numbers belong to this document and are independent of backend phase numbers.
+Backend roadmap: [agenda.md](./agenda.md). Backend Phases 5 (Projects), 6 (Notes), and 7 (Calendar) are implemented. Client Phases 8 and 9 are verified; Client Phase 10 Calendar implementation is complete with verification pending as of 2026-09-10. Client phase numbers belong to this document and are independent of backend phase numbers.
 
-Status: client Phases 0-5 and 8-9 are implemented and verified in `client/`. Appearance settings (6.6) and a shadcn controls/sidebar refinement (0.8) are additional user-requested slices. The remaining Overview/preferences work, Phase 7 release verification, and Phases 10 onward remain planned. User manual checks remain separate from implementation verification.
+Status: client Phases 0-5 and 8-9 are implemented and verified in `client/`. Client Phase 10 Calendar is implemented with verification pending. Appearance settings (6.6) and a shadcn controls/sidebar refinement (0.8) are additional user-requested slices. The remaining Overview/preferences work, Phase 7 release verification, and Phases 11 onward remain planned. User manual checks remain separate from implementation verification.
 
 ## Decisions and recommendations
 
@@ -38,7 +38,7 @@ The user authorized implementation through Tasks after the recommendations were 
 | Tables | TanStack Table with shadcn Table | Reusable columns and controls wired to API pagination, filtering, and sorting |
 | Icons | Lucide React | Small, consistent icons alongside readable labels |
 | Dates | shadcn Calendar/Popover + time Input, React DayPicker 9, `Intl`, date-fns/date-fns-tz | Calendar/date entry and second-precision time; convert the selected zone's wall-clock value to an API timestamp |
-| Markdown | react-markdown + remark-gfm | Render Notes headings, code, tables, and task lists with raw HTML disabled and controlled link/image behavior |
+| Notes editor | Tiptap + react-markdown + remark-gfm | Visual formatting toolbar; compatible text storage and safe formatted detail |
 | State | Query cache, URL parameters, local React state, small auth/preferences contexts | Give each kind of state one clear owner |
 | Verification | Vitest + React Testing Library; Playwright for important browser journeys | Verify form behavior, API integration, and complete user workflows |
 | Package management | npm with a checked-in client lockfile | Independent, repeatable installs in `client/` |
@@ -88,7 +88,7 @@ client/
       applications/
       tasks/
       projects/             # form, progress action, and activity history
-      notes/                # editor, Markdown preview, entity picker, related notes
+      notes/                # rich text editor, formatted detail, entity picker, related notes
       settings/             # appearance presets, theme context, Settings page
     lib/
       api-client.ts
@@ -113,7 +113,7 @@ client/
   package-lock.json
 ```
 
-Companies, Contacts, Applications, and Tasks share the initial CRUD form pattern. Applications owns stage history and Tasks owns Today. Projects and Notes reuse shared lists/tables/actions while owning their specialized forms, validation, progress/history, and Markdown/entity behavior. Unit tests sit with the behaviors they verify; browser tests cover real module workflows.
+Companies, Contacts, Applications, and Tasks share the initial CRUD form pattern. Applications owns stage history and Tasks owns Today. Projects and Notes reuse shared lists/tables/actions while owning their specialized forms, validation, progress/history, and rich text/entity behavior. Unit tests sit with the behaviors they verify; browser tests cover real module workflows.
 
 ### Coding and state rules
 
@@ -167,7 +167,7 @@ Suggestions: start Applications with a table and stage filter, make today's task
 | `/applications`, `/applications/new`, `/applications/:id`, `/applications/:id/edit` | Applications and stage history | 4 |
 | `/tasks`, `/tasks/today`, `/tasks/new`, `/tasks/:id`, `/tasks/:id/edit` | Tasks | 5 |
 | `/projects`, `/projects/new`, `/projects/:id`, `/projects/:id/edit` | Projects, progress, and activity history | 8 |
-| `/notes`, `/notes/new`, `/notes/:id`, `/notes/:id/edit` | Notes, Markdown preview, and entity links | 9 |
+| `/notes`, `/notes/new`, `/notes/:id`, `/notes/:id/edit` | Notes, rich text editor, and entity links | 9 |
 | `/settings/appearance` (`/settings` redirects here) | Appearance settings, implemented | 6.6 |
 | `/overview`, `/preferences` | Daily overview and browser preferences | 6 |
 
@@ -185,7 +185,7 @@ All paths below have the `/api/v1` prefix. Source of truth: [server route regist
 | Applications | CRUD + stage change + paginated stage history | Separate detail editing and stage-change actions |
 | Tasks | CRUD + `PATCH /tasks/:id/complete` + `GET /tasks/today` | Dedicated completion flow, recurrence feedback, timezone-aware Today screen |
 | Projects | CRUD + `PATCH /projects/:id/progress` + GET/POST activities | Detail edits exclude status/progress; separate progress action and paginated history/comments |
-| Notes | CRUD with tags, search, and paired entity filters | Preserve Markdown source, safely preview it, link at most one owned record, support unavailable links and detachment |
+| Notes | CRUD with tags, search, and paired entity filters | Edit visually, preserve untouched content, show formatted notes safely, link at most one owned record, support unavailable links and detachment |
 
 ### Transport, session, and dates
 
@@ -210,7 +210,8 @@ All paths below have the `/api/v1` prefix. Source of truth: [server route regist
 - [ ] Phase 7 - First-release verification and runbook
 - [x] Phase 8 - Projects (backend Phase 5)
 - [x] Phase 9 - Notes (backend Phase 6)
-- [ ] Phase 10 onward - Future modules, gated by backend availability
+- [ ] Phase 10 - Calendar (backend Phase 7): implementation complete; verification pending
+- [ ] Phase 11 onward - Future modules, gated by backend availability
 
 ## Phase 0 - Design foundation and client setup
 
@@ -338,19 +339,81 @@ Acceptance checks: all eight Projects endpoints are usable from the client; PUT 
 
 ## Phase 9 - Notes
 
-Goal: write reusable Markdown notes independently or attach them to a company, contact, application, task, or project through the completed backend Phase 6 API.
+Goal: write reusable formatted notes with a visual text editor independently or attach them to a company, contact, application, task, or project through the completed backend Phase 6 API.
 
 Status: implemented and automatically verified (2026-09-08). [Testing guide and API payloads](client/docs/phase-9-testing.md).
 
 - [x] **9.1 Foundation and navigation:** typed note/entity contracts, authenticated lazy routes, Notes sidebar entry, account-scoped query keys, and consistent invalidation after note or linked-record changes.
 - [x] **9.2 List and filters:** title, tags, linked-record type/state, and updated date; server title/content search, exact normalized tag, paired entity type/record filters, allowed sorting, pagination, URL state and back navigation. Entity selection uses searchable paginated shadcn pickers, including applications/tasks/projects.
-- [x] **9.3 Editor:** title, exact Markdown source, tags, and an optional entity link. Enforce title 2–200, nonblank content up to 100,000 characters, up to 20 tags of 1–40 characters, and valid Unicode without NUL. Preserve whitespace/code indentation; use explicit payload mapping and protect unsaved changes and failed saves. Tags can be cleared.
-- [x] **9.4 Preview and detail:** accessible Write/Preview controls with headings, lists, links, code, tables, and task lists. Use a maintained React Markdown renderer, disable raw HTML execution and unsafe URLs, and do not load remote images automatically. Detail shows tags, timestamps, safe source/preview, and linked-record availability without exposing internal FK fields.
+- [x] **9.3 Editor:** title, a rich text editor with bold, italic, strikethrough, headings, lists, checklists, quotes, links, code, and undo/redo; tags and an optional entity link. Formatting appears while typing; no Markdown syntax or Write/Preview switching is required. Enforce title 2–200, nonblank content up to 100,000 characters including stored formatting, up to 20 tags of 1–40 characters, and valid Unicode without NUL. Preserve code indentation and untouched saved content; use explicit payload mapping and protect unsaved changes and failed saves. Tags can be cleared.
+- [x] **9.4 Formatted detail:** show headings, lists, links, code, tables, and task lists directly without a source toggle. Keep compatible text storage behind the visual editor and use the maintained React Markdown renderer for detail. Disable raw HTML execution and unsafe URLs, and do not load remote images automatically. Detail shows tags, timestamps, and linked-record availability without exposing internal FK fields.
 - [x] **9.5 Entity binding and related notes:** allow standalone notes or one complete type/id pair; changing type clears the previous selection. Use record names, support rebind and explicit detach, and omit an unchanged entity on edit so unavailable links do not block text changes. Show Notes sections on all five supported record detail pages, with filtered View all and preselected New note actions.
 - [x] **9.6 Lifecycle and resilience:** separate soft-delete confirmation; retain readable/editable notes after linked-record soft deletion with an unavailable state. Handle invalid/foreign/missing IDs, incomplete filter URLs, expired sessions, slow/offline requests, API validation, failed rebinds, and last-page deletion without losing draft text.
-- [x] **9.7 Verification and handoff:** renderer/payload tests, real-API browser CRUD/filter/entity lifecycle journeys, retained source and safe preview, ownership/session boundaries, paginated pickers, and responsive keyboard operation. Add a Phase 9 guide with sample Markdown, API payloads, failure cases, and pending user checkboxes; verify all required client checks before marking complete.
+- [x] **9.7 Verification and handoff:** renderer/payload tests, real-API browser CRUD/filter/entity lifecycle journeys, formatted content round trips and safe display, ownership/session boundaries, paginated pickers, and responsive keyboard operation. Add a Phase 9 guide with visual editing steps, API payloads, failure cases, and pending user checkboxes; verify all required client checks before marking complete.
 
-Acceptance checks: all five Notes endpoints are usable; preview never executes stored HTML or unsafe links; edits preserve Markdown exactly and keep or clear the single entity link as intended. Existing inline notes fields remain separate.
+Acceptance checks: all five Notes endpoints are usable; users can format content directly and reopen it with formatting intact; the editor/detail never execute stored HTML or unsafe links; untouched content stays exact, code indentation survives content edits, and the single entity link is kept or cleared as intended. Existing inline notes fields remain separate.
+
+## Phase 10 - Calendar (backend Phase 7)
+
+Status: implementation complete; automated and manual verification pending (2026-09-10).
+
+Goal: expose backend Calendar events as a timezone-aware planning surface with event CRUD, source links, agenda ranges, and reminder projections.
+
+### 10.1 Calendar contracts and navigation
+
+- [x] Add typed Calendar event, range, reminder, payload, source, and view contracts.
+- [x] Add query and mutation hooks for all backend Phase 7 Calendar endpoints.
+- [x] Add Calendar to workspace navigation and safe return-path handling.
+- [x] Register event, agenda, reminder, create, detail, and edit routes.
+
+### 10.2 Event list
+
+- [x] Build a paginated event list with loading, error, and empty states.
+- [x] Add URL-backed title search, event-type filtering, sorting, ordering, and pagination.
+- [x] Preserve the originating filtered URL when opening an event.
+- [x] Display event timezone, schedule, type, and linked-source availability.
+
+### 10.3 Agenda range views
+
+- [x] Build day, week, and month controls over the backend range endpoint.
+- [x] Persist anchor date, timezone, event type, and page in the URL.
+- [x] Group returned events by local calendar day in the selected timezone.
+- [x] Display authoritative backend range boundaries and pagination metadata.
+
+### 10.4 Event create, detail, edit, and delete
+
+- [x] Build create and edit forms with title, type, start, end, timezone, and reminders.
+- [x] Preserve unchanged timestamps and convert edited local wall time with the chosen IANA timezone.
+- [x] Map backend field errors inline and protect dirty forms from accidental navigation.
+- [x] Build detail, edit, confirmed-delete, success-toast, and safe-return flows.
+
+### 10.5 Source links and reminders
+
+- [x] Support company, contact, application, task, and project source pickers.
+- [x] Enforce paired source type/source ID input and clear stale IDs when source type changes.
+- [x] Distinguish standalone, available-source, and unavailable-source detail states.
+- [x] Build a paginated reminder queue with URL-backed timestamp windows and client-side 31-day validation.
+
+### 10.6 Lifecycle and resilience
+
+- [x] Scope Calendar cache keys by authenticated user and invalidate all Calendar projections after writes.
+- [x] Reuse shared loading, API error, pagination, dialog, timezone, picker, and form primitives.
+- [x] Keep list, range, reminder, detail, create, and edit layouts responsive.
+- [x] Add readable labels for Calendar event types.
+
+### 10.7 Verification and handoff
+
+- [x] Add a dedicated Phase 10 testing guide and API smoke matrix.
+- [ ] Run client typecheck, lint, and automated tests.
+- [ ] Run backend Calendar integration coverage.
+- [ ] Complete route, timezone, source-link, responsive, and accessibility checks.
+
+Acceptance criteria:
+
+- Every backend Phase 7 Calendar endpoint is usable from the client.
+- Event CRUD preserves timezone intent and reminder/source invariants.
+- Agenda and reminder views are URL-addressable and retain context through detail navigation.
+- Phase 10 is marked complete only after the verification checklist passes.
 
 ## Future phases - Dependent on backend availability
 
@@ -358,7 +421,6 @@ These phases remain planned. Before each starts, expand its steps and confirm th
 
 | Client phase | Backend prerequisite | Planned steps | Completion check |
 | --- | --- | --- | --- |
-| 10 - Calendar | Backend Phase 7 | 10.1 Calendar/agenda views; 10.2 event details; 10.3 source links/timezones; 10.4 testing | Events load by range and agree with linked source records |
 | 11 - Documents | Backend Phase 8 | 11.1 Library; 11.2 supported upload or metadata flow; 11.3 versions/delete; 11.4 testing | UI uses the storage capabilities actually available at implementation time |
 | 12 - Learning | Backend Phase 9 | 12.1 Topics; 12.2 progress entry; 12.3 resources/summary; 12.4 testing | Learning progress matches server calculations |
 | 13 - Interviews | Backend Phase 10 | 13.1 Application links; 13.2 interview form; 13.3 preparation/outcomes; 13.4 testing | Interview history persists against the correct application |
@@ -390,7 +452,7 @@ These phases remain planned. Before each starts, expand its steps and confirm th
 - [x] Documentation links and all 16 sample JSON payloads verified.
 - [ ] User manual verification of client Phases 0-5 (awaiting the user's results).
 
-Run instructions and testing guides: [client/README.md](client/README.md). Each guide includes browser steps, sample values, API requests where applicable, expected outcomes, and separate manual checkboxes. The remaining Phase 6 items, Phase 7, and Phases 10 onward stay planned; Projects/Notes were requested next.
+Run instructions and testing guides: [client/README.md](client/README.md). Each guide includes browser steps, sample values, API requests where applicable, expected outcomes, and separate manual checkboxes. The remaining Phase 6 items, Phase 7, and Phases 11 onward stay planned; Calendar implementation verification is tracked in the Phase 10 guide.
 
 ### Appearance extension (2026-09-08)
 
@@ -425,3 +487,11 @@ Run instructions and testing guides: [client/README.md](client/README.md). Each 
 - Windows browser workers stalled during shutdown after scenarios passed; stopping only those completed automation workers allowed the runners to finish normal database cleanup. Test schemas were removed; existing CRM records were not used as fixtures.
 - Verified all 26 client guide JSON examples and local documentation links. The running client serves both new routes; the API health check succeeds and unauthenticated Projects/Notes requests remain protected.
 - [ ] User manual verification of [Projects](client/docs/phase-8-testing.md) and [Notes](client/docs/phase-9-testing.md). Their guide checkboxes remain pending until the user reports results.
+
+### Notes rich text editor (2026-09-09)
+
+- Replaced the source textarea and Write/Preview switch with a visual Tiptap editor. Added bold, italic, strikethrough, headings, lists, checklists, quotes, links, code, clear formatting, and undo/redo. Detail displays the formatted note directly.
+- Retained the existing API storage contract, validation limits, tag clearing, entity mapping, and navigation protection. Untouched content stays exact; edited content preserves formatting, literal text, and code indentation. Saving temporarily disables editing, and failed saves retain the document and history.
+- Typecheck, ESLint, and production build pass. The full client suite passed all 33 tests; all nine Notes tests passed again after the final editor lifecycle and serialization fixes.
+- The three affected browser journeys passed in Chrome against disposable API schemas: formatted create/edit, retry and draft protection, existing CRLF preservation and tag clearing; all five entity types and deleted-target recovery; and picker pagination plus dark mobile editing. Mobile verification uses reduced motion to avoid the existing sidebar animation stalling automation.
+- Reviewed the formatted desktop note and dark mobile editor screenshots. Test database schemas were removed. Updated the [Notes testing guide](client/docs/phase-9-testing.md); user manual checks remain pending.

@@ -2,45 +2,28 @@
 
 Client Phase 9 uses **backend Phase 6**. Start the client and API using [the runbook](../README.md#run-locally), sign in, and create dedicated records for linking tests. The backend Notes migration must be applied.
 
-## Write and preview
+## Write and format
 
-Open **Notes → New note**. Enter the title `Interview preparation`, then paste this into **Markdown content**:
+Open **Notes → New note**. Enter the title `Interview preparation`. In **Content**, type `Review SQL indexes`, select it, and click **Bold** and **Italic**. The text should be formatted immediately. Keyboard shortcuts Ctrl/Cmd+B and Ctrl/Cmd+I also work.
 
-````markdown
-# Interview preparation
+Use the toolbar to try headings, bulleted/numbered lists, checklists, quotes, inline code, and code blocks. Use Tab inside a code block to indent. Select text, click **Link**, enter `https://example.com/interview-notes`, and click **Apply link**. Reopen Link to change or remove it. Try Undo, Redo, and Clear formatting. There is no Markdown source field or preview switch.
 
-- [x] Review SQL indexes
-- [ ] Practice transaction examples
-
-## Code example
-
-```ts
-  const ready = true
-```
-
-| Topic | Next step |
-| --- | --- |
-| PostgreSQL | Explain row locks |
-
-[Reference](https://example.com/interview-notes)
-````
-
-Enter `Interview` and `backend` on separate lines in Tags. Leave **Link to → Standalone note**. Toggle Write/Preview: headings, task lists, code, tables, and links should be readable. The original draft remains when returning to Write. Preview omits raw HTML, displays unsafe links as text, and shows Markdown images as links that you open explicitly.
-
-Click **Create note**. The UI calls `POST /api/v1/notes`:
+Enter `Interview` and `backend` on separate lines in Tags. Leave **Link to → Standalone note**. Click **Create note**. The UI calls `POST /api/v1/notes`, converting formatting to the existing text format internally. A simple bold note produces this shape:
 
 ```json
 {
   "title": "Interview preparation",
-  "content": "# Interview preparation\n\n- [x] Review SQL indexes\n- [ ] Practice transaction examples\n\n```ts\n  const ready = true\n```\n",
+  "content": "**Review SQL indexes**",
   "tags": ["Interview", "backend"],
   "entity": null
 }
 ```
 
-Expected: 201, detail page with tags `interview` and `backend`, entity:null, entityAvailable:null. **Source** displays the saved Markdown; **Preview** displays its formatted version. Use plain URLs in Markdown link syntax. Blank content, excessive content/tags, and invalid Unicode display validation errors.
+Expected: 201, formatted detail with tags `interview` and `backend`, entity:null, entityAvailable:null. Click Edit and confirm formatting and text remain. Title is 2–200 characters; tags are up to 20 entries of 1–40 characters, one per line. The server trims/lowercases/deduplicates tags. Content is required, valid Unicode without NUL, and at most 100,000 characters including stored formatting. Empty headings/lists and whitespace-only text must not save.
 
-The editor accepts up to 100,000 characters. Title is 2–200 characters; tags are up to 20 entries of 1–40 characters, one per line. The server trims/lowercases/deduplicates tags. The editor does not trim content. Editing only the title or tags leaves the stored source untouched, including existing CRLF line endings.
+Existing notes load into the visual editor, including tables and checklists. Code indentation is preserved. Editing only the title or tags leaves the stored content untouched, including existing CRLF line endings. Content edits serialize the formatted document, so equivalent source syntax may normalize. Existing image references remain links and are never automatically fetched. Unsafe links do not become clickable; stored HTML never executes. Pasted supported formatting is retained through the editor schema.
+
+Make a content-only edit, then navigate away: choose **Keep editing** and verify the draft. Force a failed save in browser tools and retry: the draft, formatting, and undo history must remain. While saving, the content editor and controls must be disabled. Clear all content and verify validation prevents saving. Test at a 390px viewport in the dark theme; the toolbar should wrap without horizontal page scrolling.
 
 ## Select a linked record
 
@@ -85,7 +68,7 @@ Expected: entity:null and entityAvailable:null. Failed saves/rebinds preserve yo
 
 ## Search and filters
 
-Search matches title or Markdown source. Open Filters for an exact tag and optional record type/record pair. Select a record before that entity filter applies. Incomplete or invalid filter URLs show an explanation while the list uses other valid filters.
+Search matches title or stored note content. Open Filters for an exact tag and optional record type/record pair. Select a record before that entity filter applies. Incomplete or invalid filter URLs show an explanation while the list uses other valid filters.
 
 ```http
 GET /api/v1/notes?search=SQL&tag=Interview&sortBy=updatedAt&order=desc&page=1&limit=10
@@ -116,8 +99,9 @@ All requests require `Authorization: Bearer <token>`; JSON writes also require `
 ## Manual checklist
 
 - [ ] Create, read, edit, tags clearing, and soft-delete work.
-- [ ] Markdown source, indentation, code, and line breaks survive saves.
-- [ ] Preview is readable and raw HTML/unsafe links do not execute.
+- [ ] Toolbar formatting and keyboard shortcuts work; formatting and code indentation survive reopening.
+- [ ] Title-only/tag-only edits preserve existing saved content exactly.
+- [ ] Formatted detail is readable and stored HTML/unsafe links do not execute or fetch images.
 - [ ] Search, exact tag, entity filters, sorting, pagination, and back navigation work.
 - [ ] All five entity types, picker search/pagination, preselection, rebind, and detach work.
 - [ ] Related Notes sections show the correct notes and total.

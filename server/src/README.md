@@ -123,6 +123,22 @@ See [Notes sample requests](../docs/notes-testing.md) for every endpoint's paylo
 entity-link examples, expected results, and a separate user checklist. Markdown is
 returned as source text; a future client renderer must disable or sanitize raw HTML.
 
+## Calendar verification (Phase 7)
+
+Apply migrations, regenerate Prisma, and build before starting or restarting a compiled API.
+Calendar adds seven authenticated routes under `/api/v1/calendar`: event CRUD at `/events`,
+day/week/month/custom views at `/range`, and reminder schedules at `/reminders`.
+Events have named timezone metadata, explicit-offset start/end instants, and an optional
+source pair linking an owned Company, Contact, Application, Task, or Project. Sources are
+not automatically rescheduled; soft-deleted sources leave their events available.
+
+`npm.cmd run test:calendar` builds and exercises fresh migrations, database constraints,
+validation, ownership, pagination, interval overlaps, DST windows, source lifecycle,
+reminder rescheduling, concurrent edits/deletion, and rollback in a disposable schema.
+Reminders are schedules calculated from event start times; this phase does not dispatch notifications.
+See [Calendar sample requests](../docs/calendar-testing.md) for all payloads, range/reminder
+semantics, expected results, and the separate manual checklist.
+
 ## Phase 0 shared utilities
 
 - Pagination defaults:

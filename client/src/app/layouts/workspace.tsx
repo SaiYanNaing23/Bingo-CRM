@@ -6,6 +6,7 @@ import {
   BriefcaseBusiness,
   CheckSquare2,
   CalendarDays,
+  CalendarRange,
   LogOut,
   ChevronRight,
   Settings2,
@@ -42,6 +43,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { useAuth } from '@/features/auth/auth-context'
+import { useCalendarReminderCount } from '@/features/calendar/api'
 import { BrandLogo } from '@/components/shared/brand-logo'
 
 const groups = [
@@ -58,6 +60,7 @@ const groups = [
     links: [
       { label: 'All tasks', to: '/tasks', icon: CheckSquare2 },
       { label: 'Today', to: '/tasks/today', icon: CalendarDays },
+      { label: 'Calendar', to: '/calendar', icon: CalendarRange },
     ],
   },
   {
@@ -69,6 +72,23 @@ const groups = [
     ],
   },
 ]
+
+function CalendarReminderBadge() {
+  const reminders = useCalendarReminderCount()
+  const count = reminders.data?.meta.total ?? 0
+
+  if (!count) return null
+
+  return (
+    <span
+      className="ml-auto min-w-5 rounded-full bg-primary px-1.5 py-0.5 text-center text-[10px] font-bold leading-none text-primary-foreground"
+      title={count + ' reminders due in the next 24 hours'}
+      aria-label={count + ' reminders due in the next 24 hours'}
+    >
+      {count > 99 ? '99+' : count}
+    </span>
+  )
+}
 function savedSidebarOpen() {
   try {
     return !document.cookie.split('; ').includes('sidebar_state=false')
@@ -162,7 +182,8 @@ function WorkspaceContent() {
                             onClick={() => setOpenMobile(false)}
                           >
                             <link.icon />
-                            <span>{link.label}</span>
+                        <span>{link.label}</span>
+                        {link.to === '/calendar' ? <CalendarReminderBadge /> : null}
                           </Link>
                         </SidebarMenuButton>
                       </SidebarMenuItem>

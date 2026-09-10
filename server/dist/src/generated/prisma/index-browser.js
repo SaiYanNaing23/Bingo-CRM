@@ -257,6 +257,25 @@ exports.Prisma.NoteScalarFieldEnum = {
   deletedAt: 'deletedAt'
 };
 
+exports.Prisma.CalendarEventScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  title: 'title',
+  type: 'type',
+  startAt: 'startAt',
+  endAt: 'endAt',
+  timezone: 'timezone',
+  reminders: 'reminders',
+  companyId: 'companyId',
+  contactId: 'contactId',
+  applicationId: 'applicationId',
+  taskId: 'taskId',
+  projectId: 'projectId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -337,6 +356,13 @@ exports.ProjectActivityType = exports.$Enums.ProjectActivityType = {
   COMMENT: 'COMMENT'
 };
 
+exports.CalendarEventType = exports.$Enums.CalendarEventType = {
+  INTERVIEW: 'INTERVIEW',
+  FOLLOW_UP: 'FOLLOW_UP',
+  DEADLINE: 'DEADLINE',
+  OTHER: 'OTHER'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   Company: 'Company',
@@ -346,7 +372,8 @@ exports.Prisma.ModelName = {
   Task: 'Task',
   Project: 'Project',
   ProjectActivity: 'ProjectActivity',
-  Note: 'Note'
+  Note: 'Note',
+  CalendarEvent: 'CalendarEvent'
 };
 
 /**

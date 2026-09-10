@@ -17,6 +17,7 @@
     "test:tasks": "npm run build && node --test tests/tasks.integration.test.cjs",
     "test:projects": "npm run build && node --test tests/projects.integration.test.cjs",
     "test:notes": "npm run build && node --test tests/notes.integration.test.cjs",
+    "test:calendar": "npm run build && node --test tests/calendar.integration.test.cjs",
     "prisma:studio": "prisma studio"
   },
   "keywords": [],

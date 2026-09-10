@@ -13,6 +13,7 @@ const ApplicationPages = lazy(() => import('@/features/applications/pages'))
 const TaskPages = lazy(() => import('@/features/tasks/pages'))
 const ProjectPages = lazy(() => import('@/features/projects/pages'))
 const NotePages = lazy(() => import('@/features/notes/pages'))
+const CalendarPages = lazy(() => import('@/features/calendar/pages'))
 const TodayPage = lazy(() => import('@/features/tasks/today-page'))
 const AppearancePage = lazy(() => import('@/features/settings/appearance-page'))
 const DesignPreview = import.meta.env.DEV ? lazy(() => import('@/app/design-preview')) : () => null
@@ -87,6 +88,12 @@ export const router = createBrowserRouter([
               { path: 'tasks/today', element: <TodayPage /> },
               { path: 'settings', element: <Navigate to="/settings/appearance" replace /> },
               { path: 'settings/appearance', element: <AppearancePage /> },
+              { path: 'calendar', element: <CalendarPages view="list" /> },
+              { path: 'calendar/range', element: <CalendarPages view="range" /> },
+              { path: 'calendar/reminders', element: <CalendarPages view="reminders" /> },
+              { path: 'calendar/new', element: <CalendarPages view="edit" /> },
+              { path: 'calendar/:id', element: <CalendarPages view="detail" /> },
+              { path: 'calendar/:id/edit', element: <CalendarPages view="edit" /> },
               ...routePages.flatMap(({ path, Component }) => [
                 { path, element: <Component view="list" /> },
                 { path: `${path}/new`, element: <Component view="edit" /> },

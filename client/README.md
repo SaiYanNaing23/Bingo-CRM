@@ -1,6 +1,6 @@
 # BINGO CRM client
 
-React + TypeScript + Vite, shadcn/ui and Tailwind, React Router, TanStack Query/Table, React Hook Form and Zod. Implements authentication, Companies, Contacts, Applications, Tasks and Today (client Phases 0-5), plus Projects (client Phase 8) and Notes (client Phase 9) against the Express API. Also includes Settings → Appearance (client 6.6). Backend Projects/Notes are numbered 5/6; client numbering stays separate.
+React + TypeScript + Vite, shadcn/ui and Tailwind, React Router, TanStack Query/Table, React Hook Form and Zod. Implements authentication, Companies, Contacts, Applications, Tasks and Today (client Phases 0-5), Projects (client Phase 8), Notes (client Phase 9), and Calendar (client Phase 10) against the Express API. Also includes Settings → Appearance (client 6.6). Backend Projects, Notes, and Calendar are numbered 5, 6, and 7; client numbering stays separate.
 
 Branding uses the supplied [BINGO CRM logo](public/branding/bingo-crm-logo.png) in the sidebar, authentication screens, and browser icon. The original PNG is kept intact, with a white backing in both color modes. Replace that asset to change the logo later. Existing `devtrack` storage keys are retained so saved sessions and appearance preferences continue working.
 
@@ -69,11 +69,13 @@ Form inputs use the chosen named timezone. Nonexistent daylight-saving times are
 
 Projects uses a separate progress action: detail PUT requests never include status/progress. Its oldest-first activity feed has server pagination and a separate comment form. Screenshot URLs display previews with a fallback; this is not an upload service.
 
-Notes uses [react-markdown](https://github.com/remarkjs/react-markdown) with [remark-gfm](https://github.com/remarkjs/remark-gfm) for tables and task lists. Raw HTML is skipped; links allow HTTP(S), mailto, and local fragments, with external links isolated from the opener. Markdown images are explicit links rather than automatically fetched images. Do not add raw-HTML execution plugins without reviewing this contract. The renderer is loaded with the lazy Notes route.
+Notes uses [Tiptap](https://tiptap.dev/docs/editor/getting-started/install/react) for visual editing with bold, italic, strikethrough, headings, lists, checklists, quotes, links, code, and undo/redo. The [Markdown extension](https://tiptap.dev/docs/editor/markdown/getting-started/basic-usage) converts formatted documents to the existing API text contract; users do not need to write syntax. Existing tables remain editable. Detail uses [react-markdown](https://github.com/remarkjs/react-markdown) with [remark-gfm](https://github.com/remarkjs/remark-gfm) for tables and task lists. Raw HTML is skipped; links allow HTTP(S), mailto, and local fragments, with external links isolated from the opener. Markdown images are explicit links rather than automatically fetched images. Do not add raw-HTML execution plugins without reviewing this contract. The renderer is loaded with the lazy Notes route.
 
-Notes stores the original Markdown source. A title-only edit omits content, preserving preexisting CRLF line endings. An unchanged entity is also omitted, so text edits continue working after the target is deleted. Changed links replace the single type/id pair, and Standalone sends null. Tags/stack/screenshot lists use one entry per line; unchanged arrays are omitted on edits. Drafts stay in React Hook Form and are protected by a navigation confirmation; they are not persisted to browser storage.
+Notes keeps Markdown as an internal storage format. A title-only or tag-only edit omits content, preserving preexisting source and CRLF line endings. Editing the document serializes its current formatting; code indentation is preserved, while equivalent source syntax may normalize. The 100,000-character limit counts the serialized content, including formatting. Empty formatted blocks do not count as content. An unchanged entity is also omitted, so text edits continue working after the target is deleted. Changed links replace the single type/id pair, and Standalone sends null. Tags/stack/screenshot lists use one entry per line; unchanged arrays are omitted on edits. Drafts stay in React Hook Form and are protected by a navigation confirmation; they are not persisted to browser storage.
 
-The visual preview is at `/design-preview` in development. It contains labeled sample data and cannot create backend records. Overview, a global timezone preference, release-wide verification, and client Phases 10 onward remain planned.
+Calendar provides searchable event CRUD, day/week/month agenda ranges, source links to CRM records, named-timezone editing, reminder offsets, and a due-reminder window. Calendar state is URL-backed so list filters, agenda settings, reminder windows, and return navigation remain shareable.
+
+The visual preview is at `/design-preview` in development. It contains labeled sample data and cannot create backend records. Overview, a global timezone preference, release-wide verification, and client Phases 11 onward remain planned.
 
 ## Appearance
 
@@ -95,6 +97,7 @@ The additional `--link-foreground` token uses the primary color in light mode an
 - [Phase 5 - Tasks and Today](docs/phase-5-testing.md)
 - [Phase 8 - Projects](docs/phase-8-testing.md)
 - [Phase 9 - Notes](docs/phase-9-testing.md)
+- [Phase 10 - Calendar](docs/phase-10-testing.md)
 - [Appearance settings (6.6)](docs/appearance-testing.md)
 - [shadcn dropdowns, date/time picker, and sidebar](docs/shadcn-controls-testing.md)
 

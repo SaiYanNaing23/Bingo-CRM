@@ -80,6 +80,28 @@ export function useCalendarReminderCount() {
   })
 }
 
+export function useRescheduleCalendarEvent() {
+  const { user } = useAuth()
+  const client = useQueryClient()
+  return useMutation({
+    mutationFn: ({
+      id,
+      payload,
+    }: {
+      id: string
+      payload: Pick<CalendarPayload, 'startAt' | 'endAt' | 'timezone'>
+    }) =>
+      request<Success<CalendarEvent>>('/calendar/events/' + encodeURIComponent(id), {
+        method: 'PUT',
+        body: payload,
+      }),
+    onSuccess: async () => {
+      if (!user?.id) return
+      await client.invalidateQueries({ queryKey: ['crm', user.id, 'calendar'] })
+    },
+  })
+}
+
 export function useSaveCalendarEvent(id?: string) {
   const { user } = useAuth()
   const client = useQueryClient()

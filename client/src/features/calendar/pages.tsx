@@ -1,10 +1,23 @@
-import { useRef, useState } from 'react'
-import { Bell, CalendarDays, Clock3, Pencil, Plus, Search, Trash2 } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
+import {
+  Scheduler,
+  type CalendarEvent as CalendarKitEvent,
+  type CalendarTheme,
+  type ViewType,
+} from 'calendarkit-pro'
+import { Bell, Pencil, Search, Trash2 } from 'lucide-react'
 import { Link, NavLink, useLocation, useNavigate, useParams, useSearchParams } from 'react-router'
 import { toast } from 'sonner'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { ChoiceSelect } from '@/components/shared/choice-select'
 import { DateTimePicker } from '@/components/shared/date-time-picker'
@@ -15,12 +28,13 @@ import { safeReturnPath } from '@/lib/api-client'
 import { browserTimezone, displayDate, localInput, toTimestamp } from '@/lib/dates'
 import { friendly } from '@/lib/fields'
 import { useDebounced } from '@/lib/use-debounced'
+import { useTheme } from '@/features/settings/theme-context'
 import {
   useCalendarEvent,
-  useCalendarEvents,
   useCalendarRange,
   useCalendarReminders,
   useDeleteCalendarEvent,
+  useRescheduleCalendarEvent,
   useSaveCalendarEvent,
 } from './api'
 import { CalendarForm } from './calendar-form'
@@ -32,6 +46,7 @@ import {
 } from './types'
 
 type CalendarPageView = 'list' | 'range' | 'reminders' | 'detail' | 'edit'
+type CalendarDisplayView = Extract<ViewType, 'month' | 'week' | 'day'>
 
 const sourceRoutes: Record<CalendarSourceType, string> = {
   COMPANY: 'companies',
@@ -41,20 +56,60 @@ const sourceRoutes: Record<CalendarSourceType, string> = {
   PROJECT: 'projects',
 }
 
+const calendarKitTheme: CalendarTheme = {
+  colors: {
+    primary: 'var(--primary)',
+    secondary: 'var(--secondary)',
+    background: 'var(--background)',
+    foreground: 'var(--foreground)',
+    border: 'var(--border)',
+    muted: 'var(--muted)',
+    accent: 'var(--accent)',
+  },
+  fontFamily: 'inherit',
+  borderRadius: 'var(--radius)',
+}
+
 function positiveInteger(value: string | null, fallback: number) {
   const parsed = Number(value)
   return Number.isInteger(parsed) && parsed > 0 ? parsed : fallback
 }
 
-function currentDate() {
-  return new Date().toISOString().slice(0, 10)
+function currentDate(timezone: string) {
+  const parts = new Intl.DateTimeFormat('en-CA', {
+    timeZone: timezone,
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).formatToParts(new Date())
+  const value = Object.fromEntries(parts.map((part) => [part.type, part.value]))
+  return value.year + '-' + value.month + '-' + value.day
+}
+
+function dateValue(date: Date) {
+  const year = String(date.getFullYear())
+  const month = String(date.getMonth() + 1).padStart(2, '0')
+  const day = String(date.getDate()).padStart(2, '0')
+  return year + '-' + month + '-' + day
+}
+
+function calendarDate(value: string) {
+  const [year, month, day] = value.split('-').map(Number)
+  return new Date(year, month - 1, day, 12)
 }
 
 function returnPath(state: unknown) {
-  const from = state && typeof state === 'object' && 'from' in state
-    ? (state as { from?: unknown }).from
-    : undefined
+  const from =
+    state && typeof state === 'object' && 'from' in state
+      ? (state as { from?: unknown }).from
+      : undefined
   return safeReturnPath(from, '/calendar')
+}
+
+function stateString(state: unknown, key: string) {
+  if (!state || typeof state !== 'object' || !(key in state)) return undefined
+  const value = (state as Record<string, unknown>)[key]
+  return typeof value === 'string' ? value : undefined
 }
 
 function eventTime(event: CalendarEvent) {
@@ -62,119 +117,186 @@ function eventTime(event: CalendarEvent) {
   return event.endAt ? start + ' to ' + displayDate(event.endAt, event.timezone) : start
 }
 
-function dayKey(timestamp: string, timezone: string) {
-  const parts = new Intl.DateTimeFormat('en-CA', {
-    timeZone: timezone,
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-  }).formatToParts(new Date(timestamp))
-  const value = Object.fromEntries(parts.map((part) => [part.type, part.value]))
-  return value.year + '-' + value.month + '-' + value.day
-}
-
-function dayLabel(timestamp: string, timezone: string) {
-  return new Intl.DateTimeFormat(undefined, {
-    timeZone: timezone,
-    weekday: 'long',
-    month: 'long',
-    day: 'numeric',
-    year: 'numeric',
-  }).format(new Date(timestamp))
+function toCalendarKitEvent(event: CalendarEvent): CalendarKitEvent {
+  const start = new Date(event.startAt)
+  return {
+    id: event.id,
+    title: event.title,
+    start,
+    end: event.endAt ? new Date(event.endAt) : new Date(start.getTime() + 30 * 60_000),
+    description: friendly(event.type) + ' - ' + event.timezone,
+    calendarId: event.type,
+  }
 }
 
 function CalendarTabs() {
   const tabClass = ({ isActive }: { isActive: boolean }) =>
     'rounded-full px-4 py-2 text-sm font-medium transition ' +
-    (isActive ? 'bg-foreground text-background' : 'text-muted-foreground hover:bg-muted hover:text-foreground')
+    (isActive
+      ? 'bg-foreground text-background'
+      : 'text-muted-foreground hover:bg-muted hover:text-foreground')
 
   return (
-    <nav className="flex flex-wrap gap-2 rounded-2xl border bg-card p-2 shadow-sm" aria-label="Calendar views">
-      <NavLink end to="/calendar" className={tabClass}>Events</NavLink>
-      <NavLink to="/calendar/range" className={tabClass}>Agenda</NavLink>
-      <NavLink to="/calendar/reminders" className={tabClass}>Reminders</NavLink>
+    <nav
+      className="flex flex-wrap gap-2 rounded-2xl border bg-card p-2 shadow-sm"
+      aria-label="Calendar views"
+    >
+      <NavLink end to="/calendar" className={tabClass}>
+        Events
+      </NavLink>
+      <NavLink to="/calendar/range" className={tabClass}>
+        Agenda
+      </NavLink>
+      <NavLink to="/calendar/reminders" className={tabClass}>
+        Reminders
+      </NavLink>
     </nav>
   )
 }
 
-function EventCard({ event, from }: { event: CalendarEvent; from: string }) {
-  return (
-    <Link
-      to={'/calendar/' + event.id}
-      state={{ from }}
-      className="group grid gap-3 rounded-2xl border bg-card p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-foreground/25 hover:shadow-md md:grid-cols-[1fr_auto]"
-    >
-      <div className="min-w-0">
-        <div className="flex flex-wrap items-center gap-2">
-          <h2 className="truncate text-base font-semibold group-hover:underline">{event.title}</h2>
-          <Badge variant="secondary">{friendly(event.type)}</Badge>
-        </div>
-        <p className="mt-2 text-sm text-muted-foreground">{eventTime(event)}</p>
-        {event.sourceEntityType ? (
-          <p className="mt-1 text-xs text-muted-foreground">
-            {friendly(event.sourceEntityType)} source
-            {event.sourceAvailable === false ? ' is unavailable' : ''}
-          </p>
-        ) : null}
-      </div>
-      <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground md:justify-end">
-        <Clock3 className="size-4" />
-        {event.timezone}
-      </div>
-    </Link>
-  )
+function CalendarKitCreateBridge({
+  isOpen,
+  onClose,
+  event,
+  initialDate,
+  from,
+  timezone,
+}: {
+  isOpen: boolean
+  onClose: () => void
+  event?: CalendarKitEvent | null
+  initialDate?: Date
+  from: string
+  timezone: string
+}) {
+  const navigate = useNavigate()
+  const initialStartAt = initialDate?.toISOString()
+
+  useEffect(() => {
+    if (!isOpen) return
+    onClose()
+    if (event?.id) return
+    navigate('/calendar/new', {
+      state: {
+        from,
+        initialStartAt,
+        initialTimezone: timezone,
+      },
+    })
+  }, [event?.id, from, initialStartAt, isOpen, navigate, onClose, timezone])
+
+  return null
 }
 
-function CalendarListPage() {
+function CalendarSchedulerPage({ agenda = false }: { agenda?: boolean }) {
   const location = useLocation()
+  const navigate = useNavigate()
   const [params, setParams] = useSearchParams()
+  const { resolvedMode } = useTheme()
+  const timezone = params.get('timezone') || browserTimezone()
+  const date = /^\d{4}-\d{2}-\d{2}$/.test(params.get('date') ?? '')
+    ? params.get('date')!
+    : currentDate(timezone)
+  const requestedView = params.get('view')
+  const view: CalendarDisplayView =
+    requestedView === 'day' || requestedView === 'week' || requestedView === 'month'
+      ? requestedView
+      : 'month'
+  const requestedRange = params.get('range')
+  const agendaRange =
+    calendarRangeViews.find((value) => value === requestedRange) ?? 'month'
+  const backendView = agenda ? agendaRange : view
+  const type = calendarTypes.find((value) => value === params.get('type'))
   const search = params.get('search') ?? ''
   const debouncedSearch = useDebounced(search, 250)
-  const type = calendarTypes.find((value) => value === params.get('type'))
   const page = positiveInteger(params.get('page'), 1)
-  const limit = positiveInteger(params.get('limit'), 20)
-  const sortByParam = params.get('sortBy')
-  const sortBy = ['startAt', 'title', 'createdAt', 'updatedAt'].includes(sortByParam ?? '')
-    ? sortByParam!
-    : 'startAt'
-  const order = params.get('order') === 'desc' ? 'desc' : 'asc'
-  const events = useCalendarEvents({
-    search: debouncedSearch || undefined,
+  const range = useCalendarRange({
+    view: backendView,
+    date,
+    timezone,
     type,
+    search: debouncedSearch || undefined,
     page,
-    limit,
-    sortBy,
-    order,
+    limit: 100,
   })
+  const reschedule = useRescheduleCalendarEvent()
   const from = location.pathname + location.search
+  const events = range.data?.data.events ?? []
+  const calendarEvents = events.map(toCalendarKitEvent)
 
   const setFilter = (key: string, value?: string) => {
-    setParams((current) => {
-      const next = new URLSearchParams(current)
-      if (value) next.set(key, value)
-      else next.delete(key)
-      if (key !== 'page') next.delete('page')
-      return next
-    }, { replace: true })
+    setParams(
+      (current) => {
+        const next = new URLSearchParams(current)
+        if (value) next.set(key, value)
+        else next.delete(key)
+        if (key !== 'page') next.delete('page')
+        return next
+      },
+      { replace: true },
+    )
+  }
+
+  const persistTime = async (
+    kitEvent: CalendarKitEvent,
+    startAt: Date,
+    endAt: Date,
+    resized: boolean,
+  ) => {
+    const source = events.find((event) => event.id === kitEvent.id)
+    if (!source) return
+
+    try {
+      await reschedule.mutateAsync({
+        id: source.id,
+        payload: {
+          startAt: startAt.toISOString(),
+          endAt: resized || source.endAt ? endAt.toISOString() : null,
+          timezone,
+        },
+      })
+      toast.success(resized ? 'Event duration updated' : 'Event rescheduled')
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'Unable to reschedule this event.')
+    }
   }
 
   return (
     <div className="space-y-6">
       <PageHeader
-        title="Events"
-        description="Keep interviews, follow-ups, deadlines, and standalone commitments in one timeline."
-        action={
-          <Button asChild>
-            <Link to="/calendar/new" state={{ from }}>
-              <Plus className="size-4" />
-              New event
-            </Link>
-          </Button>
+        title={agenda ? 'Agenda' : 'Events'}
+        description={
+          agenda
+            ? 'Review your selected planning range in a chronological CalendarKit agenda.'
+            : 'Plan interviews, follow-ups, deadlines, and commitments on an interactive calendar.'
         }
       />
       <CalendarTabs />
 
-      <div className="grid gap-3 rounded-2xl border bg-card p-4 shadow-sm lg:grid-cols-[minmax(16rem,1fr)_13rem_12rem_9rem]">
+      <div className="grid gap-3 rounded-2xl border bg-card p-4 shadow-sm md:grid-cols-2 xl:grid-cols-4">
+        {agenda ? (
+          <ChoiceSelect
+            aria-label="Agenda range"
+            value={agendaRange}
+            onChange={(value) => setFilter('range', value)}
+            options={calendarRangeViews.map((value) => ({
+              value,
+              label: friendly(value) + ' agenda',
+            }))}
+          />
+        ) : (
+          <ChoiceSelect
+            aria-label="Calendar view"
+            value={view}
+            onChange={(value) => setFilter('view', value)}
+            options={[
+              { value: 'month', label: 'Month view' },
+              { value: 'week', label: 'Week view' },
+              { value: 'day', label: 'Day view' },
+            ]}
+          />
+        )}
+
         <label className="relative">
           <span className="sr-only">Search calendar events</span>
           <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
@@ -185,116 +307,15 @@ function CalendarListPage() {
             className="pl-9"
           />
         </label>
+
+        <TimezoneField
+          label={agenda ? 'Agenda timezone' : 'Calendar timezone'}
+          value={timezone}
+          onChange={(value) => setFilter('timezone', value)}
+        />
+
         <ChoiceSelect
-          value={type ?? ''}
-          onChange={(value) => setFilter('type', value)}
-          options={[
-            { value: '', label: 'All event types' },
-            ...calendarTypes.map((value) => ({ value, label: friendly(value) })),
-          ]}
-        />
-        <ChoiceSelect
-          value={sortBy}
-          onChange={(value) => setFilter('sortBy', value)}
-          options={[
-            { value: 'startAt', label: 'Sort by start' },
-            { value: 'title', label: 'Sort by title' },
-            { value: 'createdAt', label: 'Sort by created' },
-            { value: 'updatedAt', label: 'Sort by updated' },
-          ]}
-        />
-        <ChoiceSelect
-          value={order}
-          onChange={(value) => setFilter('order', value)}
-          options={[
-            { value: 'asc', label: 'Ascending' },
-            { value: 'desc', label: 'Descending' },
-          ]}
-        />
-      </div>
-
-      {events.isPending ? <Loading /> : null}
-      {events.isError ? <ErrorState error={events.error} retry={() => events.refetch()} /> : null}
-      {events.data && events.data.data.length === 0 ? (
-        <EmptyState
-          title="No calendar events found"
-          description={search || type ? 'Try clearing a filter.' : 'Create an event to start building your agenda.'}
-          action={
-            <Button asChild>
-              <Link to="/calendar/new" state={{ from }}>Create event</Link>
-            </Button>
-          }
-        />
-      ) : null}
-      {events.data?.data.length ? (
-        <div className="space-y-3">
-          {events.data.data.map((event) => <EventCard key={event.id} event={event} from={from} />)}
-        </div>
-      ) : null}
-      {events.data ? (
-        <Pagination
-          meta={events.data.meta}
-          busy={events.isFetching}
-          onPage={(value) => setFilter('page', String(value))}
-        />
-      ) : null}
-    </div>
-  )
-}
-
-function CalendarRangePage() {
-  const location = useLocation()
-  const [params, setParams] = useSearchParams()
-  const view = calendarRangeViews.find((value) => value === params.get('view')) ?? 'week'
-  const date = /^\d{4}-\d{2}-\d{2}$/.test(params.get('date') ?? '') ? params.get('date')! : currentDate()
-  const timezone = params.get('timezone') || browserTimezone()
-  const type = calendarTypes.find((value) => value === params.get('type'))
-  const page = positiveInteger(params.get('page'), 1)
-  const limit = positiveInteger(params.get('limit'), 50)
-  const range = useCalendarRange({ view, date, timezone, type, page, limit })
-  const from = location.pathname + location.search
-
-  const setFilter = (key: string, value?: string) => {
-    setParams((current) => {
-      const next = new URLSearchParams(current)
-      if (value) next.set(key, value)
-      else next.delete(key)
-      if (key !== 'page') next.delete('page')
-      return next
-    }, { replace: true })
-  }
-
-  const groups = new Map<string, CalendarEvent[]>()
-  for (const event of range.data?.data.events ?? []) {
-    const key = dayKey(event.startAt, timezone)
-    groups.set(key, [...(groups.get(key) ?? []), event])
-  }
-
-  return (
-    <div className="space-y-6">
-      <PageHeader
-        title="Agenda"
-        description="Scan a day, week, or month in the timezone where you plan to act."
-        action={
-          <Button asChild>
-            <Link to="/calendar/new" state={{ from }}>
-              <Plus className="size-4" />
-              New event
-            </Link>
-          </Button>
-        }
-      />
-      <CalendarTabs />
-
-      <div className="grid gap-3 rounded-2xl border bg-card p-4 shadow-sm md:grid-cols-2 xl:grid-cols-4">
-        <ChoiceSelect
-          value={view}
-          onChange={(value) => setFilter('view', value)}
-          options={calendarRangeViews.map((value) => ({ value, label: friendly(value) }))}
-        />
-        <Input type="date" value={date} onChange={(event) => setFilter('date', event.target.value)} />
-        <TimezoneField label="Agenda timezone" value={timezone} onChange={(value) => setFilter('timezone', value)} />
-        <ChoiceSelect
+          aria-label="Event type"
           value={type ?? ''}
           onChange={(value) => setFilter('type', value)}
           options={[
@@ -304,35 +325,54 @@ function CalendarRangePage() {
         />
       </div>
 
-      {range.data ? (
-        <div className="rounded-2xl border border-dashed bg-muted/30 px-5 py-4 text-sm text-muted-foreground">
-          Showing {displayDate(range.data.data.range.from, timezone)} through{' '}
-          {displayDate(range.data.data.range.to, timezone)} in {timezone}.
-        </div>
-      ) : null}
-      {range.isPending ? <Loading /> : null}
       {range.isError ? <ErrorState error={range.error} retry={() => range.refetch()} /> : null}
-      {range.data && range.data.data.events.length === 0 ? (
-        <EmptyState title="This range is clear" description="No events match the selected agenda window." />
+      {!range.isError ? (
+        <div className="min-h-[680px] overflow-hidden rounded-2xl border bg-card shadow-sm">
+          <Scheduler
+            events={calendarEvents}
+            view={agenda ? 'agenda' : view}
+            date={calendarDate(date)}
+            onDateChange={(value) => setFilter('date', dateValue(value))}
+            timezone={timezone}
+            onTimezoneChange={(value) => setFilter('timezone', value)}
+            theme={calendarKitTheme}
+            isDarkMode={resolvedMode === 'dark'}
+            isLoading={range.isPending || range.isFetching}
+            hideViewSwitcher
+            onEventClick={(event) =>
+              navigate('/calendar/' + event.id, { state: { from } })
+            }
+            onEventDrop={(event, startAt, endAt) =>
+              void persistTime(event, startAt, endAt, false)
+            }
+            onEventResize={(event, startAt, endAt) =>
+              void persistTime(event, startAt, endAt, true)
+            }
+            onEventDelete={(eventId) =>
+              navigate('/calendar/' + eventId, { state: { from } })
+            }
+            renderEventForm={(props) => (
+              <CalendarKitCreateBridge
+                isOpen={props.isOpen}
+                onClose={props.onClose}
+                event={props.event}
+                initialDate={props.initialDate}
+                from={from}
+                timezone={timezone}
+              />
+            )}
+          />
+        </div>
       ) : null}
 
-      {[...groups.entries()].map(([key, events]) => (
-        <section key={key} className="space-y-3">
-          <div className="flex items-center gap-3">
-            <CalendarDays className="size-5 text-muted-foreground" />
-            <h2 className="font-semibold">{dayLabel(events[0].startAt, timezone)}</h2>
-            <div className="h-px flex-1 bg-border" />
-          </div>
-          {events.map((event) => <EventCard key={event.id} event={event} from={from} />)}
-        </section>
-      ))}
-
-      {range.data ? (
-        <Pagination
-          meta={range.data.data.meta}
-          busy={range.isFetching}
-          onPage={(value) => setFilter('page', String(value))}
-        />
+      {range.data && range.data.data.meta.totalPages > 1 ? (
+        <div className="rounded-2xl border bg-card shadow-sm">
+          <Pagination
+            meta={range.data.data.meta}
+            busy={range.isFetching}
+            onPage={(value) => setFilter('page', String(value))}
+          />
+        </div>
       ) : null}
     </div>
   )
@@ -354,14 +394,17 @@ function CalendarRemindersPage() {
   const [draftTo, setDraftTo] = useState(() => localInput(to, timezone))
   const [windowError, setWindowError] = useState<string>()
   const reminders = useCalendarReminders({ from, to, page, limit })
-  const returnPath = location.pathname + location.search
+  const returnTo = location.pathname + location.search
 
   const setPage = (value: number) => {
-    setParams((current) => {
-      const next = new URLSearchParams(current)
-      next.set('page', String(value))
-      return next
-    }, { replace: true })
+    setParams(
+      (current) => {
+        const next = new URLSearchParams(current)
+        next.set('page', String(value))
+        return next
+      },
+      { replace: true },
+    )
   }
 
   const applyWindow = () => {
@@ -379,14 +422,17 @@ function CalendarRemindersPage() {
       }
 
       setWindowError(undefined)
-      setParams((current) => {
-        const next = new URLSearchParams(current)
-        next.set('from', nextFrom)
-        next.set('to', nextTo)
-        next.set('timezone', timezone)
-        next.delete('page')
-        return next
-      }, { replace: true })
+      setParams(
+        (current) => {
+          const next = new URLSearchParams(current)
+          next.set('from', nextFrom)
+          next.set('to', nextTo)
+          next.set('timezone', timezone)
+          next.delete('page')
+          return next
+        },
+        { replace: true },
+      )
     } catch {
       setWindowError('Enter a valid reminder window.')
     }
@@ -409,11 +455,14 @@ function CalendarRemindersPage() {
           onChange={(value) => {
             setDraftFrom(localInput(from, value))
             setDraftTo(localInput(to, value))
-            setParams((current) => {
-              const next = new URLSearchParams(current)
-              next.set('timezone', value)
-              return next
-            }, { replace: true })
+            setParams(
+              (current) => {
+                const next = new URLSearchParams(current)
+                next.set('timezone', value)
+                return next
+              },
+              { replace: true },
+            )
           }}
         />
         <Button onClick={applyWindow}>Apply window</Button>
@@ -421,9 +470,14 @@ function CalendarRemindersPage() {
       <FormError error={windowError} />
 
       {reminders.isPending ? <Loading /> : null}
-      {reminders.isError ? <ErrorState error={reminders.error} retry={() => reminders.refetch()} /> : null}
+      {reminders.isError ? (
+        <ErrorState error={reminders.error} retry={() => reminders.refetch()} />
+      ) : null}
       {reminders.data && reminders.data.data.length === 0 ? (
-        <EmptyState title="No reminders due" description="No reminder offsets land inside this window." />
+        <EmptyState
+          title="No reminders due"
+          description="No reminder offsets land inside this window."
+        />
       ) : null}
       {reminders.data?.data.length ? (
         <div className="space-y-3">
@@ -431,7 +485,7 @@ function CalendarRemindersPage() {
             <Link
               key={reminder.id}
               to={'/calendar/' + reminder.eventId}
-              state={{ from: returnPath }}
+              state={{ from: returnTo }}
               className="grid gap-3 rounded-2xl border bg-card p-5 shadow-sm transition hover:border-foreground/25 md:grid-cols-[auto_1fr_auto] md:items-center"
             >
               <div className="grid size-11 place-items-center rounded-xl bg-muted">
@@ -470,12 +524,15 @@ function CalendarDetailPage() {
   const from = returnPath(location.state)
 
   if (eventQuery.isPending) return <Loading />
-  if (eventQuery.isError) return <ErrorState error={eventQuery.error} retry={() => eventQuery.refetch()} />
+  if (eventQuery.isError) {
+    return <ErrorState error={eventQuery.error} retry={() => eventQuery.refetch()} />
+  }
 
   const event = eventQuery.data.data
-  const sourcePath = event.sourceEntityType && event.sourceEntityId
-    ? '/' + sourceRoutes[event.sourceEntityType] + '/' + event.sourceEntityId
-    : undefined
+  const sourcePath =
+    event.sourceEntityType && event.sourceEntityId
+      ? '/' + sourceRoutes[event.sourceEntityType] + '/' + event.sourceEntityId
+      : undefined
 
   const deleteEvent = async () => {
     try {
@@ -483,7 +540,9 @@ function CalendarDetailPage() {
       toast.success('Calendar event deleted')
       navigate(from, { replace: true })
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : 'Unable to delete this calendar event.')
+      toast.error(
+        error instanceof Error ? error.message : 'Unable to delete this calendar event.',
+      )
     }
   }
 
@@ -534,18 +593,34 @@ function CalendarDetailPage() {
           <h2 className="font-semibold">Context</h2>
           <div className="mt-4 space-y-4 text-sm">
             <div>
+              <p className="text-muted-foreground">Event type</p>
+              <Badge className="mt-2" variant="secondary">
+                {friendly(event.type)}
+              </Badge>
+            </div>
+            <div>
               <p className="text-muted-foreground">Reminders</p>
               <div className="mt-2 flex flex-wrap gap-2">
-                {event.reminders.length
-                  ? event.reminders.map((minutes) => <Badge key={minutes} variant="secondary">{minutes} min before</Badge>)
-                  : <span className="font-medium">No reminders</span>}
+                {event.reminders.length ? (
+                  event.reminders.map((minutes) => (
+                    <Badge key={minutes} variant="secondary">
+                      {minutes} min before
+                    </Badge>
+                  ))
+                ) : (
+                  <span className="font-medium">No reminders</span>
+                )}
               </div>
             </div>
             <div>
               <p className="text-muted-foreground">Linked source</p>
-              {!event.sourceEntityType ? <p className="mt-1 font-medium">Standalone event</p> : null}
+              {!event.sourceEntityType ? (
+                <p className="mt-1 font-medium">Standalone event</p>
+              ) : null}
               {event.sourceEntityType && event.sourceAvailable === false ? (
-                <p className="mt-1 font-medium">{friendly(event.sourceEntityType)} record is unavailable</p>
+                <p className="mt-1 font-medium">
+                  {friendly(event.sourceEntityType)} record is unavailable
+                </p>
               ) : null}
               {sourcePath && event.sourceAvailable !== false ? (
                 <Button asChild variant="outline" className="mt-2">
@@ -561,10 +636,18 @@ function CalendarDetailPage() {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Delete this calendar event?</DialogTitle>
-            <DialogDescription>This removes the event and its reminder schedule. This action cannot be undone.</DialogDescription>
+            <DialogDescription>
+              This removes the event and its reminder schedule. This action cannot be undone.
+            </DialogDescription>
           </DialogHeader>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setConfirming(false)} disabled={remove.isPending}>Cancel</Button>
+            <Button
+              variant="outline"
+              onClick={() => setConfirming(false)}
+              disabled={remove.isPending}
+            >
+              Cancel
+            </Button>
             <Button variant="destructive" onClick={deleteEvent} disabled={remove.isPending}>
               {remove.isPending ? 'Deleting...' : 'Delete event'}
             </Button>
@@ -583,9 +666,13 @@ function CalendarEditPage() {
   const save = useSaveCalendarEvent(id)
   const from = returnPath(location.state)
   const creating = !id
+  const initialStartAt = stateString(location.state, 'initialStartAt')
+  const initialTimezone = stateString(location.state, 'initialTimezone')
 
   if (!creating && eventQuery.isPending) return <Loading />
-  if (!creating && eventQuery.isError) return <ErrorState error={eventQuery.error} retry={() => eventQuery.refetch()} />
+  if (!creating && eventQuery.isError) {
+    return <ErrorState error={eventQuery.error} retry={() => eventQuery.refetch()} />
+  }
 
   const record = creating ? undefined : eventQuery.data?.data
   const cancelTo = creating ? from : '/calendar/' + id
@@ -594,19 +681,28 @@ function CalendarEditPage() {
     <div className="space-y-6">
       <PageHeader
         title={creating ? 'New event' : 'Edit event'}
-        description={creating ? 'Place a new commitment on your timeline.' : 'Update timing, reminders, or linked context.'}
+        description={
+          creating
+            ? 'Place a new commitment on your timeline.'
+            : 'Update timing, reminders, or linked context.'
+        }
         back={cancelTo}
         backState={creating ? undefined : { from }}
       />
       <CalendarForm
         record={record}
+        initialStartAt={creating ? initialStartAt : undefined}
+        initialTimezone={creating ? initialTimezone : undefined}
         cancelTo={cancelTo}
         cancelState={creating ? undefined : { from }}
         saving={save.isPending}
         onSave={async (payload) => {
           const result = await save.mutateAsync(payload)
           toast.success(creating ? 'Calendar event created' : 'Calendar event updated')
-          navigate('/calendar/' + result.data.id, { replace: true, state: { from } })
+          navigate('/calendar/' + result.data.id, {
+            replace: true,
+            state: { from },
+          })
         }}
       />
     </div>
@@ -614,9 +710,9 @@ function CalendarEditPage() {
 }
 
 export default function CalendarPages({ view }: { view: CalendarPageView }) {
-  if (view === 'range') return <CalendarRangePage />
+  if (view === 'range') return <CalendarSchedulerPage agenda />
   if (view === 'reminders') return <CalendarRemindersPage />
   if (view === 'detail') return <CalendarDetailPage />
   if (view === 'edit') return <CalendarEditPage />
-  return <CalendarListPage />
+  return <CalendarSchedulerPage />
 }

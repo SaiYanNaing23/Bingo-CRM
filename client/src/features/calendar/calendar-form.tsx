@@ -72,18 +72,30 @@ type CalendarFormValues = z.infer<typeof schema>
 
 interface CalendarFormProps {
   record?: CalendarEvent
+  initialStartAt?: string
+  initialTimezone?: string
   cancelTo: string
   cancelState?: { from: string }
   saving: boolean
   onSave: (payload: CalendarPayload) => Promise<unknown>
 }
 
-function defaultValues(record?: CalendarEvent): CalendarFormValues {
-  const timezone = record?.timezone ?? browserTimezone()
+function defaultValues(
+  record?: CalendarEvent,
+  initialStartAt?: string,
+  initialTimezone?: string,
+): CalendarFormValues {
+  const timezone =
+    record?.timezone ??
+    (initialTimezone && isTimezone(initialTimezone) ? initialTimezone : browserTimezone())
   return {
     title: record?.title ?? '',
     type: record?.type ?? 'OTHER',
-    startAt: record ? localInput(record.startAt, timezone) : '',
+    startAt: record
+      ? localInput(record.startAt, timezone)
+      : initialStartAt
+        ? localInput(initialStartAt, timezone)
+        : '',
     endAt: record?.endAt ? localInput(record.endAt, timezone) : '',
     timezone,
     reminders: record?.reminders.join(', ') ?? '',
@@ -113,7 +125,15 @@ function payloadFrom(values: CalendarFormValues, record?: CalendarEvent): Calend
   }
 }
 
-export function CalendarForm({ record, cancelTo, cancelState, saving, onSave }: CalendarFormProps) {
+export function CalendarForm({
+  record,
+  initialStartAt,
+  initialTimezone,
+  cancelTo,
+  cancelState,
+  saving,
+  onSave,
+}: CalendarFormProps) {
   const {
     control,
     formState: { errors, isDirty, isSubmitting },
@@ -124,7 +144,7 @@ export function CalendarForm({ record, cancelTo, cancelState, saving, onSave }: 
     setValue,
   } = useForm<CalendarFormValues>({
     resolver: zodResolver(schema),
-    defaultValues: defaultValues(record),
+    defaultValues: defaultValues(record, initialStartAt, initialTimezone),
   })
 
   const timezone = useWatch({ control, name: 'timezone' })

@@ -78,7 +78,7 @@ describe('Markdown preview', () => {
     expect(screen.getByRole('checkbox')).toBeDisabled()
     expect(container.querySelector('pre code')?.textContent).toBe('  const safe = true\n')
     expect(container.querySelector('script, img, iframe, [onerror]')).toBeNull()
-    expect(screen.getAllByRole('link').map((link) => link.getAttribute('href'))).toEqual([
+    expect(screen.getAllByRole('link').map((link: HTMLElement) => link.getAttribute('href'))).toEqual([
       'https://example.com',
       'https://example.com/tracker.png',
     ])

@@ -211,7 +211,8 @@ All paths below have the `/api/v1` prefix. Source of truth: [server route regist
 - [x] Phase 8 - Projects (backend Phase 5)
 - [x] Phase 9 - Notes (backend Phase 6)
 - [ ] Phase 10 - Calendar (backend Phase 7): implementation complete; verification pending
-- [ ] Phase 11 onward - Future modules, gated by backend availability
+- [x] Phase 11 - Documents (backend Phase 8): implementation complete
+- [ ] Phase 12 onward - Future modules, gated by backend availability
 
 ## Phase 0 - Design foundation and client setup
 
@@ -414,6 +415,39 @@ Acceptance criteria:
 - Event CRUD preserves timezone intent and reminder/source invariants.
 - Agenda and reminder views are URL-addressable and retain context through detail navigation.
 - Phase 10 is marked complete only after the verification checklist passes.
+
+## Phase 11 - Documents (backend Phase 8)
+
+Status: implementation complete (2026-09-10).
+
+Goal: upload, version, and manage career documents (resumes, cover letters, certificates, assignments, offer letters, contracts) with optional single CRM entity links and full revision history.
+
+### 11.1 Document contracts, types, and navigation
+
+- [x] Defined DocumentType, DocumentVersionItem, DocumentItem, and payload contracts in `src/features/documents/types.ts`.
+- [x] Added `documentsConfig` in `src/features/documents/config.ts` with categories, versions, and tags.
+- [x] Added version mutations and query hooks in `src/features/documents/api.ts`.
+- [x] Added Documents to workspace sidebar under Career and registered routes in `router.tsx`.
+
+### 11.2 Document form & cloud file upload
+
+- [x] Integrated real cloud file uploads via **UploadThing** (@uploadthing/react + uploadthing/express), direct to cloud storage.
+- [x] Implemented UploadDropzone in DocumentForm with drag-and-drop support for PDF, DOCX, images, and text documents up to 32MB.
+- [x] Automatically populates file URL, file name, file size, and MIME type upon successful upload.
+
+- [x] Implemented `DocumentForm` supporting document metadata (title, category, tags, description, entity link) and initial file details (file name, size, MIME type, URL, changelog).
+- [x] Reused `EntityPicker` to bind or detach Company, Contact, Application, Task, or Project.
+
+### 11.3 Document detail, version dialog, and history
+
+- [x] Implemented `Detail` view showing metadata badges, linked entity status, and active file card.
+- [x] Built `VersionDialog` to register and auto-increment revisions.
+- [x] Displayed interactive Version History table with file sizes, changelogs, download links, and version deletion (protecting the last active version).
+
+### 11.4 Verification and handoff
+
+- [x] Production build passes cleanly (`tsc --noEmit && vite build`).
+- [x] All 38 client unit tests pass (`npm run test`).
 
 ## Future phases - Dependent on backend availability
 

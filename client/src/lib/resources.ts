@@ -8,6 +8,7 @@ import type { Application } from '@/features/applications/types'
 import type { Task } from '@/features/tasks/types'
 import type { Project } from '@/features/projects/types'
 import type { Note } from '@/features/notes/types'
+import type { DocumentItem } from '@/features/documents/types'
 export interface ResourceMap {
   companies: Company
   contacts: Contact
@@ -15,6 +16,7 @@ export interface ResourceMap {
   tasks: Task
   projects: Project
   notes: Note
+  documents: DocumentItem
 }
 export type Kind = keyof ResourceMap
 export type Entity = ResourceMap[Kind]

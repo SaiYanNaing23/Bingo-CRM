@@ -1,3 +1,4 @@
+import "dotenv/config";
 import { z } from "zod";
 
 const envSchema = z.object({
@@ -18,6 +19,7 @@ const envSchema = z.object({
   SEED_ADMIN_EMAIL: z.string().email().default("admin@devtrack.local"),
   SEED_ADMIN_NAME: z.string().default("DevTrack Admin"),
   SEED_ADMIN_PASSWORD: z.string().min(8).default("DevTrackAdmin123!"),
+  UPLOADTHING_TOKEN: z.string().optional(),
 });
 
 export const env = envSchema.parse(process.env);

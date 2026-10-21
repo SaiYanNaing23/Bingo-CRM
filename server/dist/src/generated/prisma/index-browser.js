@@ -276,6 +276,39 @@ exports.Prisma.CalendarEventScalarFieldEnum = {
   deletedAt: 'deletedAt'
 };
 
+exports.Prisma.DocumentScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  title: 'title',
+  type: 'type',
+  description: 'description',
+  tags: 'tags',
+  companyId: 'companyId',
+  contactId: 'contactId',
+  applicationId: 'applicationId',
+  taskId: 'taskId',
+  projectId: 'projectId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt'
+};
+
+exports.Prisma.DocumentVersionScalarFieldEnum = {
+  id: 'id',
+  documentId: 'documentId',
+  userId: 'userId',
+  version: 'version',
+  fileName: 'fileName',
+  fileSize: 'fileSize',
+  mimeType: 'mimeType',
+  fileUrl: 'fileUrl',
+  storageProvider: 'storageProvider',
+  storageKey: 'storageKey',
+  changelog: 'changelog',
+  createdAt: 'createdAt',
+  deletedAt: 'deletedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -363,6 +396,16 @@ exports.CalendarEventType = exports.$Enums.CalendarEventType = {
   OTHER: 'OTHER'
 };
 
+exports.DocumentType = exports.$Enums.DocumentType = {
+  RESUME: 'RESUME',
+  COVER_LETTER: 'COVER_LETTER',
+  CERTIFICATE: 'CERTIFICATE',
+  ASSIGNMENT: 'ASSIGNMENT',
+  OFFER_LETTER: 'OFFER_LETTER',
+  CONTRACT: 'CONTRACT',
+  OTHER: 'OTHER'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   Company: 'Company',
@@ -373,7 +416,9 @@ exports.Prisma.ModelName = {
   Project: 'Project',
   ProjectActivity: 'ProjectActivity',
   Note: 'Note',
-  CalendarEvent: 'CalendarEvent'
+  CalendarEvent: 'CalendarEvent',
+  Document: 'Document',
+  DocumentVersion: 'DocumentVersion'
 };
 
 /**

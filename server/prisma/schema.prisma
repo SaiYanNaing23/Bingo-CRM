@@ -101,6 +101,8 @@ model User {
   projectActivities ProjectActivity[]
   notes        Note[]
   calendarEvents CalendarEvent[]
+  documents    Document[]
+  documentVersions DocumentVersion[]
 
   @@index([deletedAt])
   @@index([role])
@@ -129,6 +131,7 @@ model Company {
   applications Application[]
   linkedNotes  Note[]
   calendarEvents CalendarEvent[]
+  documents    Document[]
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -160,6 +163,7 @@ model Contact {
   applications Application[]
   linkedNotes  Note[]
   calendarEvents CalendarEvent[]
+  documents    Document[]
 
   @@index([userId])
   @@index([userId, deletedAt])
@@ -187,6 +191,7 @@ model Application {
   stageHistory     ApplicationStageHistory[]
   linkedNotes      Note[]
   calendarEvents  CalendarEvent[]
+  documents       Document[]
 
   @@index([userId, deletedAt])
   @@index([userId, companyId])
@@ -232,6 +237,7 @@ model Task {
   nextOccurrence   Task? @relation("TaskRecurrence")
   linkedNotes      Note[]
   calendarEvents  CalendarEvent[]
+  documents       Document[]
 
   @@index([userId, deletedAt])
   @@index([userId, dueDate])
@@ -259,6 +265,7 @@ model Project {
   activities ProjectActivity[]
   linkedNotes Note[]
   calendarEvents CalendarEvent[]
+  documents      Document[]
 
   @@index([userId, deletedAt])
   @@index([userId, status])
@@ -350,4 +357,72 @@ model CalendarEvent {
   @@index([applicationId])
   @@index([taskId])
   @@index([projectId])
+}
+
+enum DocumentType {
+  RESUME
+  COVER_LETTER
+  CERTIFICATE
+  ASSIGNMENT
+  OFFER_LETTER
+  CONTRACT
+  OTHER
+}
+
+model Document {
+  id            String       @id @default(uuid())
+  userId        String
+  title         String
+  type          DocumentType @default(OTHER)
+  description   String?
+  tags          String[]     @default([])
+  companyId     String?
+  contactId     String?
+  applicationId String?
+  taskId        String?
+  projectId     String?
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  deletedAt     DateTime?
+
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  company     Company?     @relation(fields: [companyId], references: [id], onDelete: SetNull)
+  contact     Contact?     @relation(fields: [contactId], references: [id], onDelete: SetNull)
+  application Application? @relation(fields: [applicationId], references: [id], onDelete: SetNull)
+  task        Task?        @relation(fields: [taskId], references: [id], onDelete: SetNull)
+  project     Project?     @relation(fields: [projectId], references: [id], onDelete: SetNull)
+  versions    DocumentVersion[]
+
+  @@index([userId, deletedAt])
+  @@index([userId, type, deletedAt])
+  @@index([userId, updatedAt])
+  @@index([companyId])
+  @@index([contactId])
+  @@index([applicationId])
+  @@index([taskId])
+  @@index([projectId])
+  @@index([tags], type: Gin)
+}
+
+model DocumentVersion {
+  id              String    @id @default(uuid())
+  documentId      String
+  userId          String
+  version         Int
+  fileName        String
+  fileSize        Int
+  mimeType        String
+  fileUrl         String
+  storageProvider String    @default("METADATA")
+  storageKey      String?
+  changelog       String?
+  createdAt       DateTime  @default(now())
+  deletedAt       DateTime?
+
+  document Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([documentId, version])
+  @@index([documentId, deletedAt])
+  @@index([userId, deletedAt])
 }

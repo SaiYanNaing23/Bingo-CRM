@@ -4,7 +4,7 @@ Goal: build a production-grade backend first for a career + project CRM, then wi
 
 Client roadmap: [client-agenda.md](./client-agenda.md). This file remains the backend agenda.
 
-Workstream status (2026-09-09): backend Phases 0-7 are implemented and verified, including Projects, Notes, and Calendar. Client Phases 0-5 and 8-9 (Projects and Notes) are implemented and verified in their separate agenda. Backend Phase 4-7 user manual checks remain separate and pending; client manual checks are also recorded separately. Backend Phases 8-11 remain future work.
+Workstream status (2026-09-10): backend Phases 0-8 are implemented and verified, including Projects, Notes, Calendar, and Documents. Client Phases 0-5 and 8-9 (Projects and Notes) are implemented and verified in their separate agenda. Backend Phase 4-7 user manual checks remain separate and pending; client manual checks are also recorded separately. Backend Phases 8-11 remain future work.
 
 ## Implementation Progress
 
@@ -22,7 +22,7 @@ Workstream status (2026-09-09): backend Phases 0-7 are implemented and verified,
 - [x] Phase 5 - Projects module
 - [x] Phase 6 - Notes module
 - [x] Phase 7 - Calendar module
-- [ ] Phase 8 - Documents module
+- [x] Phase 8 - Documents module
 - [ ] Phase 9 - Learning module
 - [ ] Phase 10 - Interviews
 - [ ] Phase 11 - Analytics
@@ -1086,9 +1086,66 @@ Goal: deliver a working module and a reproducible handoff.
 
 ## Phase 8 - Documents module
 
-- Purpose: resume, certificates, assignments, offer docs.
-- Storage abstraction with metadata-first DB, Cloudinary later.
-- APIs: upload metadata + list versions + soft delete.
+Purpose: manage career documents (resumes, cover letters, certificates, assignments, offer letters, contracts), organize with tags, attach to CRM records, and track document versions with a storage abstraction.
+
+Implementation status: complete and automatically verified (2026-09-10), following verified backend Phase 7. Ready-to-use requests and the separate pending manual checklist are in [Documents sample requests](server/docs/documents-testing.md).
+
+### Phase 8 API decisions
+
+- Document types: RESUME, COVER_LETTER, CERTIFICATE, ASSIGNMENT, OFFER_LETTER, CONTRACT, OTHER.
+- Required create fields: title (2-200 characters, trimmed), initial file metadata (fileName, fileSize, mimeType, fileUrl).
+- Storage abstraction: `IStorageService` interface with `MetadataStorageService` as default, ready for Cloudinary/S3.
+- Versioning: Document has initial version (1) on create; new versions added via `POST /documents/:id/versions` auto-increment version number.
+- Entity linking: Optional attachment to at most one CRM record (Company, Contact, Application, Task, Project).
+- Soft delete: Deleting document cascades soft-deletion to all versions. Individual versions can be soft-deleted, but deleting the last active version is rejected.
+
+### 8.1 Documents foundation data model
+
+- Add `DocumentType` enum, `Document` and `DocumentVersion` models.
+- Single source check constraint, title length check, fileName check, fileSize > 0 check, and version uniqueness constraint.
+- Add reverse relations on User, Company, Contact, Application, Task, Project.
+- Check in migration `20260910000000_documents` and regenerate Prisma client.
+
+### 8.2 Documents module structure and validation
+
+- Implement controllers, services, DTOs, routes, validators, and types in `src/modules/documents/`.
+- Strict input validation with Zod; reject blank strings, invalid Unicode/NUL, non-positive sizes, and unknown fields.
+
+### 8.3 Storage abstraction
+
+- Decouple file storage through `IStorageService` and `MetadataStorageService`.
+
+### 8.4 Document CRUD & entity binding
+
+- Implement POST/GET `/documents` and GET/PUT/DELETE `/documents/:id`.
+- Support title and description search, type filter, tag filter, entity filters, sorting, and pagination.
+- Enforce user isolation, row locking during mutations, and batch entity availability checks.
+
+### 8.5 Document versioning APIs
+
+- Implement `POST /documents/:id/versions`, `GET /documents/:id/versions`, `DELETE /documents/:id/versions/:versionId`.
+- Auto-increment version counter, update document `updatedAt`, and prevent deleting the only active version.
+
+### 8.6 Verification and test requests
+
+- Add `test:documents` integration suite with fresh migration replay, auth, validation, CRUD, entity lifecycle, versioning, and filtering tests.
+- Add `server/docs/documents-testing.md` with sample requests and user manual checklist.
+
+### 8.7 Progress
+
+- [x] 8.1 Documents foundation data model
+- [x] 8.2 Documents module structure and validation
+- [x] 8.3 Storage abstraction
+- [x] 8.4 Document CRUD & entity binding
+- [x] 8.5 Document versioning APIs
+- [x] 8.6 Verification and test requests
+
+### 8.8 Automated verification (2026-09-10)
+
+- Implemented all eight authenticated Documents routes with validated document CRUD, entity binding, storage abstraction, and versioning. Added [sample requests and a separate manual checklist](server/docs/documents-testing.md).
+- Prisma generation and backend build pass cleanly. Applied `20260910000000_documents` to Neon database; all 10 migrations are applied and up to date.
+- `test:documents` passes all 8 scenarios covering fresh migration replay, constraint enforcement, validation, CRUD, entity lifecycle, versioning, and filtering.
+- Regression test suites (Notes, Calendar, etc.) pass without regression.
 
 ## Phase 9 - Learning module
 

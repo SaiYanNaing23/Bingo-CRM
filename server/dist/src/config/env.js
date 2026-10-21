@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.env = void 0;
+require("dotenv/config");
 const zod_1 = require("zod");
 const envSchema = zod_1.z.object({
     NODE_ENV: zod_1.z.enum(["development", "test", "production"]).default("development"),
@@ -20,6 +21,7 @@ const envSchema = zod_1.z.object({
     SEED_ADMIN_EMAIL: zod_1.z.string().email().default("admin@devtrack.local"),
     SEED_ADMIN_NAME: zod_1.z.string().default("DevTrack Admin"),
     SEED_ADMIN_PASSWORD: zod_1.z.string().min(8).default("DevTrackAdmin123!"),
+    UPLOADTHING_TOKEN: zod_1.z.string().optional(),
 });
 exports.env = envSchema.parse(process.env);
 //# sourceMappingURL=env.js.map

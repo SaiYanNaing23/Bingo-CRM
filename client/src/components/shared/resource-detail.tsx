@@ -175,7 +175,7 @@ export function ResourceDetail({ config }: { config: ResourceConfig }) {
           <RelatedRecords config={applicationsConfig} companyId={record.id} />
         </>
       )}
-      {config.kind !== 'notes' && (
+      {config.kind in { companies: 1, contacts: 1, applications: 1, tasks: 1, projects: 1 } && (
         <RelatedNotes
           entity={{
             type: (
@@ -186,7 +186,7 @@ export function ResourceDetail({ config }: { config: ResourceConfig }) {
                 tasks: 'TASK',
                 projects: 'PROJECT',
               } as const
-            )[config.kind],
+            )[config.kind as 'companies' | 'contacts' | 'applications' | 'tasks' | 'projects'],
             id: record.id,
           }}
         />

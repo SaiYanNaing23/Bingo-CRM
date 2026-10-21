@@ -14,6 +14,7 @@ import {
   Palette,
   FolderKanban,
   NotebookPen,
+  FileText,
 } from 'lucide-react'
 import { Separator } from '@/components/ui/separator'
 import {
@@ -53,6 +54,7 @@ const groups = [
       { label: 'Companies', to: '/companies', icon: Building2 },
       { label: 'Contacts', to: '/contacts', icon: UsersRound },
       { label: 'Applications', to: '/applications', icon: BriefcaseBusiness },
+      { label: 'Documents', to: '/documents', icon: FileText },
     ],
   },
   {

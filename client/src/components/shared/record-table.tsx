@@ -11,6 +11,7 @@ import {
   CheckSquare2,
   FolderKanban,
   NotebookPen,
+  FileText,
 } from 'lucide-react'
 import { useAuth } from '@/features/auth/auth-context'
 import {
@@ -35,6 +36,7 @@ const icons = {
   tasks: CheckSquare2,
   projects: FolderKanban,
   notes: NotebookPen,
+  documents: FileText,
 }
 
 function RecordAvatar({ record, kind }: { record: Entity; kind: ResourceConfig['kind'] }) {
@@ -187,6 +189,13 @@ export function RecordTable({
                 {displayDate(value, valueOf(record, 'timezone') as string | undefined)}
               </span>
             )
+          if (key === 'currentVersion') {
+            const v = value as { fileName?: string } | null
+            return <span className="block max-w-44 truncate text-muted-foreground" title={v?.fileName}>{v?.fileName || '—'}</span>
+          }
+          if (key === 'versionCount') {
+            return <span className="inline-flex items-center rounded-md bg-muted px-2 py-0.5 text-xs font-medium text-muted-foreground">v{String(value)}</span>
+          }
           if (key === 'remote') return value ? 'Remote' : 'Not remote'
           if (Array.isArray(value))
             return (

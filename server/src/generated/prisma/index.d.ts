@@ -63,6 +63,16 @@ export type Note = $Result.DefaultSelection<Prisma.$NotePayload>
  * 
  */
 export type CalendarEvent = $Result.DefaultSelection<Prisma.$CalendarEventPayload>
+/**
+ * Model Document
+ * 
+ */
+export type Document = $Result.DefaultSelection<Prisma.$DocumentPayload>
+/**
+ * Model DocumentVersion
+ * 
+ */
+export type DocumentVersion = $Result.DefaultSelection<Prisma.$DocumentVersionPayload>
 
 /**
  * Enums
@@ -170,6 +180,19 @@ export const CalendarEventType: {
 
 export type CalendarEventType = (typeof CalendarEventType)[keyof typeof CalendarEventType]
 
+
+export const DocumentType: {
+  RESUME: 'RESUME',
+  COVER_LETTER: 'COVER_LETTER',
+  CERTIFICATE: 'CERTIFICATE',
+  ASSIGNMENT: 'ASSIGNMENT',
+  OFFER_LETTER: 'OFFER_LETTER',
+  CONTRACT: 'CONTRACT',
+  OTHER: 'OTHER'
+};
+
+export type DocumentType = (typeof DocumentType)[keyof typeof DocumentType]
+
 }
 
 export type UserRole = $Enums.UserRole
@@ -211,6 +234,10 @@ export const ProjectActivityType: typeof $Enums.ProjectActivityType
 export type CalendarEventType = $Enums.CalendarEventType
 
 export const CalendarEventType: typeof $Enums.CalendarEventType
+
+export type DocumentType = $Enums.DocumentType
+
+export const DocumentType: typeof $Enums.DocumentType
 
 /**
  * ##  Prisma Client ʲˢ
@@ -432,6 +459,26 @@ export class PrismaClient<
     * ```
     */
   get calendarEvent(): Prisma.CalendarEventDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.document`: Exposes CRUD operations for the **Document** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Documents
+    * const documents = await prisma.document.findMany()
+    * ```
+    */
+  get document(): Prisma.DocumentDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.documentVersion`: Exposes CRUD operations for the **DocumentVersion** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more DocumentVersions
+    * const documentVersions = await prisma.documentVersion.findMany()
+    * ```
+    */
+  get documentVersion(): Prisma.DocumentVersionDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -888,7 +935,9 @@ export namespace Prisma {
     Project: 'Project',
     ProjectActivity: 'ProjectActivity',
     Note: 'Note',
-    CalendarEvent: 'CalendarEvent'
+    CalendarEvent: 'CalendarEvent',
+    Document: 'Document',
+    DocumentVersion: 'DocumentVersion'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -904,7 +953,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "company" | "contact" | "application" | "applicationStageHistory" | "task" | "project" | "projectActivity" | "note" | "calendarEvent"
+      modelProps: "user" | "company" | "contact" | "application" | "applicationStageHistory" | "task" | "project" | "projectActivity" | "note" | "calendarEvent" | "document" | "documentVersion"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1648,6 +1697,154 @@ export namespace Prisma {
           }
         }
       }
+      Document: {
+        payload: Prisma.$DocumentPayload<ExtArgs>
+        fields: Prisma.DocumentFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.DocumentFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.DocumentFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentPayload>
+          }
+          findFirst: {
+            args: Prisma.DocumentFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.DocumentFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentPayload>
+          }
+          findMany: {
+            args: Prisma.DocumentFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentPayload>[]
+          }
+          create: {
+            args: Prisma.DocumentCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentPayload>
+          }
+          createMany: {
+            args: Prisma.DocumentCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.DocumentCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentPayload>[]
+          }
+          delete: {
+            args: Prisma.DocumentDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentPayload>
+          }
+          update: {
+            args: Prisma.DocumentUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentPayload>
+          }
+          deleteMany: {
+            args: Prisma.DocumentDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.DocumentUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.DocumentUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentPayload>[]
+          }
+          upsert: {
+            args: Prisma.DocumentUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentPayload>
+          }
+          aggregate: {
+            args: Prisma.DocumentAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateDocument>
+          }
+          groupBy: {
+            args: Prisma.DocumentGroupByArgs<ExtArgs>
+            result: $Utils.Optional<DocumentGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.DocumentCountArgs<ExtArgs>
+            result: $Utils.Optional<DocumentCountAggregateOutputType> | number
+          }
+        }
+      }
+      DocumentVersion: {
+        payload: Prisma.$DocumentVersionPayload<ExtArgs>
+        fields: Prisma.DocumentVersionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.DocumentVersionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentVersionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.DocumentVersionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentVersionPayload>
+          }
+          findFirst: {
+            args: Prisma.DocumentVersionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentVersionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.DocumentVersionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentVersionPayload>
+          }
+          findMany: {
+            args: Prisma.DocumentVersionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentVersionPayload>[]
+          }
+          create: {
+            args: Prisma.DocumentVersionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentVersionPayload>
+          }
+          createMany: {
+            args: Prisma.DocumentVersionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.DocumentVersionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentVersionPayload>[]
+          }
+          delete: {
+            args: Prisma.DocumentVersionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentVersionPayload>
+          }
+          update: {
+            args: Prisma.DocumentVersionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentVersionPayload>
+          }
+          deleteMany: {
+            args: Prisma.DocumentVersionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.DocumentVersionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.DocumentVersionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentVersionPayload>[]
+          }
+          upsert: {
+            args: Prisma.DocumentVersionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DocumentVersionPayload>
+          }
+          aggregate: {
+            args: Prisma.DocumentVersionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateDocumentVersion>
+          }
+          groupBy: {
+            args: Prisma.DocumentVersionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<DocumentVersionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.DocumentVersionCountArgs<ExtArgs>
+            result: $Utils.Optional<DocumentVersionCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1781,6 +1978,8 @@ export namespace Prisma {
     projectActivity?: ProjectActivityOmit
     note?: NoteOmit
     calendarEvent?: CalendarEventOmit
+    document?: DocumentOmit
+    documentVersion?: DocumentVersionOmit
   }
 
   /* Types for Logging */
@@ -1870,6 +2069,8 @@ export namespace Prisma {
     projectActivities: number
     notes: number
     calendarEvents: number
+    documents: number
+    documentVersions: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1882,6 +2083,8 @@ export namespace Prisma {
     projectActivities?: boolean | UserCountOutputTypeCountProjectActivitiesArgs
     notes?: boolean | UserCountOutputTypeCountNotesArgs
     calendarEvents?: boolean | UserCountOutputTypeCountCalendarEventsArgs
+    documents?: boolean | UserCountOutputTypeCountDocumentsArgs
+    documentVersions?: boolean | UserCountOutputTypeCountDocumentVersionsArgs
   }
 
   // Custom InputTypes
@@ -1958,6 +2161,20 @@ export namespace Prisma {
     where?: CalendarEventWhereInput
   }
 
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountDocumentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DocumentWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountDocumentVersionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DocumentVersionWhereInput
+  }
+
 
   /**
    * Count Type CompanyCountOutputType
@@ -1968,6 +2185,7 @@ export namespace Prisma {
     applications: number
     linkedNotes: number
     calendarEvents: number
+    documents: number
   }
 
   export type CompanyCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1975,6 +2193,7 @@ export namespace Prisma {
     applications?: boolean | CompanyCountOutputTypeCountApplicationsArgs
     linkedNotes?: boolean | CompanyCountOutputTypeCountLinkedNotesArgs
     calendarEvents?: boolean | CompanyCountOutputTypeCountCalendarEventsArgs
+    documents?: boolean | CompanyCountOutputTypeCountDocumentsArgs
   }
 
   // Custom InputTypes
@@ -2016,6 +2235,13 @@ export namespace Prisma {
     where?: CalendarEventWhereInput
   }
 
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountDocumentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DocumentWhereInput
+  }
+
 
   /**
    * Count Type ContactCountOutputType
@@ -2025,12 +2251,14 @@ export namespace Prisma {
     applications: number
     linkedNotes: number
     calendarEvents: number
+    documents: number
   }
 
   export type ContactCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     applications?: boolean | ContactCountOutputTypeCountApplicationsArgs
     linkedNotes?: boolean | ContactCountOutputTypeCountLinkedNotesArgs
     calendarEvents?: boolean | ContactCountOutputTypeCountCalendarEventsArgs
+    documents?: boolean | ContactCountOutputTypeCountDocumentsArgs
   }
 
   // Custom InputTypes
@@ -2065,6 +2293,13 @@ export namespace Prisma {
     where?: CalendarEventWhereInput
   }
 
+  /**
+   * ContactCountOutputType without action
+   */
+  export type ContactCountOutputTypeCountDocumentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DocumentWhereInput
+  }
+
 
   /**
    * Count Type ApplicationCountOutputType
@@ -2074,12 +2309,14 @@ export namespace Prisma {
     stageHistory: number
     linkedNotes: number
     calendarEvents: number
+    documents: number
   }
 
   export type ApplicationCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     stageHistory?: boolean | ApplicationCountOutputTypeCountStageHistoryArgs
     linkedNotes?: boolean | ApplicationCountOutputTypeCountLinkedNotesArgs
     calendarEvents?: boolean | ApplicationCountOutputTypeCountCalendarEventsArgs
+    documents?: boolean | ApplicationCountOutputTypeCountDocumentsArgs
   }
 
   // Custom InputTypes
@@ -2114,6 +2351,13 @@ export namespace Prisma {
     where?: CalendarEventWhereInput
   }
 
+  /**
+   * ApplicationCountOutputType without action
+   */
+  export type ApplicationCountOutputTypeCountDocumentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DocumentWhereInput
+  }
+
 
   /**
    * Count Type TaskCountOutputType
@@ -2122,11 +2366,13 @@ export namespace Prisma {
   export type TaskCountOutputType = {
     linkedNotes: number
     calendarEvents: number
+    documents: number
   }
 
   export type TaskCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     linkedNotes?: boolean | TaskCountOutputTypeCountLinkedNotesArgs
     calendarEvents?: boolean | TaskCountOutputTypeCountCalendarEventsArgs
+    documents?: boolean | TaskCountOutputTypeCountDocumentsArgs
   }
 
   // Custom InputTypes
@@ -2154,6 +2400,13 @@ export namespace Prisma {
     where?: CalendarEventWhereInput
   }
 
+  /**
+   * TaskCountOutputType without action
+   */
+  export type TaskCountOutputTypeCountDocumentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DocumentWhereInput
+  }
+
 
   /**
    * Count Type ProjectCountOutputType
@@ -2163,12 +2416,14 @@ export namespace Prisma {
     activities: number
     linkedNotes: number
     calendarEvents: number
+    documents: number
   }
 
   export type ProjectCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     activities?: boolean | ProjectCountOutputTypeCountActivitiesArgs
     linkedNotes?: boolean | ProjectCountOutputTypeCountLinkedNotesArgs
     calendarEvents?: boolean | ProjectCountOutputTypeCountCalendarEventsArgs
+    documents?: boolean | ProjectCountOutputTypeCountDocumentsArgs
   }
 
   // Custom InputTypes
@@ -2201,6 +2456,44 @@ export namespace Prisma {
    */
   export type ProjectCountOutputTypeCountCalendarEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: CalendarEventWhereInput
+  }
+
+  /**
+   * ProjectCountOutputType without action
+   */
+  export type ProjectCountOutputTypeCountDocumentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DocumentWhereInput
+  }
+
+
+  /**
+   * Count Type DocumentCountOutputType
+   */
+
+  export type DocumentCountOutputType = {
+    versions: number
+  }
+
+  export type DocumentCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    versions?: boolean | DocumentCountOutputTypeCountVersionsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * DocumentCountOutputType without action
+   */
+  export type DocumentCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentCountOutputType
+     */
+    select?: DocumentCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * DocumentCountOutputType without action
+   */
+  export type DocumentCountOutputTypeCountVersionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DocumentVersionWhereInput
   }
 
 
@@ -2405,6 +2698,8 @@ export namespace Prisma {
     projectActivities?: boolean | User$projectActivitiesArgs<ExtArgs>
     notes?: boolean | User$notesArgs<ExtArgs>
     calendarEvents?: boolean | User$calendarEventsArgs<ExtArgs>
+    documents?: boolean | User$documentsArgs<ExtArgs>
+    documentVersions?: boolean | User$documentVersionsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -2452,6 +2747,8 @@ export namespace Prisma {
     projectActivities?: boolean | User$projectActivitiesArgs<ExtArgs>
     notes?: boolean | User$notesArgs<ExtArgs>
     calendarEvents?: boolean | User$calendarEventsArgs<ExtArgs>
+    documents?: boolean | User$documentsArgs<ExtArgs>
+    documentVersions?: boolean | User$documentVersionsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -2469,6 +2766,8 @@ export namespace Prisma {
       projectActivities: Prisma.$ProjectActivityPayload<ExtArgs>[]
       notes: Prisma.$NotePayload<ExtArgs>[]
       calendarEvents: Prisma.$CalendarEventPayload<ExtArgs>[]
+      documents: Prisma.$DocumentPayload<ExtArgs>[]
+      documentVersions: Prisma.$DocumentVersionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -2882,6 +3181,8 @@ export namespace Prisma {
     projectActivities<T extends User$projectActivitiesArgs<ExtArgs> = {}>(args?: Subset<T, User$projectActivitiesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectActivityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     notes<T extends User$notesArgs<ExtArgs> = {}>(args?: Subset<T, User$notesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     calendarEvents<T extends User$calendarEventsArgs<ExtArgs> = {}>(args?: Subset<T, User$calendarEventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CalendarEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    documents<T extends User$documentsArgs<ExtArgs> = {}>(args?: Subset<T, User$documentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    documentVersions<T extends User$documentVersionsArgs<ExtArgs> = {}>(args?: Subset<T, User$documentVersionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DocumentVersionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3528,6 +3829,54 @@ export namespace Prisma {
   }
 
   /**
+   * User.documents
+   */
+  export type User$documentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Document
+     */
+    select?: DocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Document
+     */
+    omit?: DocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentInclude<ExtArgs> | null
+    where?: DocumentWhereInput
+    orderBy?: DocumentOrderByWithRelationInput | DocumentOrderByWithRelationInput[]
+    cursor?: DocumentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DocumentScalarFieldEnum | DocumentScalarFieldEnum[]
+  }
+
+  /**
+   * User.documentVersions
+   */
+  export type User$documentVersionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentVersion
+     */
+    select?: DocumentVersionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentVersion
+     */
+    omit?: DocumentVersionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentVersionInclude<ExtArgs> | null
+    where?: DocumentVersionWhereInput
+    orderBy?: DocumentVersionOrderByWithRelationInput | DocumentVersionOrderByWithRelationInput[]
+    cursor?: DocumentVersionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DocumentVersionScalarFieldEnum | DocumentVersionScalarFieldEnum[]
+  }
+
+  /**
    * User without action
    */
   export type UserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3848,6 +4197,7 @@ export namespace Prisma {
     applications?: boolean | Company$applicationsArgs<ExtArgs>
     linkedNotes?: boolean | Company$linkedNotesArgs<ExtArgs>
     calendarEvents?: boolean | Company$calendarEventsArgs<ExtArgs>
+    documents?: boolean | Company$documentsArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["company"]>
@@ -3923,6 +4273,7 @@ export namespace Prisma {
     applications?: boolean | Company$applicationsArgs<ExtArgs>
     linkedNotes?: boolean | Company$linkedNotesArgs<ExtArgs>
     calendarEvents?: boolean | Company$calendarEventsArgs<ExtArgs>
+    documents?: boolean | Company$documentsArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
   }
@@ -3940,6 +4291,7 @@ export namespace Prisma {
       applications: Prisma.$ApplicationPayload<ExtArgs>[]
       linkedNotes: Prisma.$NotePayload<ExtArgs>[]
       calendarEvents: Prisma.$CalendarEventPayload<ExtArgs>[]
+      documents: Prisma.$DocumentPayload<ExtArgs>[]
       user: Prisma.$UserPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -4359,6 +4711,7 @@ export namespace Prisma {
     applications<T extends Company$applicationsArgs<ExtArgs> = {}>(args?: Subset<T, Company$applicationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ApplicationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     linkedNotes<T extends Company$linkedNotesArgs<ExtArgs> = {}>(args?: Subset<T, Company$linkedNotesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     calendarEvents<T extends Company$calendarEventsArgs<ExtArgs> = {}>(args?: Subset<T, Company$calendarEventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CalendarEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    documents<T extends Company$documentsArgs<ExtArgs> = {}>(args?: Subset<T, Company$documentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -4904,6 +5257,30 @@ export namespace Prisma {
   }
 
   /**
+   * Company.documents
+   */
+  export type Company$documentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Document
+     */
+    select?: DocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Document
+     */
+    omit?: DocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentInclude<ExtArgs> | null
+    where?: DocumentWhereInput
+    orderBy?: DocumentOrderByWithRelationInput | DocumentOrderByWithRelationInput[]
+    cursor?: DocumentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DocumentScalarFieldEnum | DocumentScalarFieldEnum[]
+  }
+
+  /**
    * Company without action
    */
   export type CompanyDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5171,6 +5548,7 @@ export namespace Prisma {
     applications?: boolean | Contact$applicationsArgs<ExtArgs>
     linkedNotes?: boolean | Contact$linkedNotesArgs<ExtArgs>
     calendarEvents?: boolean | Contact$calendarEventsArgs<ExtArgs>
+    documents?: boolean | Contact$documentsArgs<ExtArgs>
     _count?: boolean | ContactCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["contact"]>
 
@@ -5239,6 +5617,7 @@ export namespace Prisma {
     applications?: boolean | Contact$applicationsArgs<ExtArgs>
     linkedNotes?: boolean | Contact$linkedNotesArgs<ExtArgs>
     calendarEvents?: boolean | Contact$calendarEventsArgs<ExtArgs>
+    documents?: boolean | Contact$documentsArgs<ExtArgs>
     _count?: boolean | ContactCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ContactIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5258,6 +5637,7 @@ export namespace Prisma {
       applications: Prisma.$ApplicationPayload<ExtArgs>[]
       linkedNotes: Prisma.$NotePayload<ExtArgs>[]
       calendarEvents: Prisma.$CalendarEventPayload<ExtArgs>[]
+      documents: Prisma.$DocumentPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -5674,6 +6054,7 @@ export namespace Prisma {
     applications<T extends Contact$applicationsArgs<ExtArgs> = {}>(args?: Subset<T, Contact$applicationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ApplicationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     linkedNotes<T extends Contact$linkedNotesArgs<ExtArgs> = {}>(args?: Subset<T, Contact$linkedNotesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     calendarEvents<T extends Contact$calendarEventsArgs<ExtArgs> = {}>(args?: Subset<T, Contact$calendarEventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CalendarEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    documents<T extends Contact$documentsArgs<ExtArgs> = {}>(args?: Subset<T, Contact$documentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6191,6 +6572,30 @@ export namespace Prisma {
   }
 
   /**
+   * Contact.documents
+   */
+  export type Contact$documentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Document
+     */
+    select?: DocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Document
+     */
+    omit?: DocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentInclude<ExtArgs> | null
+    where?: DocumentWhereInput
+    orderBy?: DocumentOrderByWithRelationInput | DocumentOrderByWithRelationInput[]
+    cursor?: DocumentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DocumentScalarFieldEnum | DocumentScalarFieldEnum[]
+  }
+
+  /**
    * Contact without action
    */
   export type ContactDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6443,6 +6848,7 @@ export namespace Prisma {
     stageHistory?: boolean | Application$stageHistoryArgs<ExtArgs>
     linkedNotes?: boolean | Application$linkedNotesArgs<ExtArgs>
     calendarEvents?: boolean | Application$calendarEventsArgs<ExtArgs>
+    documents?: boolean | Application$documentsArgs<ExtArgs>
     _count?: boolean | ApplicationCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["application"]>
 
@@ -6508,6 +6914,7 @@ export namespace Prisma {
     stageHistory?: boolean | Application$stageHistoryArgs<ExtArgs>
     linkedNotes?: boolean | Application$linkedNotesArgs<ExtArgs>
     calendarEvents?: boolean | Application$calendarEventsArgs<ExtArgs>
+    documents?: boolean | Application$documentsArgs<ExtArgs>
     _count?: boolean | ApplicationCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ApplicationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6530,6 +6937,7 @@ export namespace Prisma {
       stageHistory: Prisma.$ApplicationStageHistoryPayload<ExtArgs>[]
       linkedNotes: Prisma.$NotePayload<ExtArgs>[]
       calendarEvents: Prisma.$CalendarEventPayload<ExtArgs>[]
+      documents: Prisma.$DocumentPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -6945,6 +7353,7 @@ export namespace Prisma {
     stageHistory<T extends Application$stageHistoryArgs<ExtArgs> = {}>(args?: Subset<T, Application$stageHistoryArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ApplicationStageHistoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     linkedNotes<T extends Application$linkedNotesArgs<ExtArgs> = {}>(args?: Subset<T, Application$linkedNotesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     calendarEvents<T extends Application$calendarEventsArgs<ExtArgs> = {}>(args?: Subset<T, Application$calendarEventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CalendarEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    documents<T extends Application$documentsArgs<ExtArgs> = {}>(args?: Subset<T, Application$documentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7476,6 +7885,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: CalendarEventScalarFieldEnum | CalendarEventScalarFieldEnum[]
+  }
+
+  /**
+   * Application.documents
+   */
+  export type Application$documentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Document
+     */
+    select?: DocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Document
+     */
+    omit?: DocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentInclude<ExtArgs> | null
+    where?: DocumentWhereInput
+    orderBy?: DocumentOrderByWithRelationInput | DocumentOrderByWithRelationInput[]
+    cursor?: DocumentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DocumentScalarFieldEnum | DocumentScalarFieldEnum[]
   }
 
   /**
@@ -8822,6 +9255,7 @@ export namespace Prisma {
     nextOccurrence?: boolean | Task$nextOccurrenceArgs<ExtArgs>
     linkedNotes?: boolean | Task$linkedNotesArgs<ExtArgs>
     calendarEvents?: boolean | Task$calendarEventsArgs<ExtArgs>
+    documents?: boolean | Task$documentsArgs<ExtArgs>
     _count?: boolean | TaskCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["task"]>
 
@@ -8887,6 +9321,7 @@ export namespace Prisma {
     nextOccurrence?: boolean | Task$nextOccurrenceArgs<ExtArgs>
     linkedNotes?: boolean | Task$linkedNotesArgs<ExtArgs>
     calendarEvents?: boolean | Task$calendarEventsArgs<ExtArgs>
+    documents?: boolean | Task$documentsArgs<ExtArgs>
     _count?: boolean | TaskCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TaskIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8906,6 +9341,7 @@ export namespace Prisma {
       nextOccurrence: Prisma.$TaskPayload<ExtArgs> | null
       linkedNotes: Prisma.$NotePayload<ExtArgs>[]
       calendarEvents: Prisma.$CalendarEventPayload<ExtArgs>[]
+      documents: Prisma.$DocumentPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -9321,6 +9757,7 @@ export namespace Prisma {
     nextOccurrence<T extends Task$nextOccurrenceArgs<ExtArgs> = {}>(args?: Subset<T, Task$nextOccurrenceArgs<ExtArgs>>): Prisma__TaskClient<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     linkedNotes<T extends Task$linkedNotesArgs<ExtArgs> = {}>(args?: Subset<T, Task$linkedNotesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     calendarEvents<T extends Task$calendarEventsArgs<ExtArgs> = {}>(args?: Subset<T, Task$calendarEventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CalendarEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    documents<T extends Task$documentsArgs<ExtArgs> = {}>(args?: Subset<T, Task$documentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -9851,6 +10288,30 @@ export namespace Prisma {
   }
 
   /**
+   * Task.documents
+   */
+  export type Task$documentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Document
+     */
+    select?: DocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Document
+     */
+    omit?: DocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentInclude<ExtArgs> | null
+    where?: DocumentWhereInput
+    orderBy?: DocumentOrderByWithRelationInput | DocumentOrderByWithRelationInput[]
+    cursor?: DocumentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DocumentScalarFieldEnum | DocumentScalarFieldEnum[]
+  }
+
+  /**
    * Task without action
    */
   export type TaskDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -10127,6 +10588,7 @@ export namespace Prisma {
     activities?: boolean | Project$activitiesArgs<ExtArgs>
     linkedNotes?: boolean | Project$linkedNotesArgs<ExtArgs>
     calendarEvents?: boolean | Project$calendarEventsArgs<ExtArgs>
+    documents?: boolean | Project$documentsArgs<ExtArgs>
     _count?: boolean | ProjectCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["project"]>
 
@@ -10186,6 +10648,7 @@ export namespace Prisma {
     activities?: boolean | Project$activitiesArgs<ExtArgs>
     linkedNotes?: boolean | Project$linkedNotesArgs<ExtArgs>
     calendarEvents?: boolean | Project$calendarEventsArgs<ExtArgs>
+    documents?: boolean | Project$documentsArgs<ExtArgs>
     _count?: boolean | ProjectCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ProjectIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -10202,6 +10665,7 @@ export namespace Prisma {
       activities: Prisma.$ProjectActivityPayload<ExtArgs>[]
       linkedNotes: Prisma.$NotePayload<ExtArgs>[]
       calendarEvents: Prisma.$CalendarEventPayload<ExtArgs>[]
+      documents: Prisma.$DocumentPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -10615,6 +11079,7 @@ export namespace Prisma {
     activities<T extends Project$activitiesArgs<ExtArgs> = {}>(args?: Subset<T, Project$activitiesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectActivityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     linkedNotes<T extends Project$linkedNotesArgs<ExtArgs> = {}>(args?: Subset<T, Project$linkedNotesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     calendarEvents<T extends Project$calendarEventsArgs<ExtArgs> = {}>(args?: Subset<T, Project$calendarEventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CalendarEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    documents<T extends Project$documentsArgs<ExtArgs> = {}>(args?: Subset<T, Project$documentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -11127,6 +11592,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: CalendarEventScalarFieldEnum | CalendarEventScalarFieldEnum[]
+  }
+
+  /**
+   * Project.documents
+   */
+  export type Project$documentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Document
+     */
+    select?: DocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Document
+     */
+    omit?: DocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentInclude<ExtArgs> | null
+    where?: DocumentWhereInput
+    orderBy?: DocumentOrderByWithRelationInput | DocumentOrderByWithRelationInput[]
+    cursor?: DocumentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DocumentScalarFieldEnum | DocumentScalarFieldEnum[]
   }
 
   /**
@@ -14992,6 +15481,2560 @@ export namespace Prisma {
 
 
   /**
+   * Model Document
+   */
+
+  export type AggregateDocument = {
+    _count: DocumentCountAggregateOutputType | null
+    _min: DocumentMinAggregateOutputType | null
+    _max: DocumentMaxAggregateOutputType | null
+  }
+
+  export type DocumentMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    title: string | null
+    type: $Enums.DocumentType | null
+    description: string | null
+    companyId: string | null
+    contactId: string | null
+    applicationId: string | null
+    taskId: string | null
+    projectId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    deletedAt: Date | null
+  }
+
+  export type DocumentMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    title: string | null
+    type: $Enums.DocumentType | null
+    description: string | null
+    companyId: string | null
+    contactId: string | null
+    applicationId: string | null
+    taskId: string | null
+    projectId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    deletedAt: Date | null
+  }
+
+  export type DocumentCountAggregateOutputType = {
+    id: number
+    userId: number
+    title: number
+    type: number
+    description: number
+    tags: number
+    companyId: number
+    contactId: number
+    applicationId: number
+    taskId: number
+    projectId: number
+    createdAt: number
+    updatedAt: number
+    deletedAt: number
+    _all: number
+  }
+
+
+  export type DocumentMinAggregateInputType = {
+    id?: true
+    userId?: true
+    title?: true
+    type?: true
+    description?: true
+    companyId?: true
+    contactId?: true
+    applicationId?: true
+    taskId?: true
+    projectId?: true
+    createdAt?: true
+    updatedAt?: true
+    deletedAt?: true
+  }
+
+  export type DocumentMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    title?: true
+    type?: true
+    description?: true
+    companyId?: true
+    contactId?: true
+    applicationId?: true
+    taskId?: true
+    projectId?: true
+    createdAt?: true
+    updatedAt?: true
+    deletedAt?: true
+  }
+
+  export type DocumentCountAggregateInputType = {
+    id?: true
+    userId?: true
+    title?: true
+    type?: true
+    description?: true
+    tags?: true
+    companyId?: true
+    contactId?: true
+    applicationId?: true
+    taskId?: true
+    projectId?: true
+    createdAt?: true
+    updatedAt?: true
+    deletedAt?: true
+    _all?: true
+  }
+
+  export type DocumentAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Document to aggregate.
+     */
+    where?: DocumentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Documents to fetch.
+     */
+    orderBy?: DocumentOrderByWithRelationInput | DocumentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: DocumentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Documents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Documents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Documents
+    **/
+    _count?: true | DocumentCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: DocumentMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: DocumentMaxAggregateInputType
+  }
+
+  export type GetDocumentAggregateType<T extends DocumentAggregateArgs> = {
+        [P in keyof T & keyof AggregateDocument]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateDocument[P]>
+      : GetScalarType<T[P], AggregateDocument[P]>
+  }
+
+
+
+
+  export type DocumentGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DocumentWhereInput
+    orderBy?: DocumentOrderByWithAggregationInput | DocumentOrderByWithAggregationInput[]
+    by: DocumentScalarFieldEnum[] | DocumentScalarFieldEnum
+    having?: DocumentScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: DocumentCountAggregateInputType | true
+    _min?: DocumentMinAggregateInputType
+    _max?: DocumentMaxAggregateInputType
+  }
+
+  export type DocumentGroupByOutputType = {
+    id: string
+    userId: string
+    title: string
+    type: $Enums.DocumentType
+    description: string | null
+    tags: string[]
+    companyId: string | null
+    contactId: string | null
+    applicationId: string | null
+    taskId: string | null
+    projectId: string | null
+    createdAt: Date
+    updatedAt: Date
+    deletedAt: Date | null
+    _count: DocumentCountAggregateOutputType | null
+    _min: DocumentMinAggregateOutputType | null
+    _max: DocumentMaxAggregateOutputType | null
+  }
+
+  type GetDocumentGroupByPayload<T extends DocumentGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<DocumentGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof DocumentGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], DocumentGroupByOutputType[P]>
+            : GetScalarType<T[P], DocumentGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type DocumentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    title?: boolean
+    type?: boolean
+    description?: boolean
+    tags?: boolean
+    companyId?: boolean
+    contactId?: boolean
+    applicationId?: boolean
+    taskId?: boolean
+    projectId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    deletedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    company?: boolean | Document$companyArgs<ExtArgs>
+    contact?: boolean | Document$contactArgs<ExtArgs>
+    application?: boolean | Document$applicationArgs<ExtArgs>
+    task?: boolean | Document$taskArgs<ExtArgs>
+    project?: boolean | Document$projectArgs<ExtArgs>
+    versions?: boolean | Document$versionsArgs<ExtArgs>
+    _count?: boolean | DocumentCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["document"]>
+
+  export type DocumentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    title?: boolean
+    type?: boolean
+    description?: boolean
+    tags?: boolean
+    companyId?: boolean
+    contactId?: boolean
+    applicationId?: boolean
+    taskId?: boolean
+    projectId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    deletedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    company?: boolean | Document$companyArgs<ExtArgs>
+    contact?: boolean | Document$contactArgs<ExtArgs>
+    application?: boolean | Document$applicationArgs<ExtArgs>
+    task?: boolean | Document$taskArgs<ExtArgs>
+    project?: boolean | Document$projectArgs<ExtArgs>
+  }, ExtArgs["result"]["document"]>
+
+  export type DocumentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    title?: boolean
+    type?: boolean
+    description?: boolean
+    tags?: boolean
+    companyId?: boolean
+    contactId?: boolean
+    applicationId?: boolean
+    taskId?: boolean
+    projectId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    deletedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    company?: boolean | Document$companyArgs<ExtArgs>
+    contact?: boolean | Document$contactArgs<ExtArgs>
+    application?: boolean | Document$applicationArgs<ExtArgs>
+    task?: boolean | Document$taskArgs<ExtArgs>
+    project?: boolean | Document$projectArgs<ExtArgs>
+  }, ExtArgs["result"]["document"]>
+
+  export type DocumentSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    title?: boolean
+    type?: boolean
+    description?: boolean
+    tags?: boolean
+    companyId?: boolean
+    contactId?: boolean
+    applicationId?: boolean
+    taskId?: boolean
+    projectId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    deletedAt?: boolean
+  }
+
+  export type DocumentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "title" | "type" | "description" | "tags" | "companyId" | "contactId" | "applicationId" | "taskId" | "projectId" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["document"]>
+  export type DocumentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    company?: boolean | Document$companyArgs<ExtArgs>
+    contact?: boolean | Document$contactArgs<ExtArgs>
+    application?: boolean | Document$applicationArgs<ExtArgs>
+    task?: boolean | Document$taskArgs<ExtArgs>
+    project?: boolean | Document$projectArgs<ExtArgs>
+    versions?: boolean | Document$versionsArgs<ExtArgs>
+    _count?: boolean | DocumentCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type DocumentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    company?: boolean | Document$companyArgs<ExtArgs>
+    contact?: boolean | Document$contactArgs<ExtArgs>
+    application?: boolean | Document$applicationArgs<ExtArgs>
+    task?: boolean | Document$taskArgs<ExtArgs>
+    project?: boolean | Document$projectArgs<ExtArgs>
+  }
+  export type DocumentIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    company?: boolean | Document$companyArgs<ExtArgs>
+    contact?: boolean | Document$contactArgs<ExtArgs>
+    application?: boolean | Document$applicationArgs<ExtArgs>
+    task?: boolean | Document$taskArgs<ExtArgs>
+    project?: boolean | Document$projectArgs<ExtArgs>
+  }
+
+  export type $DocumentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Document"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      company: Prisma.$CompanyPayload<ExtArgs> | null
+      contact: Prisma.$ContactPayload<ExtArgs> | null
+      application: Prisma.$ApplicationPayload<ExtArgs> | null
+      task: Prisma.$TaskPayload<ExtArgs> | null
+      project: Prisma.$ProjectPayload<ExtArgs> | null
+      versions: Prisma.$DocumentVersionPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      title: string
+      type: $Enums.DocumentType
+      description: string | null
+      tags: string[]
+      companyId: string | null
+      contactId: string | null
+      applicationId: string | null
+      taskId: string | null
+      projectId: string | null
+      createdAt: Date
+      updatedAt: Date
+      deletedAt: Date | null
+    }, ExtArgs["result"]["document"]>
+    composites: {}
+  }
+
+  type DocumentGetPayload<S extends boolean | null | undefined | DocumentDefaultArgs> = $Result.GetResult<Prisma.$DocumentPayload, S>
+
+  type DocumentCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<DocumentFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: DocumentCountAggregateInputType | true
+    }
+
+  export interface DocumentDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Document'], meta: { name: 'Document' } }
+    /**
+     * Find zero or one Document that matches the filter.
+     * @param {DocumentFindUniqueArgs} args - Arguments to find a Document
+     * @example
+     * // Get one Document
+     * const document = await prisma.document.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends DocumentFindUniqueArgs>(args: SelectSubset<T, DocumentFindUniqueArgs<ExtArgs>>): Prisma__DocumentClient<$Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Document that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {DocumentFindUniqueOrThrowArgs} args - Arguments to find a Document
+     * @example
+     * // Get one Document
+     * const document = await prisma.document.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends DocumentFindUniqueOrThrowArgs>(args: SelectSubset<T, DocumentFindUniqueOrThrowArgs<ExtArgs>>): Prisma__DocumentClient<$Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Document that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DocumentFindFirstArgs} args - Arguments to find a Document
+     * @example
+     * // Get one Document
+     * const document = await prisma.document.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends DocumentFindFirstArgs>(args?: SelectSubset<T, DocumentFindFirstArgs<ExtArgs>>): Prisma__DocumentClient<$Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Document that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DocumentFindFirstOrThrowArgs} args - Arguments to find a Document
+     * @example
+     * // Get one Document
+     * const document = await prisma.document.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends DocumentFindFirstOrThrowArgs>(args?: SelectSubset<T, DocumentFindFirstOrThrowArgs<ExtArgs>>): Prisma__DocumentClient<$Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Documents that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DocumentFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Documents
+     * const documents = await prisma.document.findMany()
+     * 
+     * // Get first 10 Documents
+     * const documents = await prisma.document.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const documentWithIdOnly = await prisma.document.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends DocumentFindManyArgs>(args?: SelectSubset<T, DocumentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Document.
+     * @param {DocumentCreateArgs} args - Arguments to create a Document.
+     * @example
+     * // Create one Document
+     * const Document = await prisma.document.create({
+     *   data: {
+     *     // ... data to create a Document
+     *   }
+     * })
+     * 
+     */
+    create<T extends DocumentCreateArgs>(args: SelectSubset<T, DocumentCreateArgs<ExtArgs>>): Prisma__DocumentClient<$Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Documents.
+     * @param {DocumentCreateManyArgs} args - Arguments to create many Documents.
+     * @example
+     * // Create many Documents
+     * const document = await prisma.document.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends DocumentCreateManyArgs>(args?: SelectSubset<T, DocumentCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Documents and returns the data saved in the database.
+     * @param {DocumentCreateManyAndReturnArgs} args - Arguments to create many Documents.
+     * @example
+     * // Create many Documents
+     * const document = await prisma.document.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Documents and only return the `id`
+     * const documentWithIdOnly = await prisma.document.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends DocumentCreateManyAndReturnArgs>(args?: SelectSubset<T, DocumentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Document.
+     * @param {DocumentDeleteArgs} args - Arguments to delete one Document.
+     * @example
+     * // Delete one Document
+     * const Document = await prisma.document.delete({
+     *   where: {
+     *     // ... filter to delete one Document
+     *   }
+     * })
+     * 
+     */
+    delete<T extends DocumentDeleteArgs>(args: SelectSubset<T, DocumentDeleteArgs<ExtArgs>>): Prisma__DocumentClient<$Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Document.
+     * @param {DocumentUpdateArgs} args - Arguments to update one Document.
+     * @example
+     * // Update one Document
+     * const document = await prisma.document.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends DocumentUpdateArgs>(args: SelectSubset<T, DocumentUpdateArgs<ExtArgs>>): Prisma__DocumentClient<$Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Documents.
+     * @param {DocumentDeleteManyArgs} args - Arguments to filter Documents to delete.
+     * @example
+     * // Delete a few Documents
+     * const { count } = await prisma.document.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends DocumentDeleteManyArgs>(args?: SelectSubset<T, DocumentDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Documents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DocumentUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Documents
+     * const document = await prisma.document.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends DocumentUpdateManyArgs>(args: SelectSubset<T, DocumentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Documents and returns the data updated in the database.
+     * @param {DocumentUpdateManyAndReturnArgs} args - Arguments to update many Documents.
+     * @example
+     * // Update many Documents
+     * const document = await prisma.document.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Documents and only return the `id`
+     * const documentWithIdOnly = await prisma.document.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends DocumentUpdateManyAndReturnArgs>(args: SelectSubset<T, DocumentUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Document.
+     * @param {DocumentUpsertArgs} args - Arguments to update or create a Document.
+     * @example
+     * // Update or create a Document
+     * const document = await prisma.document.upsert({
+     *   create: {
+     *     // ... data to create a Document
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Document we want to update
+     *   }
+     * })
+     */
+    upsert<T extends DocumentUpsertArgs>(args: SelectSubset<T, DocumentUpsertArgs<ExtArgs>>): Prisma__DocumentClient<$Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Documents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DocumentCountArgs} args - Arguments to filter Documents to count.
+     * @example
+     * // Count the number of Documents
+     * const count = await prisma.document.count({
+     *   where: {
+     *     // ... the filter for the Documents we want to count
+     *   }
+     * })
+    **/
+    count<T extends DocumentCountArgs>(
+      args?: Subset<T, DocumentCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], DocumentCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Document.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DocumentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends DocumentAggregateArgs>(args: Subset<T, DocumentAggregateArgs>): Prisma.PrismaPromise<GetDocumentAggregateType<T>>
+
+    /**
+     * Group by Document.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DocumentGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends DocumentGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: DocumentGroupByArgs['orderBy'] }
+        : { orderBy?: DocumentGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, DocumentGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetDocumentGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Document model
+   */
+  readonly fields: DocumentFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Document.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__DocumentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    company<T extends Document$companyArgs<ExtArgs> = {}>(args?: Subset<T, Document$companyArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    contact<T extends Document$contactArgs<ExtArgs> = {}>(args?: Subset<T, Document$contactArgs<ExtArgs>>): Prisma__ContactClient<$Result.GetResult<Prisma.$ContactPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    application<T extends Document$applicationArgs<ExtArgs> = {}>(args?: Subset<T, Document$applicationArgs<ExtArgs>>): Prisma__ApplicationClient<$Result.GetResult<Prisma.$ApplicationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    task<T extends Document$taskArgs<ExtArgs> = {}>(args?: Subset<T, Document$taskArgs<ExtArgs>>): Prisma__TaskClient<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    project<T extends Document$projectArgs<ExtArgs> = {}>(args?: Subset<T, Document$projectArgs<ExtArgs>>): Prisma__ProjectClient<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    versions<T extends Document$versionsArgs<ExtArgs> = {}>(args?: Subset<T, Document$versionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DocumentVersionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Document model
+   */
+  interface DocumentFieldRefs {
+    readonly id: FieldRef<"Document", 'String'>
+    readonly userId: FieldRef<"Document", 'String'>
+    readonly title: FieldRef<"Document", 'String'>
+    readonly type: FieldRef<"Document", 'DocumentType'>
+    readonly description: FieldRef<"Document", 'String'>
+    readonly tags: FieldRef<"Document", 'String[]'>
+    readonly companyId: FieldRef<"Document", 'String'>
+    readonly contactId: FieldRef<"Document", 'String'>
+    readonly applicationId: FieldRef<"Document", 'String'>
+    readonly taskId: FieldRef<"Document", 'String'>
+    readonly projectId: FieldRef<"Document", 'String'>
+    readonly createdAt: FieldRef<"Document", 'DateTime'>
+    readonly updatedAt: FieldRef<"Document", 'DateTime'>
+    readonly deletedAt: FieldRef<"Document", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Document findUnique
+   */
+  export type DocumentFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Document
+     */
+    select?: DocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Document
+     */
+    omit?: DocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentInclude<ExtArgs> | null
+    /**
+     * Filter, which Document to fetch.
+     */
+    where: DocumentWhereUniqueInput
+  }
+
+  /**
+   * Document findUniqueOrThrow
+   */
+  export type DocumentFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Document
+     */
+    select?: DocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Document
+     */
+    omit?: DocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentInclude<ExtArgs> | null
+    /**
+     * Filter, which Document to fetch.
+     */
+    where: DocumentWhereUniqueInput
+  }
+
+  /**
+   * Document findFirst
+   */
+  export type DocumentFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Document
+     */
+    select?: DocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Document
+     */
+    omit?: DocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentInclude<ExtArgs> | null
+    /**
+     * Filter, which Document to fetch.
+     */
+    where?: DocumentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Documents to fetch.
+     */
+    orderBy?: DocumentOrderByWithRelationInput | DocumentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Documents.
+     */
+    cursor?: DocumentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Documents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Documents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Documents.
+     */
+    distinct?: DocumentScalarFieldEnum | DocumentScalarFieldEnum[]
+  }
+
+  /**
+   * Document findFirstOrThrow
+   */
+  export type DocumentFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Document
+     */
+    select?: DocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Document
+     */
+    omit?: DocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentInclude<ExtArgs> | null
+    /**
+     * Filter, which Document to fetch.
+     */
+    where?: DocumentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Documents to fetch.
+     */
+    orderBy?: DocumentOrderByWithRelationInput | DocumentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Documents.
+     */
+    cursor?: DocumentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Documents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Documents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Documents.
+     */
+    distinct?: DocumentScalarFieldEnum | DocumentScalarFieldEnum[]
+  }
+
+  /**
+   * Document findMany
+   */
+  export type DocumentFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Document
+     */
+    select?: DocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Document
+     */
+    omit?: DocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentInclude<ExtArgs> | null
+    /**
+     * Filter, which Documents to fetch.
+     */
+    where?: DocumentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Documents to fetch.
+     */
+    orderBy?: DocumentOrderByWithRelationInput | DocumentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Documents.
+     */
+    cursor?: DocumentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Documents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Documents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Documents.
+     */
+    distinct?: DocumentScalarFieldEnum | DocumentScalarFieldEnum[]
+  }
+
+  /**
+   * Document create
+   */
+  export type DocumentCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Document
+     */
+    select?: DocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Document
+     */
+    omit?: DocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Document.
+     */
+    data: XOR<DocumentCreateInput, DocumentUncheckedCreateInput>
+  }
+
+  /**
+   * Document createMany
+   */
+  export type DocumentCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Documents.
+     */
+    data: DocumentCreateManyInput | DocumentCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Document createManyAndReturn
+   */
+  export type DocumentCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Document
+     */
+    select?: DocumentSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Document
+     */
+    omit?: DocumentOmit<ExtArgs> | null
+    /**
+     * The data used to create many Documents.
+     */
+    data: DocumentCreateManyInput | DocumentCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Document update
+   */
+  export type DocumentUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Document
+     */
+    select?: DocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Document
+     */
+    omit?: DocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Document.
+     */
+    data: XOR<DocumentUpdateInput, DocumentUncheckedUpdateInput>
+    /**
+     * Choose, which Document to update.
+     */
+    where: DocumentWhereUniqueInput
+  }
+
+  /**
+   * Document updateMany
+   */
+  export type DocumentUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Documents.
+     */
+    data: XOR<DocumentUpdateManyMutationInput, DocumentUncheckedUpdateManyInput>
+    /**
+     * Filter which Documents to update
+     */
+    where?: DocumentWhereInput
+    /**
+     * Limit how many Documents to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Document updateManyAndReturn
+   */
+  export type DocumentUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Document
+     */
+    select?: DocumentSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Document
+     */
+    omit?: DocumentOmit<ExtArgs> | null
+    /**
+     * The data used to update Documents.
+     */
+    data: XOR<DocumentUpdateManyMutationInput, DocumentUncheckedUpdateManyInput>
+    /**
+     * Filter which Documents to update
+     */
+    where?: DocumentWhereInput
+    /**
+     * Limit how many Documents to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Document upsert
+   */
+  export type DocumentUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Document
+     */
+    select?: DocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Document
+     */
+    omit?: DocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Document to update in case it exists.
+     */
+    where: DocumentWhereUniqueInput
+    /**
+     * In case the Document found by the `where` argument doesn't exist, create a new Document with this data.
+     */
+    create: XOR<DocumentCreateInput, DocumentUncheckedCreateInput>
+    /**
+     * In case the Document was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<DocumentUpdateInput, DocumentUncheckedUpdateInput>
+  }
+
+  /**
+   * Document delete
+   */
+  export type DocumentDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Document
+     */
+    select?: DocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Document
+     */
+    omit?: DocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentInclude<ExtArgs> | null
+    /**
+     * Filter which Document to delete.
+     */
+    where: DocumentWhereUniqueInput
+  }
+
+  /**
+   * Document deleteMany
+   */
+  export type DocumentDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Documents to delete
+     */
+    where?: DocumentWhereInput
+    /**
+     * Limit how many Documents to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Document.company
+   */
+  export type Document$companyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Company
+     */
+    select?: CompanySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Company
+     */
+    omit?: CompanyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyInclude<ExtArgs> | null
+    where?: CompanyWhereInput
+  }
+
+  /**
+   * Document.contact
+   */
+  export type Document$contactArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Contact
+     */
+    select?: ContactSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Contact
+     */
+    omit?: ContactOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ContactInclude<ExtArgs> | null
+    where?: ContactWhereInput
+  }
+
+  /**
+   * Document.application
+   */
+  export type Document$applicationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Application
+     */
+    select?: ApplicationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Application
+     */
+    omit?: ApplicationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ApplicationInclude<ExtArgs> | null
+    where?: ApplicationWhereInput
+  }
+
+  /**
+   * Document.task
+   */
+  export type Document$taskArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Task
+     */
+    select?: TaskSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Task
+     */
+    omit?: TaskOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TaskInclude<ExtArgs> | null
+    where?: TaskWhereInput
+  }
+
+  /**
+   * Document.project
+   */
+  export type Document$projectArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Project
+     */
+    select?: ProjectSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Project
+     */
+    omit?: ProjectOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectInclude<ExtArgs> | null
+    where?: ProjectWhereInput
+  }
+
+  /**
+   * Document.versions
+   */
+  export type Document$versionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentVersion
+     */
+    select?: DocumentVersionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentVersion
+     */
+    omit?: DocumentVersionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentVersionInclude<ExtArgs> | null
+    where?: DocumentVersionWhereInput
+    orderBy?: DocumentVersionOrderByWithRelationInput | DocumentVersionOrderByWithRelationInput[]
+    cursor?: DocumentVersionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DocumentVersionScalarFieldEnum | DocumentVersionScalarFieldEnum[]
+  }
+
+  /**
+   * Document without action
+   */
+  export type DocumentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Document
+     */
+    select?: DocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Document
+     */
+    omit?: DocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model DocumentVersion
+   */
+
+  export type AggregateDocumentVersion = {
+    _count: DocumentVersionCountAggregateOutputType | null
+    _avg: DocumentVersionAvgAggregateOutputType | null
+    _sum: DocumentVersionSumAggregateOutputType | null
+    _min: DocumentVersionMinAggregateOutputType | null
+    _max: DocumentVersionMaxAggregateOutputType | null
+  }
+
+  export type DocumentVersionAvgAggregateOutputType = {
+    version: number | null
+    fileSize: number | null
+  }
+
+  export type DocumentVersionSumAggregateOutputType = {
+    version: number | null
+    fileSize: number | null
+  }
+
+  export type DocumentVersionMinAggregateOutputType = {
+    id: string | null
+    documentId: string | null
+    userId: string | null
+    version: number | null
+    fileName: string | null
+    fileSize: number | null
+    mimeType: string | null
+    fileUrl: string | null
+    storageProvider: string | null
+    storageKey: string | null
+    changelog: string | null
+    createdAt: Date | null
+    deletedAt: Date | null
+  }
+
+  export type DocumentVersionMaxAggregateOutputType = {
+    id: string | null
+    documentId: string | null
+    userId: string | null
+    version: number | null
+    fileName: string | null
+    fileSize: number | null
+    mimeType: string | null
+    fileUrl: string | null
+    storageProvider: string | null
+    storageKey: string | null
+    changelog: string | null
+    createdAt: Date | null
+    deletedAt: Date | null
+  }
+
+  export type DocumentVersionCountAggregateOutputType = {
+    id: number
+    documentId: number
+    userId: number
+    version: number
+    fileName: number
+    fileSize: number
+    mimeType: number
+    fileUrl: number
+    storageProvider: number
+    storageKey: number
+    changelog: number
+    createdAt: number
+    deletedAt: number
+    _all: number
+  }
+
+
+  export type DocumentVersionAvgAggregateInputType = {
+    version?: true
+    fileSize?: true
+  }
+
+  export type DocumentVersionSumAggregateInputType = {
+    version?: true
+    fileSize?: true
+  }
+
+  export type DocumentVersionMinAggregateInputType = {
+    id?: true
+    documentId?: true
+    userId?: true
+    version?: true
+    fileName?: true
+    fileSize?: true
+    mimeType?: true
+    fileUrl?: true
+    storageProvider?: true
+    storageKey?: true
+    changelog?: true
+    createdAt?: true
+    deletedAt?: true
+  }
+
+  export type DocumentVersionMaxAggregateInputType = {
+    id?: true
+    documentId?: true
+    userId?: true
+    version?: true
+    fileName?: true
+    fileSize?: true
+    mimeType?: true
+    fileUrl?: true
+    storageProvider?: true
+    storageKey?: true
+    changelog?: true
+    createdAt?: true
+    deletedAt?: true
+  }
+
+  export type DocumentVersionCountAggregateInputType = {
+    id?: true
+    documentId?: true
+    userId?: true
+    version?: true
+    fileName?: true
+    fileSize?: true
+    mimeType?: true
+    fileUrl?: true
+    storageProvider?: true
+    storageKey?: true
+    changelog?: true
+    createdAt?: true
+    deletedAt?: true
+    _all?: true
+  }
+
+  export type DocumentVersionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DocumentVersion to aggregate.
+     */
+    where?: DocumentVersionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DocumentVersions to fetch.
+     */
+    orderBy?: DocumentVersionOrderByWithRelationInput | DocumentVersionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: DocumentVersionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DocumentVersions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DocumentVersions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned DocumentVersions
+    **/
+    _count?: true | DocumentVersionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: DocumentVersionAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: DocumentVersionSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: DocumentVersionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: DocumentVersionMaxAggregateInputType
+  }
+
+  export type GetDocumentVersionAggregateType<T extends DocumentVersionAggregateArgs> = {
+        [P in keyof T & keyof AggregateDocumentVersion]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateDocumentVersion[P]>
+      : GetScalarType<T[P], AggregateDocumentVersion[P]>
+  }
+
+
+
+
+  export type DocumentVersionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DocumentVersionWhereInput
+    orderBy?: DocumentVersionOrderByWithAggregationInput | DocumentVersionOrderByWithAggregationInput[]
+    by: DocumentVersionScalarFieldEnum[] | DocumentVersionScalarFieldEnum
+    having?: DocumentVersionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: DocumentVersionCountAggregateInputType | true
+    _avg?: DocumentVersionAvgAggregateInputType
+    _sum?: DocumentVersionSumAggregateInputType
+    _min?: DocumentVersionMinAggregateInputType
+    _max?: DocumentVersionMaxAggregateInputType
+  }
+
+  export type DocumentVersionGroupByOutputType = {
+    id: string
+    documentId: string
+    userId: string
+    version: number
+    fileName: string
+    fileSize: number
+    mimeType: string
+    fileUrl: string
+    storageProvider: string
+    storageKey: string | null
+    changelog: string | null
+    createdAt: Date
+    deletedAt: Date | null
+    _count: DocumentVersionCountAggregateOutputType | null
+    _avg: DocumentVersionAvgAggregateOutputType | null
+    _sum: DocumentVersionSumAggregateOutputType | null
+    _min: DocumentVersionMinAggregateOutputType | null
+    _max: DocumentVersionMaxAggregateOutputType | null
+  }
+
+  type GetDocumentVersionGroupByPayload<T extends DocumentVersionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<DocumentVersionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof DocumentVersionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], DocumentVersionGroupByOutputType[P]>
+            : GetScalarType<T[P], DocumentVersionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type DocumentVersionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    documentId?: boolean
+    userId?: boolean
+    version?: boolean
+    fileName?: boolean
+    fileSize?: boolean
+    mimeType?: boolean
+    fileUrl?: boolean
+    storageProvider?: boolean
+    storageKey?: boolean
+    changelog?: boolean
+    createdAt?: boolean
+    deletedAt?: boolean
+    document?: boolean | DocumentDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["documentVersion"]>
+
+  export type DocumentVersionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    documentId?: boolean
+    userId?: boolean
+    version?: boolean
+    fileName?: boolean
+    fileSize?: boolean
+    mimeType?: boolean
+    fileUrl?: boolean
+    storageProvider?: boolean
+    storageKey?: boolean
+    changelog?: boolean
+    createdAt?: boolean
+    deletedAt?: boolean
+    document?: boolean | DocumentDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["documentVersion"]>
+
+  export type DocumentVersionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    documentId?: boolean
+    userId?: boolean
+    version?: boolean
+    fileName?: boolean
+    fileSize?: boolean
+    mimeType?: boolean
+    fileUrl?: boolean
+    storageProvider?: boolean
+    storageKey?: boolean
+    changelog?: boolean
+    createdAt?: boolean
+    deletedAt?: boolean
+    document?: boolean | DocumentDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["documentVersion"]>
+
+  export type DocumentVersionSelectScalar = {
+    id?: boolean
+    documentId?: boolean
+    userId?: boolean
+    version?: boolean
+    fileName?: boolean
+    fileSize?: boolean
+    mimeType?: boolean
+    fileUrl?: boolean
+    storageProvider?: boolean
+    storageKey?: boolean
+    changelog?: boolean
+    createdAt?: boolean
+    deletedAt?: boolean
+  }
+
+  export type DocumentVersionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "documentId" | "userId" | "version" | "fileName" | "fileSize" | "mimeType" | "fileUrl" | "storageProvider" | "storageKey" | "changelog" | "createdAt" | "deletedAt", ExtArgs["result"]["documentVersion"]>
+  export type DocumentVersionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    document?: boolean | DocumentDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type DocumentVersionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    document?: boolean | DocumentDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type DocumentVersionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    document?: boolean | DocumentDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $DocumentVersionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "DocumentVersion"
+    objects: {
+      document: Prisma.$DocumentPayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      documentId: string
+      userId: string
+      version: number
+      fileName: string
+      fileSize: number
+      mimeType: string
+      fileUrl: string
+      storageProvider: string
+      storageKey: string | null
+      changelog: string | null
+      createdAt: Date
+      deletedAt: Date | null
+    }, ExtArgs["result"]["documentVersion"]>
+    composites: {}
+  }
+
+  type DocumentVersionGetPayload<S extends boolean | null | undefined | DocumentVersionDefaultArgs> = $Result.GetResult<Prisma.$DocumentVersionPayload, S>
+
+  type DocumentVersionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<DocumentVersionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: DocumentVersionCountAggregateInputType | true
+    }
+
+  export interface DocumentVersionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['DocumentVersion'], meta: { name: 'DocumentVersion' } }
+    /**
+     * Find zero or one DocumentVersion that matches the filter.
+     * @param {DocumentVersionFindUniqueArgs} args - Arguments to find a DocumentVersion
+     * @example
+     * // Get one DocumentVersion
+     * const documentVersion = await prisma.documentVersion.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends DocumentVersionFindUniqueArgs>(args: SelectSubset<T, DocumentVersionFindUniqueArgs<ExtArgs>>): Prisma__DocumentVersionClient<$Result.GetResult<Prisma.$DocumentVersionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one DocumentVersion that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {DocumentVersionFindUniqueOrThrowArgs} args - Arguments to find a DocumentVersion
+     * @example
+     * // Get one DocumentVersion
+     * const documentVersion = await prisma.documentVersion.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends DocumentVersionFindUniqueOrThrowArgs>(args: SelectSubset<T, DocumentVersionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__DocumentVersionClient<$Result.GetResult<Prisma.$DocumentVersionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first DocumentVersion that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DocumentVersionFindFirstArgs} args - Arguments to find a DocumentVersion
+     * @example
+     * // Get one DocumentVersion
+     * const documentVersion = await prisma.documentVersion.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends DocumentVersionFindFirstArgs>(args?: SelectSubset<T, DocumentVersionFindFirstArgs<ExtArgs>>): Prisma__DocumentVersionClient<$Result.GetResult<Prisma.$DocumentVersionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first DocumentVersion that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DocumentVersionFindFirstOrThrowArgs} args - Arguments to find a DocumentVersion
+     * @example
+     * // Get one DocumentVersion
+     * const documentVersion = await prisma.documentVersion.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends DocumentVersionFindFirstOrThrowArgs>(args?: SelectSubset<T, DocumentVersionFindFirstOrThrowArgs<ExtArgs>>): Prisma__DocumentVersionClient<$Result.GetResult<Prisma.$DocumentVersionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more DocumentVersions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DocumentVersionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all DocumentVersions
+     * const documentVersions = await prisma.documentVersion.findMany()
+     * 
+     * // Get first 10 DocumentVersions
+     * const documentVersions = await prisma.documentVersion.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const documentVersionWithIdOnly = await prisma.documentVersion.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends DocumentVersionFindManyArgs>(args?: SelectSubset<T, DocumentVersionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DocumentVersionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a DocumentVersion.
+     * @param {DocumentVersionCreateArgs} args - Arguments to create a DocumentVersion.
+     * @example
+     * // Create one DocumentVersion
+     * const DocumentVersion = await prisma.documentVersion.create({
+     *   data: {
+     *     // ... data to create a DocumentVersion
+     *   }
+     * })
+     * 
+     */
+    create<T extends DocumentVersionCreateArgs>(args: SelectSubset<T, DocumentVersionCreateArgs<ExtArgs>>): Prisma__DocumentVersionClient<$Result.GetResult<Prisma.$DocumentVersionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many DocumentVersions.
+     * @param {DocumentVersionCreateManyArgs} args - Arguments to create many DocumentVersions.
+     * @example
+     * // Create many DocumentVersions
+     * const documentVersion = await prisma.documentVersion.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends DocumentVersionCreateManyArgs>(args?: SelectSubset<T, DocumentVersionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many DocumentVersions and returns the data saved in the database.
+     * @param {DocumentVersionCreateManyAndReturnArgs} args - Arguments to create many DocumentVersions.
+     * @example
+     * // Create many DocumentVersions
+     * const documentVersion = await prisma.documentVersion.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many DocumentVersions and only return the `id`
+     * const documentVersionWithIdOnly = await prisma.documentVersion.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends DocumentVersionCreateManyAndReturnArgs>(args?: SelectSubset<T, DocumentVersionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DocumentVersionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a DocumentVersion.
+     * @param {DocumentVersionDeleteArgs} args - Arguments to delete one DocumentVersion.
+     * @example
+     * // Delete one DocumentVersion
+     * const DocumentVersion = await prisma.documentVersion.delete({
+     *   where: {
+     *     // ... filter to delete one DocumentVersion
+     *   }
+     * })
+     * 
+     */
+    delete<T extends DocumentVersionDeleteArgs>(args: SelectSubset<T, DocumentVersionDeleteArgs<ExtArgs>>): Prisma__DocumentVersionClient<$Result.GetResult<Prisma.$DocumentVersionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one DocumentVersion.
+     * @param {DocumentVersionUpdateArgs} args - Arguments to update one DocumentVersion.
+     * @example
+     * // Update one DocumentVersion
+     * const documentVersion = await prisma.documentVersion.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends DocumentVersionUpdateArgs>(args: SelectSubset<T, DocumentVersionUpdateArgs<ExtArgs>>): Prisma__DocumentVersionClient<$Result.GetResult<Prisma.$DocumentVersionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more DocumentVersions.
+     * @param {DocumentVersionDeleteManyArgs} args - Arguments to filter DocumentVersions to delete.
+     * @example
+     * // Delete a few DocumentVersions
+     * const { count } = await prisma.documentVersion.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends DocumentVersionDeleteManyArgs>(args?: SelectSubset<T, DocumentVersionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DocumentVersions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DocumentVersionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many DocumentVersions
+     * const documentVersion = await prisma.documentVersion.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends DocumentVersionUpdateManyArgs>(args: SelectSubset<T, DocumentVersionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DocumentVersions and returns the data updated in the database.
+     * @param {DocumentVersionUpdateManyAndReturnArgs} args - Arguments to update many DocumentVersions.
+     * @example
+     * // Update many DocumentVersions
+     * const documentVersion = await prisma.documentVersion.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more DocumentVersions and only return the `id`
+     * const documentVersionWithIdOnly = await prisma.documentVersion.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends DocumentVersionUpdateManyAndReturnArgs>(args: SelectSubset<T, DocumentVersionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DocumentVersionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one DocumentVersion.
+     * @param {DocumentVersionUpsertArgs} args - Arguments to update or create a DocumentVersion.
+     * @example
+     * // Update or create a DocumentVersion
+     * const documentVersion = await prisma.documentVersion.upsert({
+     *   create: {
+     *     // ... data to create a DocumentVersion
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the DocumentVersion we want to update
+     *   }
+     * })
+     */
+    upsert<T extends DocumentVersionUpsertArgs>(args: SelectSubset<T, DocumentVersionUpsertArgs<ExtArgs>>): Prisma__DocumentVersionClient<$Result.GetResult<Prisma.$DocumentVersionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of DocumentVersions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DocumentVersionCountArgs} args - Arguments to filter DocumentVersions to count.
+     * @example
+     * // Count the number of DocumentVersions
+     * const count = await prisma.documentVersion.count({
+     *   where: {
+     *     // ... the filter for the DocumentVersions we want to count
+     *   }
+     * })
+    **/
+    count<T extends DocumentVersionCountArgs>(
+      args?: Subset<T, DocumentVersionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], DocumentVersionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a DocumentVersion.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DocumentVersionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends DocumentVersionAggregateArgs>(args: Subset<T, DocumentVersionAggregateArgs>): Prisma.PrismaPromise<GetDocumentVersionAggregateType<T>>
+
+    /**
+     * Group by DocumentVersion.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DocumentVersionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends DocumentVersionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: DocumentVersionGroupByArgs['orderBy'] }
+        : { orderBy?: DocumentVersionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, DocumentVersionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetDocumentVersionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the DocumentVersion model
+   */
+  readonly fields: DocumentVersionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for DocumentVersion.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__DocumentVersionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    document<T extends DocumentDefaultArgs<ExtArgs> = {}>(args?: Subset<T, DocumentDefaultArgs<ExtArgs>>): Prisma__DocumentClient<$Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the DocumentVersion model
+   */
+  interface DocumentVersionFieldRefs {
+    readonly id: FieldRef<"DocumentVersion", 'String'>
+    readonly documentId: FieldRef<"DocumentVersion", 'String'>
+    readonly userId: FieldRef<"DocumentVersion", 'String'>
+    readonly version: FieldRef<"DocumentVersion", 'Int'>
+    readonly fileName: FieldRef<"DocumentVersion", 'String'>
+    readonly fileSize: FieldRef<"DocumentVersion", 'Int'>
+    readonly mimeType: FieldRef<"DocumentVersion", 'String'>
+    readonly fileUrl: FieldRef<"DocumentVersion", 'String'>
+    readonly storageProvider: FieldRef<"DocumentVersion", 'String'>
+    readonly storageKey: FieldRef<"DocumentVersion", 'String'>
+    readonly changelog: FieldRef<"DocumentVersion", 'String'>
+    readonly createdAt: FieldRef<"DocumentVersion", 'DateTime'>
+    readonly deletedAt: FieldRef<"DocumentVersion", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * DocumentVersion findUnique
+   */
+  export type DocumentVersionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentVersion
+     */
+    select?: DocumentVersionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentVersion
+     */
+    omit?: DocumentVersionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentVersionInclude<ExtArgs> | null
+    /**
+     * Filter, which DocumentVersion to fetch.
+     */
+    where: DocumentVersionWhereUniqueInput
+  }
+
+  /**
+   * DocumentVersion findUniqueOrThrow
+   */
+  export type DocumentVersionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentVersion
+     */
+    select?: DocumentVersionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentVersion
+     */
+    omit?: DocumentVersionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentVersionInclude<ExtArgs> | null
+    /**
+     * Filter, which DocumentVersion to fetch.
+     */
+    where: DocumentVersionWhereUniqueInput
+  }
+
+  /**
+   * DocumentVersion findFirst
+   */
+  export type DocumentVersionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentVersion
+     */
+    select?: DocumentVersionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentVersion
+     */
+    omit?: DocumentVersionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentVersionInclude<ExtArgs> | null
+    /**
+     * Filter, which DocumentVersion to fetch.
+     */
+    where?: DocumentVersionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DocumentVersions to fetch.
+     */
+    orderBy?: DocumentVersionOrderByWithRelationInput | DocumentVersionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DocumentVersions.
+     */
+    cursor?: DocumentVersionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DocumentVersions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DocumentVersions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DocumentVersions.
+     */
+    distinct?: DocumentVersionScalarFieldEnum | DocumentVersionScalarFieldEnum[]
+  }
+
+  /**
+   * DocumentVersion findFirstOrThrow
+   */
+  export type DocumentVersionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentVersion
+     */
+    select?: DocumentVersionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentVersion
+     */
+    omit?: DocumentVersionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentVersionInclude<ExtArgs> | null
+    /**
+     * Filter, which DocumentVersion to fetch.
+     */
+    where?: DocumentVersionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DocumentVersions to fetch.
+     */
+    orderBy?: DocumentVersionOrderByWithRelationInput | DocumentVersionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DocumentVersions.
+     */
+    cursor?: DocumentVersionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DocumentVersions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DocumentVersions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DocumentVersions.
+     */
+    distinct?: DocumentVersionScalarFieldEnum | DocumentVersionScalarFieldEnum[]
+  }
+
+  /**
+   * DocumentVersion findMany
+   */
+  export type DocumentVersionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentVersion
+     */
+    select?: DocumentVersionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentVersion
+     */
+    omit?: DocumentVersionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentVersionInclude<ExtArgs> | null
+    /**
+     * Filter, which DocumentVersions to fetch.
+     */
+    where?: DocumentVersionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DocumentVersions to fetch.
+     */
+    orderBy?: DocumentVersionOrderByWithRelationInput | DocumentVersionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing DocumentVersions.
+     */
+    cursor?: DocumentVersionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DocumentVersions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DocumentVersions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DocumentVersions.
+     */
+    distinct?: DocumentVersionScalarFieldEnum | DocumentVersionScalarFieldEnum[]
+  }
+
+  /**
+   * DocumentVersion create
+   */
+  export type DocumentVersionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentVersion
+     */
+    select?: DocumentVersionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentVersion
+     */
+    omit?: DocumentVersionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentVersionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a DocumentVersion.
+     */
+    data: XOR<DocumentVersionCreateInput, DocumentVersionUncheckedCreateInput>
+  }
+
+  /**
+   * DocumentVersion createMany
+   */
+  export type DocumentVersionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many DocumentVersions.
+     */
+    data: DocumentVersionCreateManyInput | DocumentVersionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * DocumentVersion createManyAndReturn
+   */
+  export type DocumentVersionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentVersion
+     */
+    select?: DocumentVersionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentVersion
+     */
+    omit?: DocumentVersionOmit<ExtArgs> | null
+    /**
+     * The data used to create many DocumentVersions.
+     */
+    data: DocumentVersionCreateManyInput | DocumentVersionCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentVersionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * DocumentVersion update
+   */
+  export type DocumentVersionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentVersion
+     */
+    select?: DocumentVersionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentVersion
+     */
+    omit?: DocumentVersionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentVersionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a DocumentVersion.
+     */
+    data: XOR<DocumentVersionUpdateInput, DocumentVersionUncheckedUpdateInput>
+    /**
+     * Choose, which DocumentVersion to update.
+     */
+    where: DocumentVersionWhereUniqueInput
+  }
+
+  /**
+   * DocumentVersion updateMany
+   */
+  export type DocumentVersionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update DocumentVersions.
+     */
+    data: XOR<DocumentVersionUpdateManyMutationInput, DocumentVersionUncheckedUpdateManyInput>
+    /**
+     * Filter which DocumentVersions to update
+     */
+    where?: DocumentVersionWhereInput
+    /**
+     * Limit how many DocumentVersions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * DocumentVersion updateManyAndReturn
+   */
+  export type DocumentVersionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentVersion
+     */
+    select?: DocumentVersionSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentVersion
+     */
+    omit?: DocumentVersionOmit<ExtArgs> | null
+    /**
+     * The data used to update DocumentVersions.
+     */
+    data: XOR<DocumentVersionUpdateManyMutationInput, DocumentVersionUncheckedUpdateManyInput>
+    /**
+     * Filter which DocumentVersions to update
+     */
+    where?: DocumentVersionWhereInput
+    /**
+     * Limit how many DocumentVersions to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentVersionIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * DocumentVersion upsert
+   */
+  export type DocumentVersionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentVersion
+     */
+    select?: DocumentVersionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentVersion
+     */
+    omit?: DocumentVersionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentVersionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the DocumentVersion to update in case it exists.
+     */
+    where: DocumentVersionWhereUniqueInput
+    /**
+     * In case the DocumentVersion found by the `where` argument doesn't exist, create a new DocumentVersion with this data.
+     */
+    create: XOR<DocumentVersionCreateInput, DocumentVersionUncheckedCreateInput>
+    /**
+     * In case the DocumentVersion was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<DocumentVersionUpdateInput, DocumentVersionUncheckedUpdateInput>
+  }
+
+  /**
+   * DocumentVersion delete
+   */
+  export type DocumentVersionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentVersion
+     */
+    select?: DocumentVersionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentVersion
+     */
+    omit?: DocumentVersionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentVersionInclude<ExtArgs> | null
+    /**
+     * Filter which DocumentVersion to delete.
+     */
+    where: DocumentVersionWhereUniqueInput
+  }
+
+  /**
+   * DocumentVersion deleteMany
+   */
+  export type DocumentVersionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DocumentVersions to delete
+     */
+    where?: DocumentVersionWhereInput
+    /**
+     * Limit how many DocumentVersions to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * DocumentVersion without action
+   */
+  export type DocumentVersionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentVersion
+     */
+    select?: DocumentVersionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentVersion
+     */
+    omit?: DocumentVersionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentVersionInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -15189,6 +18232,45 @@ export namespace Prisma {
   };
 
   export type CalendarEventScalarFieldEnum = (typeof CalendarEventScalarFieldEnum)[keyof typeof CalendarEventScalarFieldEnum]
+
+
+  export const DocumentScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    title: 'title',
+    type: 'type',
+    description: 'description',
+    tags: 'tags',
+    companyId: 'companyId',
+    contactId: 'contactId',
+    applicationId: 'applicationId',
+    taskId: 'taskId',
+    projectId: 'projectId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    deletedAt: 'deletedAt'
+  };
+
+  export type DocumentScalarFieldEnum = (typeof DocumentScalarFieldEnum)[keyof typeof DocumentScalarFieldEnum]
+
+
+  export const DocumentVersionScalarFieldEnum: {
+    id: 'id',
+    documentId: 'documentId',
+    userId: 'userId',
+    version: 'version',
+    fileName: 'fileName',
+    fileSize: 'fileSize',
+    mimeType: 'mimeType',
+    fileUrl: 'fileUrl',
+    storageProvider: 'storageProvider',
+    storageKey: 'storageKey',
+    changelog: 'changelog',
+    createdAt: 'createdAt',
+    deletedAt: 'deletedAt'
+  };
+
+  export type DocumentVersionScalarFieldEnum = (typeof DocumentVersionScalarFieldEnum)[keyof typeof DocumentVersionScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -15410,6 +18492,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'DocumentType'
+   */
+  export type EnumDocumentTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DocumentType'>
+    
+
+
+  /**
+   * Reference to a field of type 'DocumentType[]'
+   */
+  export type ListEnumDocumentTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DocumentType[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -15447,6 +18543,8 @@ export namespace Prisma {
     projectActivities?: ProjectActivityListRelationFilter
     notes?: NoteListRelationFilter
     calendarEvents?: CalendarEventListRelationFilter
+    documents?: DocumentListRelationFilter
+    documentVersions?: DocumentVersionListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -15467,6 +18565,8 @@ export namespace Prisma {
     projectActivities?: ProjectActivityOrderByRelationAggregateInput
     notes?: NoteOrderByRelationAggregateInput
     calendarEvents?: CalendarEventOrderByRelationAggregateInput
+    documents?: DocumentOrderByRelationAggregateInput
+    documentVersions?: DocumentVersionOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -15490,6 +18590,8 @@ export namespace Prisma {
     projectActivities?: ProjectActivityListRelationFilter
     notes?: NoteListRelationFilter
     calendarEvents?: CalendarEventListRelationFilter
+    documents?: DocumentListRelationFilter
+    documentVersions?: DocumentVersionListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -15546,6 +18648,7 @@ export namespace Prisma {
     applications?: ApplicationListRelationFilter
     linkedNotes?: NoteListRelationFilter
     calendarEvents?: CalendarEventListRelationFilter
+    documents?: DocumentListRelationFilter
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
@@ -15572,6 +18675,7 @@ export namespace Prisma {
     applications?: ApplicationOrderByRelationAggregateInput
     linkedNotes?: NoteOrderByRelationAggregateInput
     calendarEvents?: CalendarEventOrderByRelationAggregateInput
+    documents?: DocumentOrderByRelationAggregateInput
     user?: UserOrderByWithRelationInput
   }
 
@@ -15601,6 +18705,7 @@ export namespace Prisma {
     applications?: ApplicationListRelationFilter
     linkedNotes?: NoteListRelationFilter
     calendarEvents?: CalendarEventListRelationFilter
+    documents?: DocumentListRelationFilter
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id">
 
@@ -15678,6 +18783,7 @@ export namespace Prisma {
     applications?: ApplicationListRelationFilter
     linkedNotes?: NoteListRelationFilter
     calendarEvents?: CalendarEventListRelationFilter
+    documents?: DocumentListRelationFilter
   }
 
   export type ContactOrderByWithRelationInput = {
@@ -15701,6 +18807,7 @@ export namespace Prisma {
     applications?: ApplicationOrderByRelationAggregateInput
     linkedNotes?: NoteOrderByRelationAggregateInput
     calendarEvents?: CalendarEventOrderByRelationAggregateInput
+    documents?: DocumentOrderByRelationAggregateInput
   }
 
   export type ContactWhereUniqueInput = Prisma.AtLeast<{
@@ -15727,6 +18834,7 @@ export namespace Prisma {
     applications?: ApplicationListRelationFilter
     linkedNotes?: NoteListRelationFilter
     calendarEvents?: CalendarEventListRelationFilter
+    documents?: DocumentListRelationFilter
   }, "id">
 
   export type ContactOrderByWithAggregationInput = {
@@ -15794,6 +18902,7 @@ export namespace Prisma {
     stageHistory?: ApplicationStageHistoryListRelationFilter
     linkedNotes?: NoteListRelationFilter
     calendarEvents?: CalendarEventListRelationFilter
+    documents?: DocumentListRelationFilter
   }
 
   export type ApplicationOrderByWithRelationInput = {
@@ -15816,6 +18925,7 @@ export namespace Prisma {
     stageHistory?: ApplicationStageHistoryOrderByRelationAggregateInput
     linkedNotes?: NoteOrderByRelationAggregateInput
     calendarEvents?: CalendarEventOrderByRelationAggregateInput
+    documents?: DocumentOrderByRelationAggregateInput
   }
 
   export type ApplicationWhereUniqueInput = Prisma.AtLeast<{
@@ -15841,6 +18951,7 @@ export namespace Prisma {
     stageHistory?: ApplicationStageHistoryListRelationFilter
     linkedNotes?: NoteListRelationFilter
     calendarEvents?: CalendarEventListRelationFilter
+    documents?: DocumentListRelationFilter
   }, "id">
 
   export type ApplicationOrderByWithAggregationInput = {
@@ -15967,6 +19078,7 @@ export namespace Prisma {
     nextOccurrence?: XOR<TaskNullableScalarRelationFilter, TaskWhereInput> | null
     linkedNotes?: NoteListRelationFilter
     calendarEvents?: CalendarEventListRelationFilter
+    documents?: DocumentListRelationFilter
   }
 
   export type TaskOrderByWithRelationInput = {
@@ -15989,6 +19101,7 @@ export namespace Prisma {
     nextOccurrence?: TaskOrderByWithRelationInput
     linkedNotes?: NoteOrderByRelationAggregateInput
     calendarEvents?: CalendarEventOrderByRelationAggregateInput
+    documents?: DocumentOrderByRelationAggregateInput
   }
 
   export type TaskWhereUniqueInput = Prisma.AtLeast<{
@@ -16014,6 +19127,7 @@ export namespace Prisma {
     nextOccurrence?: XOR<TaskNullableScalarRelationFilter, TaskWhereInput> | null
     linkedNotes?: NoteListRelationFilter
     calendarEvents?: CalendarEventListRelationFilter
+    documents?: DocumentListRelationFilter
   }, "id" | "recurrenceSourceId">
 
   export type TaskOrderByWithAggregationInput = {
@@ -16077,6 +19191,7 @@ export namespace Prisma {
     activities?: ProjectActivityListRelationFilter
     linkedNotes?: NoteListRelationFilter
     calendarEvents?: CalendarEventListRelationFilter
+    documents?: DocumentListRelationFilter
   }
 
   export type ProjectOrderByWithRelationInput = {
@@ -16097,6 +19212,7 @@ export namespace Prisma {
     activities?: ProjectActivityOrderByRelationAggregateInput
     linkedNotes?: NoteOrderByRelationAggregateInput
     calendarEvents?: CalendarEventOrderByRelationAggregateInput
+    documents?: DocumentOrderByRelationAggregateInput
   }
 
   export type ProjectWhereUniqueInput = Prisma.AtLeast<{
@@ -16120,6 +19236,7 @@ export namespace Prisma {
     activities?: ProjectActivityListRelationFilter
     linkedNotes?: NoteListRelationFilter
     calendarEvents?: CalendarEventListRelationFilter
+    documents?: DocumentListRelationFilter
   }, "id">
 
   export type ProjectOrderByWithAggregationInput = {
@@ -16484,6 +19601,225 @@ export namespace Prisma {
     deletedAt?: DateTimeNullableWithAggregatesFilter<"CalendarEvent"> | Date | string | null
   }
 
+  export type DocumentWhereInput = {
+    AND?: DocumentWhereInput | DocumentWhereInput[]
+    OR?: DocumentWhereInput[]
+    NOT?: DocumentWhereInput | DocumentWhereInput[]
+    id?: StringFilter<"Document"> | string
+    userId?: StringFilter<"Document"> | string
+    title?: StringFilter<"Document"> | string
+    type?: EnumDocumentTypeFilter<"Document"> | $Enums.DocumentType
+    description?: StringNullableFilter<"Document"> | string | null
+    tags?: StringNullableListFilter<"Document">
+    companyId?: StringNullableFilter<"Document"> | string | null
+    contactId?: StringNullableFilter<"Document"> | string | null
+    applicationId?: StringNullableFilter<"Document"> | string | null
+    taskId?: StringNullableFilter<"Document"> | string | null
+    projectId?: StringNullableFilter<"Document"> | string | null
+    createdAt?: DateTimeFilter<"Document"> | Date | string
+    updatedAt?: DateTimeFilter<"Document"> | Date | string
+    deletedAt?: DateTimeNullableFilter<"Document"> | Date | string | null
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    company?: XOR<CompanyNullableScalarRelationFilter, CompanyWhereInput> | null
+    contact?: XOR<ContactNullableScalarRelationFilter, ContactWhereInput> | null
+    application?: XOR<ApplicationNullableScalarRelationFilter, ApplicationWhereInput> | null
+    task?: XOR<TaskNullableScalarRelationFilter, TaskWhereInput> | null
+    project?: XOR<ProjectNullableScalarRelationFilter, ProjectWhereInput> | null
+    versions?: DocumentVersionListRelationFilter
+  }
+
+  export type DocumentOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    title?: SortOrder
+    type?: SortOrder
+    description?: SortOrderInput | SortOrder
+    tags?: SortOrder
+    companyId?: SortOrderInput | SortOrder
+    contactId?: SortOrderInput | SortOrder
+    applicationId?: SortOrderInput | SortOrder
+    taskId?: SortOrderInput | SortOrder
+    projectId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrderInput | SortOrder
+    user?: UserOrderByWithRelationInput
+    company?: CompanyOrderByWithRelationInput
+    contact?: ContactOrderByWithRelationInput
+    application?: ApplicationOrderByWithRelationInput
+    task?: TaskOrderByWithRelationInput
+    project?: ProjectOrderByWithRelationInput
+    versions?: DocumentVersionOrderByRelationAggregateInput
+  }
+
+  export type DocumentWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: DocumentWhereInput | DocumentWhereInput[]
+    OR?: DocumentWhereInput[]
+    NOT?: DocumentWhereInput | DocumentWhereInput[]
+    userId?: StringFilter<"Document"> | string
+    title?: StringFilter<"Document"> | string
+    type?: EnumDocumentTypeFilter<"Document"> | $Enums.DocumentType
+    description?: StringNullableFilter<"Document"> | string | null
+    tags?: StringNullableListFilter<"Document">
+    companyId?: StringNullableFilter<"Document"> | string | null
+    contactId?: StringNullableFilter<"Document"> | string | null
+    applicationId?: StringNullableFilter<"Document"> | string | null
+    taskId?: StringNullableFilter<"Document"> | string | null
+    projectId?: StringNullableFilter<"Document"> | string | null
+    createdAt?: DateTimeFilter<"Document"> | Date | string
+    updatedAt?: DateTimeFilter<"Document"> | Date | string
+    deletedAt?: DateTimeNullableFilter<"Document"> | Date | string | null
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    company?: XOR<CompanyNullableScalarRelationFilter, CompanyWhereInput> | null
+    contact?: XOR<ContactNullableScalarRelationFilter, ContactWhereInput> | null
+    application?: XOR<ApplicationNullableScalarRelationFilter, ApplicationWhereInput> | null
+    task?: XOR<TaskNullableScalarRelationFilter, TaskWhereInput> | null
+    project?: XOR<ProjectNullableScalarRelationFilter, ProjectWhereInput> | null
+    versions?: DocumentVersionListRelationFilter
+  }, "id">
+
+  export type DocumentOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    title?: SortOrder
+    type?: SortOrder
+    description?: SortOrderInput | SortOrder
+    tags?: SortOrder
+    companyId?: SortOrderInput | SortOrder
+    contactId?: SortOrderInput | SortOrder
+    applicationId?: SortOrderInput | SortOrder
+    taskId?: SortOrderInput | SortOrder
+    projectId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrderInput | SortOrder
+    _count?: DocumentCountOrderByAggregateInput
+    _max?: DocumentMaxOrderByAggregateInput
+    _min?: DocumentMinOrderByAggregateInput
+  }
+
+  export type DocumentScalarWhereWithAggregatesInput = {
+    AND?: DocumentScalarWhereWithAggregatesInput | DocumentScalarWhereWithAggregatesInput[]
+    OR?: DocumentScalarWhereWithAggregatesInput[]
+    NOT?: DocumentScalarWhereWithAggregatesInput | DocumentScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Document"> | string
+    userId?: StringWithAggregatesFilter<"Document"> | string
+    title?: StringWithAggregatesFilter<"Document"> | string
+    type?: EnumDocumentTypeWithAggregatesFilter<"Document"> | $Enums.DocumentType
+    description?: StringNullableWithAggregatesFilter<"Document"> | string | null
+    tags?: StringNullableListFilter<"Document">
+    companyId?: StringNullableWithAggregatesFilter<"Document"> | string | null
+    contactId?: StringNullableWithAggregatesFilter<"Document"> | string | null
+    applicationId?: StringNullableWithAggregatesFilter<"Document"> | string | null
+    taskId?: StringNullableWithAggregatesFilter<"Document"> | string | null
+    projectId?: StringNullableWithAggregatesFilter<"Document"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Document"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Document"> | Date | string
+    deletedAt?: DateTimeNullableWithAggregatesFilter<"Document"> | Date | string | null
+  }
+
+  export type DocumentVersionWhereInput = {
+    AND?: DocumentVersionWhereInput | DocumentVersionWhereInput[]
+    OR?: DocumentVersionWhereInput[]
+    NOT?: DocumentVersionWhereInput | DocumentVersionWhereInput[]
+    id?: StringFilter<"DocumentVersion"> | string
+    documentId?: StringFilter<"DocumentVersion"> | string
+    userId?: StringFilter<"DocumentVersion"> | string
+    version?: IntFilter<"DocumentVersion"> | number
+    fileName?: StringFilter<"DocumentVersion"> | string
+    fileSize?: IntFilter<"DocumentVersion"> | number
+    mimeType?: StringFilter<"DocumentVersion"> | string
+    fileUrl?: StringFilter<"DocumentVersion"> | string
+    storageProvider?: StringFilter<"DocumentVersion"> | string
+    storageKey?: StringNullableFilter<"DocumentVersion"> | string | null
+    changelog?: StringNullableFilter<"DocumentVersion"> | string | null
+    createdAt?: DateTimeFilter<"DocumentVersion"> | Date | string
+    deletedAt?: DateTimeNullableFilter<"DocumentVersion"> | Date | string | null
+    document?: XOR<DocumentScalarRelationFilter, DocumentWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type DocumentVersionOrderByWithRelationInput = {
+    id?: SortOrder
+    documentId?: SortOrder
+    userId?: SortOrder
+    version?: SortOrder
+    fileName?: SortOrder
+    fileSize?: SortOrder
+    mimeType?: SortOrder
+    fileUrl?: SortOrder
+    storageProvider?: SortOrder
+    storageKey?: SortOrderInput | SortOrder
+    changelog?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    deletedAt?: SortOrderInput | SortOrder
+    document?: DocumentOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type DocumentVersionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    documentId_version?: DocumentVersionDocumentIdVersionCompoundUniqueInput
+    AND?: DocumentVersionWhereInput | DocumentVersionWhereInput[]
+    OR?: DocumentVersionWhereInput[]
+    NOT?: DocumentVersionWhereInput | DocumentVersionWhereInput[]
+    documentId?: StringFilter<"DocumentVersion"> | string
+    userId?: StringFilter<"DocumentVersion"> | string
+    version?: IntFilter<"DocumentVersion"> | number
+    fileName?: StringFilter<"DocumentVersion"> | string
+    fileSize?: IntFilter<"DocumentVersion"> | number
+    mimeType?: StringFilter<"DocumentVersion"> | string
+    fileUrl?: StringFilter<"DocumentVersion"> | string
+    storageProvider?: StringFilter<"DocumentVersion"> | string
+    storageKey?: StringNullableFilter<"DocumentVersion"> | string | null
+    changelog?: StringNullableFilter<"DocumentVersion"> | string | null
+    createdAt?: DateTimeFilter<"DocumentVersion"> | Date | string
+    deletedAt?: DateTimeNullableFilter<"DocumentVersion"> | Date | string | null
+    document?: XOR<DocumentScalarRelationFilter, DocumentWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "documentId_version">
+
+  export type DocumentVersionOrderByWithAggregationInput = {
+    id?: SortOrder
+    documentId?: SortOrder
+    userId?: SortOrder
+    version?: SortOrder
+    fileName?: SortOrder
+    fileSize?: SortOrder
+    mimeType?: SortOrder
+    fileUrl?: SortOrder
+    storageProvider?: SortOrder
+    storageKey?: SortOrderInput | SortOrder
+    changelog?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    deletedAt?: SortOrderInput | SortOrder
+    _count?: DocumentVersionCountOrderByAggregateInput
+    _avg?: DocumentVersionAvgOrderByAggregateInput
+    _max?: DocumentVersionMaxOrderByAggregateInput
+    _min?: DocumentVersionMinOrderByAggregateInput
+    _sum?: DocumentVersionSumOrderByAggregateInput
+  }
+
+  export type DocumentVersionScalarWhereWithAggregatesInput = {
+    AND?: DocumentVersionScalarWhereWithAggregatesInput | DocumentVersionScalarWhereWithAggregatesInput[]
+    OR?: DocumentVersionScalarWhereWithAggregatesInput[]
+    NOT?: DocumentVersionScalarWhereWithAggregatesInput | DocumentVersionScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"DocumentVersion"> | string
+    documentId?: StringWithAggregatesFilter<"DocumentVersion"> | string
+    userId?: StringWithAggregatesFilter<"DocumentVersion"> | string
+    version?: IntWithAggregatesFilter<"DocumentVersion"> | number
+    fileName?: StringWithAggregatesFilter<"DocumentVersion"> | string
+    fileSize?: IntWithAggregatesFilter<"DocumentVersion"> | number
+    mimeType?: StringWithAggregatesFilter<"DocumentVersion"> | string
+    fileUrl?: StringWithAggregatesFilter<"DocumentVersion"> | string
+    storageProvider?: StringWithAggregatesFilter<"DocumentVersion"> | string
+    storageKey?: StringNullableWithAggregatesFilter<"DocumentVersion"> | string | null
+    changelog?: StringNullableWithAggregatesFilter<"DocumentVersion"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"DocumentVersion"> | Date | string
+    deletedAt?: DateTimeNullableWithAggregatesFilter<"DocumentVersion"> | Date | string | null
+  }
+
   export type UserCreateInput = {
     id?: string
     fullName: string
@@ -16502,6 +19838,8 @@ export namespace Prisma {
     projectActivities?: ProjectActivityCreateNestedManyWithoutCreatedByInput
     notes?: NoteCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
+    documents?: DocumentCreateNestedManyWithoutUserInput
+    documentVersions?: DocumentVersionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -16522,6 +19860,8 @@ export namespace Prisma {
     projectActivities?: ProjectActivityUncheckedCreateNestedManyWithoutCreatedByInput
     notes?: NoteUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
+    documents?: DocumentUncheckedCreateNestedManyWithoutUserInput
+    documentVersions?: DocumentVersionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -16542,6 +19882,8 @@ export namespace Prisma {
     projectActivities?: ProjectActivityUpdateManyWithoutCreatedByNestedInput
     notes?: NoteUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
+    documents?: DocumentUpdateManyWithoutUserNestedInput
+    documentVersions?: DocumentVersionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -16562,6 +19904,8 @@ export namespace Prisma {
     projectActivities?: ProjectActivityUncheckedUpdateManyWithoutCreatedByNestedInput
     notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
+    documents?: DocumentUncheckedUpdateManyWithoutUserNestedInput
+    documentVersions?: DocumentVersionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -16619,6 +19963,7 @@ export namespace Prisma {
     applications?: ApplicationCreateNestedManyWithoutCompanyInput
     linkedNotes?: NoteCreateNestedManyWithoutCompanyInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutCompanyInput
+    documents?: DocumentCreateNestedManyWithoutCompanyInput
     user: UserCreateNestedOneWithoutCompaniesInput
   }
 
@@ -16645,6 +19990,7 @@ export namespace Prisma {
     applications?: ApplicationUncheckedCreateNestedManyWithoutCompanyInput
     linkedNotes?: NoteUncheckedCreateNestedManyWithoutCompanyInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutCompanyInput
+    documents?: DocumentUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUpdateInput = {
@@ -16669,6 +20015,7 @@ export namespace Prisma {
     applications?: ApplicationUpdateManyWithoutCompanyNestedInput
     linkedNotes?: NoteUpdateManyWithoutCompanyNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutCompanyNestedInput
+    documents?: DocumentUpdateManyWithoutCompanyNestedInput
     user?: UserUpdateOneRequiredWithoutCompaniesNestedInput
   }
 
@@ -16695,6 +20042,7 @@ export namespace Prisma {
     applications?: ApplicationUncheckedUpdateManyWithoutCompanyNestedInput
     linkedNotes?: NoteUncheckedUpdateManyWithoutCompanyNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutCompanyNestedInput
+    documents?: DocumentUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateManyInput = {
@@ -16778,6 +20126,7 @@ export namespace Prisma {
     applications?: ApplicationCreateNestedManyWithoutRecruiterContactInput
     linkedNotes?: NoteCreateNestedManyWithoutContactInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutContactInput
+    documents?: DocumentCreateNestedManyWithoutContactInput
   }
 
   export type ContactUncheckedCreateInput = {
@@ -16799,6 +20148,7 @@ export namespace Prisma {
     applications?: ApplicationUncheckedCreateNestedManyWithoutRecruiterContactInput
     linkedNotes?: NoteUncheckedCreateNestedManyWithoutContactInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutContactInput
+    documents?: DocumentUncheckedCreateNestedManyWithoutContactInput
   }
 
   export type ContactUpdateInput = {
@@ -16820,6 +20170,7 @@ export namespace Prisma {
     applications?: ApplicationUpdateManyWithoutRecruiterContactNestedInput
     linkedNotes?: NoteUpdateManyWithoutContactNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutContactNestedInput
+    documents?: DocumentUpdateManyWithoutContactNestedInput
   }
 
   export type ContactUncheckedUpdateInput = {
@@ -16841,6 +20192,7 @@ export namespace Prisma {
     applications?: ApplicationUncheckedUpdateManyWithoutRecruiterContactNestedInput
     linkedNotes?: NoteUncheckedUpdateManyWithoutContactNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutContactNestedInput
+    documents?: DocumentUncheckedUpdateManyWithoutContactNestedInput
   }
 
   export type ContactCreateManyInput = {
@@ -16912,6 +20264,7 @@ export namespace Prisma {
     stageHistory?: ApplicationStageHistoryCreateNestedManyWithoutApplicationInput
     linkedNotes?: NoteCreateNestedManyWithoutApplicationInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutApplicationInput
+    documents?: DocumentCreateNestedManyWithoutApplicationInput
   }
 
   export type ApplicationUncheckedCreateInput = {
@@ -16931,6 +20284,7 @@ export namespace Prisma {
     stageHistory?: ApplicationStageHistoryUncheckedCreateNestedManyWithoutApplicationInput
     linkedNotes?: NoteUncheckedCreateNestedManyWithoutApplicationInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutApplicationInput
+    documents?: DocumentUncheckedCreateNestedManyWithoutApplicationInput
   }
 
   export type ApplicationUpdateInput = {
@@ -16950,6 +20304,7 @@ export namespace Prisma {
     stageHistory?: ApplicationStageHistoryUpdateManyWithoutApplicationNestedInput
     linkedNotes?: NoteUpdateManyWithoutApplicationNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutApplicationNestedInput
+    documents?: DocumentUpdateManyWithoutApplicationNestedInput
   }
 
   export type ApplicationUncheckedUpdateInput = {
@@ -16969,6 +20324,7 @@ export namespace Prisma {
     stageHistory?: ApplicationStageHistoryUncheckedUpdateManyWithoutApplicationNestedInput
     linkedNotes?: NoteUncheckedUpdateManyWithoutApplicationNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutApplicationNestedInput
+    documents?: DocumentUncheckedUpdateManyWithoutApplicationNestedInput
   }
 
   export type ApplicationCreateManyInput = {
@@ -17095,6 +20451,7 @@ export namespace Prisma {
     nextOccurrence?: TaskCreateNestedOneWithoutRecurrenceSourceInput
     linkedNotes?: NoteCreateNestedManyWithoutTaskInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutTaskInput
+    documents?: DocumentCreateNestedManyWithoutTaskInput
   }
 
   export type TaskUncheckedCreateInput = {
@@ -17115,6 +20472,7 @@ export namespace Prisma {
     nextOccurrence?: TaskUncheckedCreateNestedOneWithoutRecurrenceSourceInput
     linkedNotes?: NoteUncheckedCreateNestedManyWithoutTaskInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutTaskInput
+    documents?: DocumentUncheckedCreateNestedManyWithoutTaskInput
   }
 
   export type TaskUpdateInput = {
@@ -17135,6 +20493,7 @@ export namespace Prisma {
     nextOccurrence?: TaskUpdateOneWithoutRecurrenceSourceNestedInput
     linkedNotes?: NoteUpdateManyWithoutTaskNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutTaskNestedInput
+    documents?: DocumentUpdateManyWithoutTaskNestedInput
   }
 
   export type TaskUncheckedUpdateInput = {
@@ -17155,6 +20514,7 @@ export namespace Prisma {
     nextOccurrence?: TaskUncheckedUpdateOneWithoutRecurrenceSourceNestedInput
     linkedNotes?: NoteUncheckedUpdateManyWithoutTaskNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutTaskNestedInput
+    documents?: DocumentUncheckedUpdateManyWithoutTaskNestedInput
   }
 
   export type TaskCreateManyInput = {
@@ -17223,6 +20583,7 @@ export namespace Prisma {
     activities?: ProjectActivityCreateNestedManyWithoutProjectInput
     linkedNotes?: NoteCreateNestedManyWithoutProjectInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutProjectInput
+    documents?: DocumentCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateInput = {
@@ -17242,6 +20603,7 @@ export namespace Prisma {
     activities?: ProjectActivityUncheckedCreateNestedManyWithoutProjectInput
     linkedNotes?: NoteUncheckedCreateNestedManyWithoutProjectInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutProjectInput
+    documents?: DocumentUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUpdateInput = {
@@ -17261,6 +20623,7 @@ export namespace Prisma {
     activities?: ProjectActivityUpdateManyWithoutProjectNestedInput
     linkedNotes?: NoteUpdateManyWithoutProjectNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutProjectNestedInput
+    documents?: DocumentUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateInput = {
@@ -17280,6 +20643,7 @@ export namespace Prisma {
     activities?: ProjectActivityUncheckedUpdateManyWithoutProjectNestedInput
     linkedNotes?: NoteUncheckedUpdateManyWithoutProjectNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutProjectNestedInput
+    documents?: DocumentUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectCreateManyInput = {
@@ -17651,6 +21015,233 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
+  export type DocumentCreateInput = {
+    id?: string
+    title: string
+    type?: $Enums.DocumentType
+    description?: string | null
+    tags?: DocumentCreatetagsInput | string[]
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    user: UserCreateNestedOneWithoutDocumentsInput
+    company?: CompanyCreateNestedOneWithoutDocumentsInput
+    contact?: ContactCreateNestedOneWithoutDocumentsInput
+    application?: ApplicationCreateNestedOneWithoutDocumentsInput
+    task?: TaskCreateNestedOneWithoutDocumentsInput
+    project?: ProjectCreateNestedOneWithoutDocumentsInput
+    versions?: DocumentVersionCreateNestedManyWithoutDocumentInput
+  }
+
+  export type DocumentUncheckedCreateInput = {
+    id?: string
+    userId: string
+    title: string
+    type?: $Enums.DocumentType
+    description?: string | null
+    tags?: DocumentCreatetagsInput | string[]
+    companyId?: string | null
+    contactId?: string | null
+    applicationId?: string | null
+    taskId?: string | null
+    projectId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    versions?: DocumentVersionUncheckedCreateNestedManyWithoutDocumentInput
+  }
+
+  export type DocumentUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    type?: EnumDocumentTypeFieldUpdateOperationsInput | $Enums.DocumentType
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: DocumentUpdatetagsInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user?: UserUpdateOneRequiredWithoutDocumentsNestedInput
+    company?: CompanyUpdateOneWithoutDocumentsNestedInput
+    contact?: ContactUpdateOneWithoutDocumentsNestedInput
+    application?: ApplicationUpdateOneWithoutDocumentsNestedInput
+    task?: TaskUpdateOneWithoutDocumentsNestedInput
+    project?: ProjectUpdateOneWithoutDocumentsNestedInput
+    versions?: DocumentVersionUpdateManyWithoutDocumentNestedInput
+  }
+
+  export type DocumentUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    type?: EnumDocumentTypeFieldUpdateOperationsInput | $Enums.DocumentType
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: DocumentUpdatetagsInput | string[]
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    contactId?: NullableStringFieldUpdateOperationsInput | string | null
+    applicationId?: NullableStringFieldUpdateOperationsInput | string | null
+    taskId?: NullableStringFieldUpdateOperationsInput | string | null
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    versions?: DocumentVersionUncheckedUpdateManyWithoutDocumentNestedInput
+  }
+
+  export type DocumentCreateManyInput = {
+    id?: string
+    userId: string
+    title: string
+    type?: $Enums.DocumentType
+    description?: string | null
+    tags?: DocumentCreatetagsInput | string[]
+    companyId?: string | null
+    contactId?: string | null
+    applicationId?: string | null
+    taskId?: string | null
+    projectId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+  }
+
+  export type DocumentUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    type?: EnumDocumentTypeFieldUpdateOperationsInput | $Enums.DocumentType
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: DocumentUpdatetagsInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type DocumentUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    type?: EnumDocumentTypeFieldUpdateOperationsInput | $Enums.DocumentType
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: DocumentUpdatetagsInput | string[]
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    contactId?: NullableStringFieldUpdateOperationsInput | string | null
+    applicationId?: NullableStringFieldUpdateOperationsInput | string | null
+    taskId?: NullableStringFieldUpdateOperationsInput | string | null
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type DocumentVersionCreateInput = {
+    id?: string
+    version: number
+    fileName: string
+    fileSize: number
+    mimeType: string
+    fileUrl: string
+    storageProvider?: string
+    storageKey?: string | null
+    changelog?: string | null
+    createdAt?: Date | string
+    deletedAt?: Date | string | null
+    document: DocumentCreateNestedOneWithoutVersionsInput
+    user: UserCreateNestedOneWithoutDocumentVersionsInput
+  }
+
+  export type DocumentVersionUncheckedCreateInput = {
+    id?: string
+    documentId: string
+    userId: string
+    version: number
+    fileName: string
+    fileSize: number
+    mimeType: string
+    fileUrl: string
+    storageProvider?: string
+    storageKey?: string | null
+    changelog?: string | null
+    createdAt?: Date | string
+    deletedAt?: Date | string | null
+  }
+
+  export type DocumentVersionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    version?: IntFieldUpdateOperationsInput | number
+    fileName?: StringFieldUpdateOperationsInput | string
+    fileSize?: IntFieldUpdateOperationsInput | number
+    mimeType?: StringFieldUpdateOperationsInput | string
+    fileUrl?: StringFieldUpdateOperationsInput | string
+    storageProvider?: StringFieldUpdateOperationsInput | string
+    storageKey?: NullableStringFieldUpdateOperationsInput | string | null
+    changelog?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    document?: DocumentUpdateOneRequiredWithoutVersionsNestedInput
+    user?: UserUpdateOneRequiredWithoutDocumentVersionsNestedInput
+  }
+
+  export type DocumentVersionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    documentId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    version?: IntFieldUpdateOperationsInput | number
+    fileName?: StringFieldUpdateOperationsInput | string
+    fileSize?: IntFieldUpdateOperationsInput | number
+    mimeType?: StringFieldUpdateOperationsInput | string
+    fileUrl?: StringFieldUpdateOperationsInput | string
+    storageProvider?: StringFieldUpdateOperationsInput | string
+    storageKey?: NullableStringFieldUpdateOperationsInput | string | null
+    changelog?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type DocumentVersionCreateManyInput = {
+    id?: string
+    documentId: string
+    userId: string
+    version: number
+    fileName: string
+    fileSize: number
+    mimeType: string
+    fileUrl: string
+    storageProvider?: string
+    storageKey?: string | null
+    changelog?: string | null
+    createdAt?: Date | string
+    deletedAt?: Date | string | null
+  }
+
+  export type DocumentVersionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    version?: IntFieldUpdateOperationsInput | number
+    fileName?: StringFieldUpdateOperationsInput | string
+    fileSize?: IntFieldUpdateOperationsInput | number
+    mimeType?: StringFieldUpdateOperationsInput | string
+    fileUrl?: StringFieldUpdateOperationsInput | string
+    storageProvider?: StringFieldUpdateOperationsInput | string
+    storageKey?: NullableStringFieldUpdateOperationsInput | string | null
+    changelog?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type DocumentVersionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    documentId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    version?: IntFieldUpdateOperationsInput | number
+    fileName?: StringFieldUpdateOperationsInput | string
+    fileSize?: IntFieldUpdateOperationsInput | number
+    mimeType?: StringFieldUpdateOperationsInput | string
+    fileUrl?: StringFieldUpdateOperationsInput | string
+    storageProvider?: StringFieldUpdateOperationsInput | string
+    storageKey?: NullableStringFieldUpdateOperationsInput | string | null
+    changelog?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -17749,6 +21340,18 @@ export namespace Prisma {
     none?: CalendarEventWhereInput
   }
 
+  export type DocumentListRelationFilter = {
+    every?: DocumentWhereInput
+    some?: DocumentWhereInput
+    none?: DocumentWhereInput
+  }
+
+  export type DocumentVersionListRelationFilter = {
+    every?: DocumentVersionWhereInput
+    some?: DocumentVersionWhereInput
+    none?: DocumentVersionWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -17787,6 +21390,14 @@ export namespace Prisma {
   }
 
   export type CalendarEventOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type DocumentOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type DocumentVersionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -18686,6 +22297,140 @@ export namespace Prisma {
     _max?: NestedEnumCalendarEventTypeFilter<$PrismaModel>
   }
 
+  export type EnumDocumentTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.DocumentType | EnumDocumentTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.DocumentType[] | ListEnumDocumentTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DocumentType[] | ListEnumDocumentTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumDocumentTypeFilter<$PrismaModel> | $Enums.DocumentType
+  }
+
+  export type DocumentCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    title?: SortOrder
+    type?: SortOrder
+    description?: SortOrder
+    tags?: SortOrder
+    companyId?: SortOrder
+    contactId?: SortOrder
+    applicationId?: SortOrder
+    taskId?: SortOrder
+    projectId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrder
+  }
+
+  export type DocumentMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    title?: SortOrder
+    type?: SortOrder
+    description?: SortOrder
+    companyId?: SortOrder
+    contactId?: SortOrder
+    applicationId?: SortOrder
+    taskId?: SortOrder
+    projectId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrder
+  }
+
+  export type DocumentMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    title?: SortOrder
+    type?: SortOrder
+    description?: SortOrder
+    companyId?: SortOrder
+    contactId?: SortOrder
+    applicationId?: SortOrder
+    taskId?: SortOrder
+    projectId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrder
+  }
+
+  export type EnumDocumentTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.DocumentType | EnumDocumentTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.DocumentType[] | ListEnumDocumentTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DocumentType[] | ListEnumDocumentTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumDocumentTypeWithAggregatesFilter<$PrismaModel> | $Enums.DocumentType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumDocumentTypeFilter<$PrismaModel>
+    _max?: NestedEnumDocumentTypeFilter<$PrismaModel>
+  }
+
+  export type DocumentScalarRelationFilter = {
+    is?: DocumentWhereInput
+    isNot?: DocumentWhereInput
+  }
+
+  export type DocumentVersionDocumentIdVersionCompoundUniqueInput = {
+    documentId: string
+    version: number
+  }
+
+  export type DocumentVersionCountOrderByAggregateInput = {
+    id?: SortOrder
+    documentId?: SortOrder
+    userId?: SortOrder
+    version?: SortOrder
+    fileName?: SortOrder
+    fileSize?: SortOrder
+    mimeType?: SortOrder
+    fileUrl?: SortOrder
+    storageProvider?: SortOrder
+    storageKey?: SortOrder
+    changelog?: SortOrder
+    createdAt?: SortOrder
+    deletedAt?: SortOrder
+  }
+
+  export type DocumentVersionAvgOrderByAggregateInput = {
+    version?: SortOrder
+    fileSize?: SortOrder
+  }
+
+  export type DocumentVersionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    documentId?: SortOrder
+    userId?: SortOrder
+    version?: SortOrder
+    fileName?: SortOrder
+    fileSize?: SortOrder
+    mimeType?: SortOrder
+    fileUrl?: SortOrder
+    storageProvider?: SortOrder
+    storageKey?: SortOrder
+    changelog?: SortOrder
+    createdAt?: SortOrder
+    deletedAt?: SortOrder
+  }
+
+  export type DocumentVersionMinOrderByAggregateInput = {
+    id?: SortOrder
+    documentId?: SortOrder
+    userId?: SortOrder
+    version?: SortOrder
+    fileName?: SortOrder
+    fileSize?: SortOrder
+    mimeType?: SortOrder
+    fileUrl?: SortOrder
+    storageProvider?: SortOrder
+    storageKey?: SortOrder
+    changelog?: SortOrder
+    createdAt?: SortOrder
+    deletedAt?: SortOrder
+  }
+
+  export type DocumentVersionSumOrderByAggregateInput = {
+    version?: SortOrder
+    fileSize?: SortOrder
+  }
+
   export type CompanyCreateNestedManyWithoutUserInput = {
     create?: XOR<CompanyCreateWithoutUserInput, CompanyUncheckedCreateWithoutUserInput> | CompanyCreateWithoutUserInput[] | CompanyUncheckedCreateWithoutUserInput[]
     connectOrCreate?: CompanyCreateOrConnectWithoutUserInput | CompanyCreateOrConnectWithoutUserInput[]
@@ -18749,6 +22494,20 @@ export namespace Prisma {
     connect?: CalendarEventWhereUniqueInput | CalendarEventWhereUniqueInput[]
   }
 
+  export type DocumentCreateNestedManyWithoutUserInput = {
+    create?: XOR<DocumentCreateWithoutUserInput, DocumentUncheckedCreateWithoutUserInput> | DocumentCreateWithoutUserInput[] | DocumentUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DocumentCreateOrConnectWithoutUserInput | DocumentCreateOrConnectWithoutUserInput[]
+    createMany?: DocumentCreateManyUserInputEnvelope
+    connect?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+  }
+
+  export type DocumentVersionCreateNestedManyWithoutUserInput = {
+    create?: XOR<DocumentVersionCreateWithoutUserInput, DocumentVersionUncheckedCreateWithoutUserInput> | DocumentVersionCreateWithoutUserInput[] | DocumentVersionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DocumentVersionCreateOrConnectWithoutUserInput | DocumentVersionCreateOrConnectWithoutUserInput[]
+    createMany?: DocumentVersionCreateManyUserInputEnvelope
+    connect?: DocumentVersionWhereUniqueInput | DocumentVersionWhereUniqueInput[]
+  }
+
   export type CompanyUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<CompanyCreateWithoutUserInput, CompanyUncheckedCreateWithoutUserInput> | CompanyCreateWithoutUserInput[] | CompanyUncheckedCreateWithoutUserInput[]
     connectOrCreate?: CompanyCreateOrConnectWithoutUserInput | CompanyCreateOrConnectWithoutUserInput[]
@@ -18810,6 +22569,20 @@ export namespace Prisma {
     connectOrCreate?: CalendarEventCreateOrConnectWithoutUserInput | CalendarEventCreateOrConnectWithoutUserInput[]
     createMany?: CalendarEventCreateManyUserInputEnvelope
     connect?: CalendarEventWhereUniqueInput | CalendarEventWhereUniqueInput[]
+  }
+
+  export type DocumentUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<DocumentCreateWithoutUserInput, DocumentUncheckedCreateWithoutUserInput> | DocumentCreateWithoutUserInput[] | DocumentUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DocumentCreateOrConnectWithoutUserInput | DocumentCreateOrConnectWithoutUserInput[]
+    createMany?: DocumentCreateManyUserInputEnvelope
+    connect?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+  }
+
+  export type DocumentVersionUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<DocumentVersionCreateWithoutUserInput, DocumentVersionUncheckedCreateWithoutUserInput> | DocumentVersionCreateWithoutUserInput[] | DocumentVersionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DocumentVersionCreateOrConnectWithoutUserInput | DocumentVersionCreateOrConnectWithoutUserInput[]
+    createMany?: DocumentVersionCreateManyUserInputEnvelope
+    connect?: DocumentVersionWhereUniqueInput | DocumentVersionWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -18954,6 +22727,34 @@ export namespace Prisma {
     deleteMany?: CalendarEventScalarWhereInput | CalendarEventScalarWhereInput[]
   }
 
+  export type DocumentUpdateManyWithoutUserNestedInput = {
+    create?: XOR<DocumentCreateWithoutUserInput, DocumentUncheckedCreateWithoutUserInput> | DocumentCreateWithoutUserInput[] | DocumentUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DocumentCreateOrConnectWithoutUserInput | DocumentCreateOrConnectWithoutUserInput[]
+    upsert?: DocumentUpsertWithWhereUniqueWithoutUserInput | DocumentUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: DocumentCreateManyUserInputEnvelope
+    set?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    disconnect?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    delete?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    connect?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    update?: DocumentUpdateWithWhereUniqueWithoutUserInput | DocumentUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: DocumentUpdateManyWithWhereWithoutUserInput | DocumentUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: DocumentScalarWhereInput | DocumentScalarWhereInput[]
+  }
+
+  export type DocumentVersionUpdateManyWithoutUserNestedInput = {
+    create?: XOR<DocumentVersionCreateWithoutUserInput, DocumentVersionUncheckedCreateWithoutUserInput> | DocumentVersionCreateWithoutUserInput[] | DocumentVersionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DocumentVersionCreateOrConnectWithoutUserInput | DocumentVersionCreateOrConnectWithoutUserInput[]
+    upsert?: DocumentVersionUpsertWithWhereUniqueWithoutUserInput | DocumentVersionUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: DocumentVersionCreateManyUserInputEnvelope
+    set?: DocumentVersionWhereUniqueInput | DocumentVersionWhereUniqueInput[]
+    disconnect?: DocumentVersionWhereUniqueInput | DocumentVersionWhereUniqueInput[]
+    delete?: DocumentVersionWhereUniqueInput | DocumentVersionWhereUniqueInput[]
+    connect?: DocumentVersionWhereUniqueInput | DocumentVersionWhereUniqueInput[]
+    update?: DocumentVersionUpdateWithWhereUniqueWithoutUserInput | DocumentVersionUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: DocumentVersionUpdateManyWithWhereWithoutUserInput | DocumentVersionUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: DocumentVersionScalarWhereInput | DocumentVersionScalarWhereInput[]
+  }
+
   export type CompanyUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<CompanyCreateWithoutUserInput, CompanyUncheckedCreateWithoutUserInput> | CompanyCreateWithoutUserInput[] | CompanyUncheckedCreateWithoutUserInput[]
     connectOrCreate?: CompanyCreateOrConnectWithoutUserInput | CompanyCreateOrConnectWithoutUserInput[]
@@ -19080,6 +22881,34 @@ export namespace Prisma {
     deleteMany?: CalendarEventScalarWhereInput | CalendarEventScalarWhereInput[]
   }
 
+  export type DocumentUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<DocumentCreateWithoutUserInput, DocumentUncheckedCreateWithoutUserInput> | DocumentCreateWithoutUserInput[] | DocumentUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DocumentCreateOrConnectWithoutUserInput | DocumentCreateOrConnectWithoutUserInput[]
+    upsert?: DocumentUpsertWithWhereUniqueWithoutUserInput | DocumentUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: DocumentCreateManyUserInputEnvelope
+    set?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    disconnect?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    delete?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    connect?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    update?: DocumentUpdateWithWhereUniqueWithoutUserInput | DocumentUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: DocumentUpdateManyWithWhereWithoutUserInput | DocumentUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: DocumentScalarWhereInput | DocumentScalarWhereInput[]
+  }
+
+  export type DocumentVersionUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<DocumentVersionCreateWithoutUserInput, DocumentVersionUncheckedCreateWithoutUserInput> | DocumentVersionCreateWithoutUserInput[] | DocumentVersionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DocumentVersionCreateOrConnectWithoutUserInput | DocumentVersionCreateOrConnectWithoutUserInput[]
+    upsert?: DocumentVersionUpsertWithWhereUniqueWithoutUserInput | DocumentVersionUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: DocumentVersionCreateManyUserInputEnvelope
+    set?: DocumentVersionWhereUniqueInput | DocumentVersionWhereUniqueInput[]
+    disconnect?: DocumentVersionWhereUniqueInput | DocumentVersionWhereUniqueInput[]
+    delete?: DocumentVersionWhereUniqueInput | DocumentVersionWhereUniqueInput[]
+    connect?: DocumentVersionWhereUniqueInput | DocumentVersionWhereUniqueInput[]
+    update?: DocumentVersionUpdateWithWhereUniqueWithoutUserInput | DocumentVersionUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: DocumentVersionUpdateManyWithWhereWithoutUserInput | DocumentVersionUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: DocumentVersionScalarWhereInput | DocumentVersionScalarWhereInput[]
+  }
+
   export type CompanyCreatetechStackInput = {
     set: string[]
   }
@@ -19110,6 +22939,13 @@ export namespace Prisma {
     connectOrCreate?: CalendarEventCreateOrConnectWithoutCompanyInput | CalendarEventCreateOrConnectWithoutCompanyInput[]
     createMany?: CalendarEventCreateManyCompanyInputEnvelope
     connect?: CalendarEventWhereUniqueInput | CalendarEventWhereUniqueInput[]
+  }
+
+  export type DocumentCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<DocumentCreateWithoutCompanyInput, DocumentUncheckedCreateWithoutCompanyInput> | DocumentCreateWithoutCompanyInput[] | DocumentUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: DocumentCreateOrConnectWithoutCompanyInput | DocumentCreateOrConnectWithoutCompanyInput[]
+    createMany?: DocumentCreateManyCompanyInputEnvelope
+    connect?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
   }
 
   export type UserCreateNestedOneWithoutCompaniesInput = {
@@ -19144,6 +22980,13 @@ export namespace Prisma {
     connectOrCreate?: CalendarEventCreateOrConnectWithoutCompanyInput | CalendarEventCreateOrConnectWithoutCompanyInput[]
     createMany?: CalendarEventCreateManyCompanyInputEnvelope
     connect?: CalendarEventWhereUniqueInput | CalendarEventWhereUniqueInput[]
+  }
+
+  export type DocumentUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<DocumentCreateWithoutCompanyInput, DocumentUncheckedCreateWithoutCompanyInput> | DocumentCreateWithoutCompanyInput[] | DocumentUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: DocumentCreateOrConnectWithoutCompanyInput | DocumentCreateOrConnectWithoutCompanyInput[]
+    createMany?: DocumentCreateManyCompanyInputEnvelope
+    connect?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
   }
 
   export type NullableStringFieldUpdateOperationsInput = {
@@ -19227,6 +23070,20 @@ export namespace Prisma {
     deleteMany?: CalendarEventScalarWhereInput | CalendarEventScalarWhereInput[]
   }
 
+  export type DocumentUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<DocumentCreateWithoutCompanyInput, DocumentUncheckedCreateWithoutCompanyInput> | DocumentCreateWithoutCompanyInput[] | DocumentUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: DocumentCreateOrConnectWithoutCompanyInput | DocumentCreateOrConnectWithoutCompanyInput[]
+    upsert?: DocumentUpsertWithWhereUniqueWithoutCompanyInput | DocumentUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: DocumentCreateManyCompanyInputEnvelope
+    set?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    disconnect?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    delete?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    connect?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    update?: DocumentUpdateWithWhereUniqueWithoutCompanyInput | DocumentUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: DocumentUpdateManyWithWhereWithoutCompanyInput | DocumentUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: DocumentScalarWhereInput | DocumentScalarWhereInput[]
+  }
+
   export type UserUpdateOneRequiredWithoutCompaniesNestedInput = {
     create?: XOR<UserCreateWithoutCompaniesInput, UserUncheckedCreateWithoutCompaniesInput>
     connectOrCreate?: UserCreateOrConnectWithoutCompaniesInput
@@ -19291,6 +23148,20 @@ export namespace Prisma {
     deleteMany?: CalendarEventScalarWhereInput | CalendarEventScalarWhereInput[]
   }
 
+  export type DocumentUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<DocumentCreateWithoutCompanyInput, DocumentUncheckedCreateWithoutCompanyInput> | DocumentCreateWithoutCompanyInput[] | DocumentUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: DocumentCreateOrConnectWithoutCompanyInput | DocumentCreateOrConnectWithoutCompanyInput[]
+    upsert?: DocumentUpsertWithWhereUniqueWithoutCompanyInput | DocumentUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: DocumentCreateManyCompanyInputEnvelope
+    set?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    disconnect?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    delete?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    connect?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    update?: DocumentUpdateWithWhereUniqueWithoutCompanyInput | DocumentUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: DocumentUpdateManyWithWhereWithoutCompanyInput | DocumentUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: DocumentScalarWhereInput | DocumentScalarWhereInput[]
+  }
+
   export type UserCreateNestedOneWithoutContactsInput = {
     create?: XOR<UserCreateWithoutContactsInput, UserUncheckedCreateWithoutContactsInput>
     connectOrCreate?: UserCreateOrConnectWithoutContactsInput
@@ -19324,6 +23195,13 @@ export namespace Prisma {
     connect?: CalendarEventWhereUniqueInput | CalendarEventWhereUniqueInput[]
   }
 
+  export type DocumentCreateNestedManyWithoutContactInput = {
+    create?: XOR<DocumentCreateWithoutContactInput, DocumentUncheckedCreateWithoutContactInput> | DocumentCreateWithoutContactInput[] | DocumentUncheckedCreateWithoutContactInput[]
+    connectOrCreate?: DocumentCreateOrConnectWithoutContactInput | DocumentCreateOrConnectWithoutContactInput[]
+    createMany?: DocumentCreateManyContactInputEnvelope
+    connect?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+  }
+
   export type ApplicationUncheckedCreateNestedManyWithoutRecruiterContactInput = {
     create?: XOR<ApplicationCreateWithoutRecruiterContactInput, ApplicationUncheckedCreateWithoutRecruiterContactInput> | ApplicationCreateWithoutRecruiterContactInput[] | ApplicationUncheckedCreateWithoutRecruiterContactInput[]
     connectOrCreate?: ApplicationCreateOrConnectWithoutRecruiterContactInput | ApplicationCreateOrConnectWithoutRecruiterContactInput[]
@@ -19343,6 +23221,13 @@ export namespace Prisma {
     connectOrCreate?: CalendarEventCreateOrConnectWithoutContactInput | CalendarEventCreateOrConnectWithoutContactInput[]
     createMany?: CalendarEventCreateManyContactInputEnvelope
     connect?: CalendarEventWhereUniqueInput | CalendarEventWhereUniqueInput[]
+  }
+
+  export type DocumentUncheckedCreateNestedManyWithoutContactInput = {
+    create?: XOR<DocumentCreateWithoutContactInput, DocumentUncheckedCreateWithoutContactInput> | DocumentCreateWithoutContactInput[] | DocumentUncheckedCreateWithoutContactInput[]
+    connectOrCreate?: DocumentCreateOrConnectWithoutContactInput | DocumentCreateOrConnectWithoutContactInput[]
+    createMany?: DocumentCreateManyContactInputEnvelope
+    connect?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
   }
 
   export type UserUpdateOneRequiredWithoutContactsNestedInput = {
@@ -19403,6 +23288,20 @@ export namespace Prisma {
     deleteMany?: CalendarEventScalarWhereInput | CalendarEventScalarWhereInput[]
   }
 
+  export type DocumentUpdateManyWithoutContactNestedInput = {
+    create?: XOR<DocumentCreateWithoutContactInput, DocumentUncheckedCreateWithoutContactInput> | DocumentCreateWithoutContactInput[] | DocumentUncheckedCreateWithoutContactInput[]
+    connectOrCreate?: DocumentCreateOrConnectWithoutContactInput | DocumentCreateOrConnectWithoutContactInput[]
+    upsert?: DocumentUpsertWithWhereUniqueWithoutContactInput | DocumentUpsertWithWhereUniqueWithoutContactInput[]
+    createMany?: DocumentCreateManyContactInputEnvelope
+    set?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    disconnect?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    delete?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    connect?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    update?: DocumentUpdateWithWhereUniqueWithoutContactInput | DocumentUpdateWithWhereUniqueWithoutContactInput[]
+    updateMany?: DocumentUpdateManyWithWhereWithoutContactInput | DocumentUpdateManyWithWhereWithoutContactInput[]
+    deleteMany?: DocumentScalarWhereInput | DocumentScalarWhereInput[]
+  }
+
   export type ApplicationUncheckedUpdateManyWithoutRecruiterContactNestedInput = {
     create?: XOR<ApplicationCreateWithoutRecruiterContactInput, ApplicationUncheckedCreateWithoutRecruiterContactInput> | ApplicationCreateWithoutRecruiterContactInput[] | ApplicationUncheckedCreateWithoutRecruiterContactInput[]
     connectOrCreate?: ApplicationCreateOrConnectWithoutRecruiterContactInput | ApplicationCreateOrConnectWithoutRecruiterContactInput[]
@@ -19445,6 +23344,20 @@ export namespace Prisma {
     deleteMany?: CalendarEventScalarWhereInput | CalendarEventScalarWhereInput[]
   }
 
+  export type DocumentUncheckedUpdateManyWithoutContactNestedInput = {
+    create?: XOR<DocumentCreateWithoutContactInput, DocumentUncheckedCreateWithoutContactInput> | DocumentCreateWithoutContactInput[] | DocumentUncheckedCreateWithoutContactInput[]
+    connectOrCreate?: DocumentCreateOrConnectWithoutContactInput | DocumentCreateOrConnectWithoutContactInput[]
+    upsert?: DocumentUpsertWithWhereUniqueWithoutContactInput | DocumentUpsertWithWhereUniqueWithoutContactInput[]
+    createMany?: DocumentCreateManyContactInputEnvelope
+    set?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    disconnect?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    delete?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    connect?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    update?: DocumentUpdateWithWhereUniqueWithoutContactInput | DocumentUpdateWithWhereUniqueWithoutContactInput[]
+    updateMany?: DocumentUpdateManyWithWhereWithoutContactInput | DocumentUpdateManyWithWhereWithoutContactInput[]
+    deleteMany?: DocumentScalarWhereInput | DocumentScalarWhereInput[]
+  }
+
   export type UserCreateNestedOneWithoutApplicationsInput = {
     create?: XOR<UserCreateWithoutApplicationsInput, UserUncheckedCreateWithoutApplicationsInput>
     connectOrCreate?: UserCreateOrConnectWithoutApplicationsInput
@@ -19484,6 +23397,13 @@ export namespace Prisma {
     connect?: CalendarEventWhereUniqueInput | CalendarEventWhereUniqueInput[]
   }
 
+  export type DocumentCreateNestedManyWithoutApplicationInput = {
+    create?: XOR<DocumentCreateWithoutApplicationInput, DocumentUncheckedCreateWithoutApplicationInput> | DocumentCreateWithoutApplicationInput[] | DocumentUncheckedCreateWithoutApplicationInput[]
+    connectOrCreate?: DocumentCreateOrConnectWithoutApplicationInput | DocumentCreateOrConnectWithoutApplicationInput[]
+    createMany?: DocumentCreateManyApplicationInputEnvelope
+    connect?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+  }
+
   export type ApplicationStageHistoryUncheckedCreateNestedManyWithoutApplicationInput = {
     create?: XOR<ApplicationStageHistoryCreateWithoutApplicationInput, ApplicationStageHistoryUncheckedCreateWithoutApplicationInput> | ApplicationStageHistoryCreateWithoutApplicationInput[] | ApplicationStageHistoryUncheckedCreateWithoutApplicationInput[]
     connectOrCreate?: ApplicationStageHistoryCreateOrConnectWithoutApplicationInput | ApplicationStageHistoryCreateOrConnectWithoutApplicationInput[]
@@ -19503,6 +23423,13 @@ export namespace Prisma {
     connectOrCreate?: CalendarEventCreateOrConnectWithoutApplicationInput | CalendarEventCreateOrConnectWithoutApplicationInput[]
     createMany?: CalendarEventCreateManyApplicationInputEnvelope
     connect?: CalendarEventWhereUniqueInput | CalendarEventWhereUniqueInput[]
+  }
+
+  export type DocumentUncheckedCreateNestedManyWithoutApplicationInput = {
+    create?: XOR<DocumentCreateWithoutApplicationInput, DocumentUncheckedCreateWithoutApplicationInput> | DocumentCreateWithoutApplicationInput[] | DocumentUncheckedCreateWithoutApplicationInput[]
+    connectOrCreate?: DocumentCreateOrConnectWithoutApplicationInput | DocumentCreateOrConnectWithoutApplicationInput[]
+    createMany?: DocumentCreateManyApplicationInputEnvelope
+    connect?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
   }
 
   export type EnumApplicationStageFieldUpdateOperationsInput = {
@@ -19577,6 +23504,20 @@ export namespace Prisma {
     deleteMany?: CalendarEventScalarWhereInput | CalendarEventScalarWhereInput[]
   }
 
+  export type DocumentUpdateManyWithoutApplicationNestedInput = {
+    create?: XOR<DocumentCreateWithoutApplicationInput, DocumentUncheckedCreateWithoutApplicationInput> | DocumentCreateWithoutApplicationInput[] | DocumentUncheckedCreateWithoutApplicationInput[]
+    connectOrCreate?: DocumentCreateOrConnectWithoutApplicationInput | DocumentCreateOrConnectWithoutApplicationInput[]
+    upsert?: DocumentUpsertWithWhereUniqueWithoutApplicationInput | DocumentUpsertWithWhereUniqueWithoutApplicationInput[]
+    createMany?: DocumentCreateManyApplicationInputEnvelope
+    set?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    disconnect?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    delete?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    connect?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    update?: DocumentUpdateWithWhereUniqueWithoutApplicationInput | DocumentUpdateWithWhereUniqueWithoutApplicationInput[]
+    updateMany?: DocumentUpdateManyWithWhereWithoutApplicationInput | DocumentUpdateManyWithWhereWithoutApplicationInput[]
+    deleteMany?: DocumentScalarWhereInput | DocumentScalarWhereInput[]
+  }
+
   export type ApplicationStageHistoryUncheckedUpdateManyWithoutApplicationNestedInput = {
     create?: XOR<ApplicationStageHistoryCreateWithoutApplicationInput, ApplicationStageHistoryUncheckedCreateWithoutApplicationInput> | ApplicationStageHistoryCreateWithoutApplicationInput[] | ApplicationStageHistoryUncheckedCreateWithoutApplicationInput[]
     connectOrCreate?: ApplicationStageHistoryCreateOrConnectWithoutApplicationInput | ApplicationStageHistoryCreateOrConnectWithoutApplicationInput[]
@@ -19617,6 +23558,20 @@ export namespace Prisma {
     update?: CalendarEventUpdateWithWhereUniqueWithoutApplicationInput | CalendarEventUpdateWithWhereUniqueWithoutApplicationInput[]
     updateMany?: CalendarEventUpdateManyWithWhereWithoutApplicationInput | CalendarEventUpdateManyWithWhereWithoutApplicationInput[]
     deleteMany?: CalendarEventScalarWhereInput | CalendarEventScalarWhereInput[]
+  }
+
+  export type DocumentUncheckedUpdateManyWithoutApplicationNestedInput = {
+    create?: XOR<DocumentCreateWithoutApplicationInput, DocumentUncheckedCreateWithoutApplicationInput> | DocumentCreateWithoutApplicationInput[] | DocumentUncheckedCreateWithoutApplicationInput[]
+    connectOrCreate?: DocumentCreateOrConnectWithoutApplicationInput | DocumentCreateOrConnectWithoutApplicationInput[]
+    upsert?: DocumentUpsertWithWhereUniqueWithoutApplicationInput | DocumentUpsertWithWhereUniqueWithoutApplicationInput[]
+    createMany?: DocumentCreateManyApplicationInputEnvelope
+    set?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    disconnect?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    delete?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    connect?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    update?: DocumentUpdateWithWhereUniqueWithoutApplicationInput | DocumentUpdateWithWhereUniqueWithoutApplicationInput[]
+    updateMany?: DocumentUpdateManyWithWhereWithoutApplicationInput | DocumentUpdateManyWithWhereWithoutApplicationInput[]
+    deleteMany?: DocumentScalarWhereInput | DocumentScalarWhereInput[]
   }
 
   export type ApplicationCreateNestedOneWithoutStageHistoryInput = {
@@ -19683,6 +23638,13 @@ export namespace Prisma {
     connect?: CalendarEventWhereUniqueInput | CalendarEventWhereUniqueInput[]
   }
 
+  export type DocumentCreateNestedManyWithoutTaskInput = {
+    create?: XOR<DocumentCreateWithoutTaskInput, DocumentUncheckedCreateWithoutTaskInput> | DocumentCreateWithoutTaskInput[] | DocumentUncheckedCreateWithoutTaskInput[]
+    connectOrCreate?: DocumentCreateOrConnectWithoutTaskInput | DocumentCreateOrConnectWithoutTaskInput[]
+    createMany?: DocumentCreateManyTaskInputEnvelope
+    connect?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+  }
+
   export type TaskUncheckedCreateNestedOneWithoutRecurrenceSourceInput = {
     create?: XOR<TaskCreateWithoutRecurrenceSourceInput, TaskUncheckedCreateWithoutRecurrenceSourceInput>
     connectOrCreate?: TaskCreateOrConnectWithoutRecurrenceSourceInput
@@ -19701,6 +23663,13 @@ export namespace Prisma {
     connectOrCreate?: CalendarEventCreateOrConnectWithoutTaskInput | CalendarEventCreateOrConnectWithoutTaskInput[]
     createMany?: CalendarEventCreateManyTaskInputEnvelope
     connect?: CalendarEventWhereUniqueInput | CalendarEventWhereUniqueInput[]
+  }
+
+  export type DocumentUncheckedCreateNestedManyWithoutTaskInput = {
+    create?: XOR<DocumentCreateWithoutTaskInput, DocumentUncheckedCreateWithoutTaskInput> | DocumentCreateWithoutTaskInput[] | DocumentUncheckedCreateWithoutTaskInput[]
+    connectOrCreate?: DocumentCreateOrConnectWithoutTaskInput | DocumentCreateOrConnectWithoutTaskInput[]
+    createMany?: DocumentCreateManyTaskInputEnvelope
+    connect?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
   }
 
   export type EnumTaskTypeFieldUpdateOperationsInput = {
@@ -19775,6 +23744,20 @@ export namespace Prisma {
     deleteMany?: CalendarEventScalarWhereInput | CalendarEventScalarWhereInput[]
   }
 
+  export type DocumentUpdateManyWithoutTaskNestedInput = {
+    create?: XOR<DocumentCreateWithoutTaskInput, DocumentUncheckedCreateWithoutTaskInput> | DocumentCreateWithoutTaskInput[] | DocumentUncheckedCreateWithoutTaskInput[]
+    connectOrCreate?: DocumentCreateOrConnectWithoutTaskInput | DocumentCreateOrConnectWithoutTaskInput[]
+    upsert?: DocumentUpsertWithWhereUniqueWithoutTaskInput | DocumentUpsertWithWhereUniqueWithoutTaskInput[]
+    createMany?: DocumentCreateManyTaskInputEnvelope
+    set?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    disconnect?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    delete?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    connect?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    update?: DocumentUpdateWithWhereUniqueWithoutTaskInput | DocumentUpdateWithWhereUniqueWithoutTaskInput[]
+    updateMany?: DocumentUpdateManyWithWhereWithoutTaskInput | DocumentUpdateManyWithWhereWithoutTaskInput[]
+    deleteMany?: DocumentScalarWhereInput | DocumentScalarWhereInput[]
+  }
+
   export type TaskUncheckedUpdateOneWithoutRecurrenceSourceNestedInput = {
     create?: XOR<TaskCreateWithoutRecurrenceSourceInput, TaskUncheckedCreateWithoutRecurrenceSourceInput>
     connectOrCreate?: TaskCreateOrConnectWithoutRecurrenceSourceInput
@@ -19813,6 +23796,20 @@ export namespace Prisma {
     deleteMany?: CalendarEventScalarWhereInput | CalendarEventScalarWhereInput[]
   }
 
+  export type DocumentUncheckedUpdateManyWithoutTaskNestedInput = {
+    create?: XOR<DocumentCreateWithoutTaskInput, DocumentUncheckedCreateWithoutTaskInput> | DocumentCreateWithoutTaskInput[] | DocumentUncheckedCreateWithoutTaskInput[]
+    connectOrCreate?: DocumentCreateOrConnectWithoutTaskInput | DocumentCreateOrConnectWithoutTaskInput[]
+    upsert?: DocumentUpsertWithWhereUniqueWithoutTaskInput | DocumentUpsertWithWhereUniqueWithoutTaskInput[]
+    createMany?: DocumentCreateManyTaskInputEnvelope
+    set?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    disconnect?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    delete?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    connect?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    update?: DocumentUpdateWithWhereUniqueWithoutTaskInput | DocumentUpdateWithWhereUniqueWithoutTaskInput[]
+    updateMany?: DocumentUpdateManyWithWhereWithoutTaskInput | DocumentUpdateManyWithWhereWithoutTaskInput[]
+    deleteMany?: DocumentScalarWhereInput | DocumentScalarWhereInput[]
+  }
+
   export type ProjectCreatestackInput = {
     set: string[]
   }
@@ -19848,6 +23845,13 @@ export namespace Prisma {
     connect?: CalendarEventWhereUniqueInput | CalendarEventWhereUniqueInput[]
   }
 
+  export type DocumentCreateNestedManyWithoutProjectInput = {
+    create?: XOR<DocumentCreateWithoutProjectInput, DocumentUncheckedCreateWithoutProjectInput> | DocumentCreateWithoutProjectInput[] | DocumentUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: DocumentCreateOrConnectWithoutProjectInput | DocumentCreateOrConnectWithoutProjectInput[]
+    createMany?: DocumentCreateManyProjectInputEnvelope
+    connect?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+  }
+
   export type ProjectActivityUncheckedCreateNestedManyWithoutProjectInput = {
     create?: XOR<ProjectActivityCreateWithoutProjectInput, ProjectActivityUncheckedCreateWithoutProjectInput> | ProjectActivityCreateWithoutProjectInput[] | ProjectActivityUncheckedCreateWithoutProjectInput[]
     connectOrCreate?: ProjectActivityCreateOrConnectWithoutProjectInput | ProjectActivityCreateOrConnectWithoutProjectInput[]
@@ -19867,6 +23871,13 @@ export namespace Prisma {
     connectOrCreate?: CalendarEventCreateOrConnectWithoutProjectInput | CalendarEventCreateOrConnectWithoutProjectInput[]
     createMany?: CalendarEventCreateManyProjectInputEnvelope
     connect?: CalendarEventWhereUniqueInput | CalendarEventWhereUniqueInput[]
+  }
+
+  export type DocumentUncheckedCreateNestedManyWithoutProjectInput = {
+    create?: XOR<DocumentCreateWithoutProjectInput, DocumentUncheckedCreateWithoutProjectInput> | DocumentCreateWithoutProjectInput[] | DocumentUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: DocumentCreateOrConnectWithoutProjectInput | DocumentCreateOrConnectWithoutProjectInput[]
+    createMany?: DocumentCreateManyProjectInputEnvelope
+    connect?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
   }
 
   export type EnumProjectStatusFieldUpdateOperationsInput = {
@@ -19941,6 +23952,20 @@ export namespace Prisma {
     deleteMany?: CalendarEventScalarWhereInput | CalendarEventScalarWhereInput[]
   }
 
+  export type DocumentUpdateManyWithoutProjectNestedInput = {
+    create?: XOR<DocumentCreateWithoutProjectInput, DocumentUncheckedCreateWithoutProjectInput> | DocumentCreateWithoutProjectInput[] | DocumentUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: DocumentCreateOrConnectWithoutProjectInput | DocumentCreateOrConnectWithoutProjectInput[]
+    upsert?: DocumentUpsertWithWhereUniqueWithoutProjectInput | DocumentUpsertWithWhereUniqueWithoutProjectInput[]
+    createMany?: DocumentCreateManyProjectInputEnvelope
+    set?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    disconnect?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    delete?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    connect?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    update?: DocumentUpdateWithWhereUniqueWithoutProjectInput | DocumentUpdateWithWhereUniqueWithoutProjectInput[]
+    updateMany?: DocumentUpdateManyWithWhereWithoutProjectInput | DocumentUpdateManyWithWhereWithoutProjectInput[]
+    deleteMany?: DocumentScalarWhereInput | DocumentScalarWhereInput[]
+  }
+
   export type ProjectActivityUncheckedUpdateManyWithoutProjectNestedInput = {
     create?: XOR<ProjectActivityCreateWithoutProjectInput, ProjectActivityUncheckedCreateWithoutProjectInput> | ProjectActivityCreateWithoutProjectInput[] | ProjectActivityUncheckedCreateWithoutProjectInput[]
     connectOrCreate?: ProjectActivityCreateOrConnectWithoutProjectInput | ProjectActivityCreateOrConnectWithoutProjectInput[]
@@ -19981,6 +24006,20 @@ export namespace Prisma {
     update?: CalendarEventUpdateWithWhereUniqueWithoutProjectInput | CalendarEventUpdateWithWhereUniqueWithoutProjectInput[]
     updateMany?: CalendarEventUpdateManyWithWhereWithoutProjectInput | CalendarEventUpdateManyWithWhereWithoutProjectInput[]
     deleteMany?: CalendarEventScalarWhereInput | CalendarEventScalarWhereInput[]
+  }
+
+  export type DocumentUncheckedUpdateManyWithoutProjectNestedInput = {
+    create?: XOR<DocumentCreateWithoutProjectInput, DocumentUncheckedCreateWithoutProjectInput> | DocumentCreateWithoutProjectInput[] | DocumentUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: DocumentCreateOrConnectWithoutProjectInput | DocumentCreateOrConnectWithoutProjectInput[]
+    upsert?: DocumentUpsertWithWhereUniqueWithoutProjectInput | DocumentUpsertWithWhereUniqueWithoutProjectInput[]
+    createMany?: DocumentCreateManyProjectInputEnvelope
+    set?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    disconnect?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    delete?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    connect?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+    update?: DocumentUpdateWithWhereUniqueWithoutProjectInput | DocumentUpdateWithWhereUniqueWithoutProjectInput[]
+    updateMany?: DocumentUpdateManyWithWhereWithoutProjectInput | DocumentUpdateManyWithWhereWithoutProjectInput[]
+    deleteMany?: DocumentScalarWhereInput | DocumentScalarWhereInput[]
   }
 
   export type ProjectCreateNestedOneWithoutActivitiesInput = {
@@ -20227,6 +24266,183 @@ export namespace Prisma {
     delete?: ProjectWhereInput | boolean
     connect?: ProjectWhereUniqueInput
     update?: XOR<XOR<ProjectUpdateToOneWithWhereWithoutCalendarEventsInput, ProjectUpdateWithoutCalendarEventsInput>, ProjectUncheckedUpdateWithoutCalendarEventsInput>
+  }
+
+  export type DocumentCreatetagsInput = {
+    set: string[]
+  }
+
+  export type UserCreateNestedOneWithoutDocumentsInput = {
+    create?: XOR<UserCreateWithoutDocumentsInput, UserUncheckedCreateWithoutDocumentsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutDocumentsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type CompanyCreateNestedOneWithoutDocumentsInput = {
+    create?: XOR<CompanyCreateWithoutDocumentsInput, CompanyUncheckedCreateWithoutDocumentsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutDocumentsInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type ContactCreateNestedOneWithoutDocumentsInput = {
+    create?: XOR<ContactCreateWithoutDocumentsInput, ContactUncheckedCreateWithoutDocumentsInput>
+    connectOrCreate?: ContactCreateOrConnectWithoutDocumentsInput
+    connect?: ContactWhereUniqueInput
+  }
+
+  export type ApplicationCreateNestedOneWithoutDocumentsInput = {
+    create?: XOR<ApplicationCreateWithoutDocumentsInput, ApplicationUncheckedCreateWithoutDocumentsInput>
+    connectOrCreate?: ApplicationCreateOrConnectWithoutDocumentsInput
+    connect?: ApplicationWhereUniqueInput
+  }
+
+  export type TaskCreateNestedOneWithoutDocumentsInput = {
+    create?: XOR<TaskCreateWithoutDocumentsInput, TaskUncheckedCreateWithoutDocumentsInput>
+    connectOrCreate?: TaskCreateOrConnectWithoutDocumentsInput
+    connect?: TaskWhereUniqueInput
+  }
+
+  export type ProjectCreateNestedOneWithoutDocumentsInput = {
+    create?: XOR<ProjectCreateWithoutDocumentsInput, ProjectUncheckedCreateWithoutDocumentsInput>
+    connectOrCreate?: ProjectCreateOrConnectWithoutDocumentsInput
+    connect?: ProjectWhereUniqueInput
+  }
+
+  export type DocumentVersionCreateNestedManyWithoutDocumentInput = {
+    create?: XOR<DocumentVersionCreateWithoutDocumentInput, DocumentVersionUncheckedCreateWithoutDocumentInput> | DocumentVersionCreateWithoutDocumentInput[] | DocumentVersionUncheckedCreateWithoutDocumentInput[]
+    connectOrCreate?: DocumentVersionCreateOrConnectWithoutDocumentInput | DocumentVersionCreateOrConnectWithoutDocumentInput[]
+    createMany?: DocumentVersionCreateManyDocumentInputEnvelope
+    connect?: DocumentVersionWhereUniqueInput | DocumentVersionWhereUniqueInput[]
+  }
+
+  export type DocumentVersionUncheckedCreateNestedManyWithoutDocumentInput = {
+    create?: XOR<DocumentVersionCreateWithoutDocumentInput, DocumentVersionUncheckedCreateWithoutDocumentInput> | DocumentVersionCreateWithoutDocumentInput[] | DocumentVersionUncheckedCreateWithoutDocumentInput[]
+    connectOrCreate?: DocumentVersionCreateOrConnectWithoutDocumentInput | DocumentVersionCreateOrConnectWithoutDocumentInput[]
+    createMany?: DocumentVersionCreateManyDocumentInputEnvelope
+    connect?: DocumentVersionWhereUniqueInput | DocumentVersionWhereUniqueInput[]
+  }
+
+  export type EnumDocumentTypeFieldUpdateOperationsInput = {
+    set?: $Enums.DocumentType
+  }
+
+  export type DocumentUpdatetagsInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type UserUpdateOneRequiredWithoutDocumentsNestedInput = {
+    create?: XOR<UserCreateWithoutDocumentsInput, UserUncheckedCreateWithoutDocumentsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutDocumentsInput
+    upsert?: UserUpsertWithoutDocumentsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutDocumentsInput, UserUpdateWithoutDocumentsInput>, UserUncheckedUpdateWithoutDocumentsInput>
+  }
+
+  export type CompanyUpdateOneWithoutDocumentsNestedInput = {
+    create?: XOR<CompanyCreateWithoutDocumentsInput, CompanyUncheckedCreateWithoutDocumentsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutDocumentsInput
+    upsert?: CompanyUpsertWithoutDocumentsInput
+    disconnect?: CompanyWhereInput | boolean
+    delete?: CompanyWhereInput | boolean
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutDocumentsInput, CompanyUpdateWithoutDocumentsInput>, CompanyUncheckedUpdateWithoutDocumentsInput>
+  }
+
+  export type ContactUpdateOneWithoutDocumentsNestedInput = {
+    create?: XOR<ContactCreateWithoutDocumentsInput, ContactUncheckedCreateWithoutDocumentsInput>
+    connectOrCreate?: ContactCreateOrConnectWithoutDocumentsInput
+    upsert?: ContactUpsertWithoutDocumentsInput
+    disconnect?: ContactWhereInput | boolean
+    delete?: ContactWhereInput | boolean
+    connect?: ContactWhereUniqueInput
+    update?: XOR<XOR<ContactUpdateToOneWithWhereWithoutDocumentsInput, ContactUpdateWithoutDocumentsInput>, ContactUncheckedUpdateWithoutDocumentsInput>
+  }
+
+  export type ApplicationUpdateOneWithoutDocumentsNestedInput = {
+    create?: XOR<ApplicationCreateWithoutDocumentsInput, ApplicationUncheckedCreateWithoutDocumentsInput>
+    connectOrCreate?: ApplicationCreateOrConnectWithoutDocumentsInput
+    upsert?: ApplicationUpsertWithoutDocumentsInput
+    disconnect?: ApplicationWhereInput | boolean
+    delete?: ApplicationWhereInput | boolean
+    connect?: ApplicationWhereUniqueInput
+    update?: XOR<XOR<ApplicationUpdateToOneWithWhereWithoutDocumentsInput, ApplicationUpdateWithoutDocumentsInput>, ApplicationUncheckedUpdateWithoutDocumentsInput>
+  }
+
+  export type TaskUpdateOneWithoutDocumentsNestedInput = {
+    create?: XOR<TaskCreateWithoutDocumentsInput, TaskUncheckedCreateWithoutDocumentsInput>
+    connectOrCreate?: TaskCreateOrConnectWithoutDocumentsInput
+    upsert?: TaskUpsertWithoutDocumentsInput
+    disconnect?: TaskWhereInput | boolean
+    delete?: TaskWhereInput | boolean
+    connect?: TaskWhereUniqueInput
+    update?: XOR<XOR<TaskUpdateToOneWithWhereWithoutDocumentsInput, TaskUpdateWithoutDocumentsInput>, TaskUncheckedUpdateWithoutDocumentsInput>
+  }
+
+  export type ProjectUpdateOneWithoutDocumentsNestedInput = {
+    create?: XOR<ProjectCreateWithoutDocumentsInput, ProjectUncheckedCreateWithoutDocumentsInput>
+    connectOrCreate?: ProjectCreateOrConnectWithoutDocumentsInput
+    upsert?: ProjectUpsertWithoutDocumentsInput
+    disconnect?: ProjectWhereInput | boolean
+    delete?: ProjectWhereInput | boolean
+    connect?: ProjectWhereUniqueInput
+    update?: XOR<XOR<ProjectUpdateToOneWithWhereWithoutDocumentsInput, ProjectUpdateWithoutDocumentsInput>, ProjectUncheckedUpdateWithoutDocumentsInput>
+  }
+
+  export type DocumentVersionUpdateManyWithoutDocumentNestedInput = {
+    create?: XOR<DocumentVersionCreateWithoutDocumentInput, DocumentVersionUncheckedCreateWithoutDocumentInput> | DocumentVersionCreateWithoutDocumentInput[] | DocumentVersionUncheckedCreateWithoutDocumentInput[]
+    connectOrCreate?: DocumentVersionCreateOrConnectWithoutDocumentInput | DocumentVersionCreateOrConnectWithoutDocumentInput[]
+    upsert?: DocumentVersionUpsertWithWhereUniqueWithoutDocumentInput | DocumentVersionUpsertWithWhereUniqueWithoutDocumentInput[]
+    createMany?: DocumentVersionCreateManyDocumentInputEnvelope
+    set?: DocumentVersionWhereUniqueInput | DocumentVersionWhereUniqueInput[]
+    disconnect?: DocumentVersionWhereUniqueInput | DocumentVersionWhereUniqueInput[]
+    delete?: DocumentVersionWhereUniqueInput | DocumentVersionWhereUniqueInput[]
+    connect?: DocumentVersionWhereUniqueInput | DocumentVersionWhereUniqueInput[]
+    update?: DocumentVersionUpdateWithWhereUniqueWithoutDocumentInput | DocumentVersionUpdateWithWhereUniqueWithoutDocumentInput[]
+    updateMany?: DocumentVersionUpdateManyWithWhereWithoutDocumentInput | DocumentVersionUpdateManyWithWhereWithoutDocumentInput[]
+    deleteMany?: DocumentVersionScalarWhereInput | DocumentVersionScalarWhereInput[]
+  }
+
+  export type DocumentVersionUncheckedUpdateManyWithoutDocumentNestedInput = {
+    create?: XOR<DocumentVersionCreateWithoutDocumentInput, DocumentVersionUncheckedCreateWithoutDocumentInput> | DocumentVersionCreateWithoutDocumentInput[] | DocumentVersionUncheckedCreateWithoutDocumentInput[]
+    connectOrCreate?: DocumentVersionCreateOrConnectWithoutDocumentInput | DocumentVersionCreateOrConnectWithoutDocumentInput[]
+    upsert?: DocumentVersionUpsertWithWhereUniqueWithoutDocumentInput | DocumentVersionUpsertWithWhereUniqueWithoutDocumentInput[]
+    createMany?: DocumentVersionCreateManyDocumentInputEnvelope
+    set?: DocumentVersionWhereUniqueInput | DocumentVersionWhereUniqueInput[]
+    disconnect?: DocumentVersionWhereUniqueInput | DocumentVersionWhereUniqueInput[]
+    delete?: DocumentVersionWhereUniqueInput | DocumentVersionWhereUniqueInput[]
+    connect?: DocumentVersionWhereUniqueInput | DocumentVersionWhereUniqueInput[]
+    update?: DocumentVersionUpdateWithWhereUniqueWithoutDocumentInput | DocumentVersionUpdateWithWhereUniqueWithoutDocumentInput[]
+    updateMany?: DocumentVersionUpdateManyWithWhereWithoutDocumentInput | DocumentVersionUpdateManyWithWhereWithoutDocumentInput[]
+    deleteMany?: DocumentVersionScalarWhereInput | DocumentVersionScalarWhereInput[]
+  }
+
+  export type DocumentCreateNestedOneWithoutVersionsInput = {
+    create?: XOR<DocumentCreateWithoutVersionsInput, DocumentUncheckedCreateWithoutVersionsInput>
+    connectOrCreate?: DocumentCreateOrConnectWithoutVersionsInput
+    connect?: DocumentWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutDocumentVersionsInput = {
+    create?: XOR<UserCreateWithoutDocumentVersionsInput, UserUncheckedCreateWithoutDocumentVersionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutDocumentVersionsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type DocumentUpdateOneRequiredWithoutVersionsNestedInput = {
+    create?: XOR<DocumentCreateWithoutVersionsInput, DocumentUncheckedCreateWithoutVersionsInput>
+    connectOrCreate?: DocumentCreateOrConnectWithoutVersionsInput
+    upsert?: DocumentUpsertWithoutVersionsInput
+    connect?: DocumentWhereUniqueInput
+    update?: XOR<XOR<DocumentUpdateToOneWithWhereWithoutVersionsInput, DocumentUpdateWithoutVersionsInput>, DocumentUncheckedUpdateWithoutVersionsInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutDocumentVersionsNestedInput = {
+    create?: XOR<UserCreateWithoutDocumentVersionsInput, UserUncheckedCreateWithoutDocumentVersionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutDocumentVersionsInput
+    upsert?: UserUpsertWithoutDocumentVersionsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutDocumentVersionsInput, UserUpdateWithoutDocumentVersionsInput>, UserUncheckedUpdateWithoutDocumentVersionsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -20634,6 +24850,23 @@ export namespace Prisma {
     _max?: NestedEnumCalendarEventTypeFilter<$PrismaModel>
   }
 
+  export type NestedEnumDocumentTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.DocumentType | EnumDocumentTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.DocumentType[] | ListEnumDocumentTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DocumentType[] | ListEnumDocumentTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumDocumentTypeFilter<$PrismaModel> | $Enums.DocumentType
+  }
+
+  export type NestedEnumDocumentTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.DocumentType | EnumDocumentTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.DocumentType[] | ListEnumDocumentTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DocumentType[] | ListEnumDocumentTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumDocumentTypeWithAggregatesFilter<$PrismaModel> | $Enums.DocumentType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumDocumentTypeFilter<$PrismaModel>
+    _max?: NestedEnumDocumentTypeFilter<$PrismaModel>
+  }
+
   export type CompanyCreateWithoutUserInput = {
     id?: string
     logo?: string | null
@@ -20656,6 +24889,7 @@ export namespace Prisma {
     applications?: ApplicationCreateNestedManyWithoutCompanyInput
     linkedNotes?: NoteCreateNestedManyWithoutCompanyInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutCompanyInput
+    documents?: DocumentCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutUserInput = {
@@ -20680,6 +24914,7 @@ export namespace Prisma {
     applications?: ApplicationUncheckedCreateNestedManyWithoutCompanyInput
     linkedNotes?: NoteUncheckedCreateNestedManyWithoutCompanyInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutCompanyInput
+    documents?: DocumentUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutUserInput = {
@@ -20710,6 +24945,7 @@ export namespace Prisma {
     applications?: ApplicationCreateNestedManyWithoutRecruiterContactInput
     linkedNotes?: NoteCreateNestedManyWithoutContactInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutContactInput
+    documents?: DocumentCreateNestedManyWithoutContactInput
   }
 
   export type ContactUncheckedCreateWithoutUserInput = {
@@ -20730,6 +24966,7 @@ export namespace Prisma {
     applications?: ApplicationUncheckedCreateNestedManyWithoutRecruiterContactInput
     linkedNotes?: NoteUncheckedCreateNestedManyWithoutContactInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutContactInput
+    documents?: DocumentUncheckedCreateNestedManyWithoutContactInput
   }
 
   export type ContactCreateOrConnectWithoutUserInput = {
@@ -20758,6 +24995,7 @@ export namespace Prisma {
     stageHistory?: ApplicationStageHistoryCreateNestedManyWithoutApplicationInput
     linkedNotes?: NoteCreateNestedManyWithoutApplicationInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutApplicationInput
+    documents?: DocumentCreateNestedManyWithoutApplicationInput
   }
 
   export type ApplicationUncheckedCreateWithoutUserInput = {
@@ -20776,6 +25014,7 @@ export namespace Prisma {
     stageHistory?: ApplicationStageHistoryUncheckedCreateNestedManyWithoutApplicationInput
     linkedNotes?: NoteUncheckedCreateNestedManyWithoutApplicationInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutApplicationInput
+    documents?: DocumentUncheckedCreateNestedManyWithoutApplicationInput
   }
 
   export type ApplicationCreateOrConnectWithoutUserInput = {
@@ -20831,6 +25070,7 @@ export namespace Prisma {
     nextOccurrence?: TaskCreateNestedOneWithoutRecurrenceSourceInput
     linkedNotes?: NoteCreateNestedManyWithoutTaskInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutTaskInput
+    documents?: DocumentCreateNestedManyWithoutTaskInput
   }
 
   export type TaskUncheckedCreateWithoutUserInput = {
@@ -20850,6 +25090,7 @@ export namespace Prisma {
     nextOccurrence?: TaskUncheckedCreateNestedOneWithoutRecurrenceSourceInput
     linkedNotes?: NoteUncheckedCreateNestedManyWithoutTaskInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutTaskInput
+    documents?: DocumentUncheckedCreateNestedManyWithoutTaskInput
   }
 
   export type TaskCreateOrConnectWithoutUserInput = {
@@ -20878,6 +25119,7 @@ export namespace Prisma {
     activities?: ProjectActivityCreateNestedManyWithoutProjectInput
     linkedNotes?: NoteCreateNestedManyWithoutProjectInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutProjectInput
+    documents?: DocumentCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateWithoutUserInput = {
@@ -20896,6 +25138,7 @@ export namespace Prisma {
     activities?: ProjectActivityUncheckedCreateNestedManyWithoutProjectInput
     linkedNotes?: NoteUncheckedCreateNestedManyWithoutProjectInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutProjectInput
+    documents?: DocumentUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectCreateOrConnectWithoutUserInput = {
@@ -21025,6 +25268,90 @@ export namespace Prisma {
 
   export type CalendarEventCreateManyUserInputEnvelope = {
     data: CalendarEventCreateManyUserInput | CalendarEventCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type DocumentCreateWithoutUserInput = {
+    id?: string
+    title: string
+    type?: $Enums.DocumentType
+    description?: string | null
+    tags?: DocumentCreatetagsInput | string[]
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    company?: CompanyCreateNestedOneWithoutDocumentsInput
+    contact?: ContactCreateNestedOneWithoutDocumentsInput
+    application?: ApplicationCreateNestedOneWithoutDocumentsInput
+    task?: TaskCreateNestedOneWithoutDocumentsInput
+    project?: ProjectCreateNestedOneWithoutDocumentsInput
+    versions?: DocumentVersionCreateNestedManyWithoutDocumentInput
+  }
+
+  export type DocumentUncheckedCreateWithoutUserInput = {
+    id?: string
+    title: string
+    type?: $Enums.DocumentType
+    description?: string | null
+    tags?: DocumentCreatetagsInput | string[]
+    companyId?: string | null
+    contactId?: string | null
+    applicationId?: string | null
+    taskId?: string | null
+    projectId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    versions?: DocumentVersionUncheckedCreateNestedManyWithoutDocumentInput
+  }
+
+  export type DocumentCreateOrConnectWithoutUserInput = {
+    where: DocumentWhereUniqueInput
+    create: XOR<DocumentCreateWithoutUserInput, DocumentUncheckedCreateWithoutUserInput>
+  }
+
+  export type DocumentCreateManyUserInputEnvelope = {
+    data: DocumentCreateManyUserInput | DocumentCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type DocumentVersionCreateWithoutUserInput = {
+    id?: string
+    version: number
+    fileName: string
+    fileSize: number
+    mimeType: string
+    fileUrl: string
+    storageProvider?: string
+    storageKey?: string | null
+    changelog?: string | null
+    createdAt?: Date | string
+    deletedAt?: Date | string | null
+    document: DocumentCreateNestedOneWithoutVersionsInput
+  }
+
+  export type DocumentVersionUncheckedCreateWithoutUserInput = {
+    id?: string
+    documentId: string
+    version: number
+    fileName: string
+    fileSize: number
+    mimeType: string
+    fileUrl: string
+    storageProvider?: string
+    storageKey?: string | null
+    changelog?: string | null
+    createdAt?: Date | string
+    deletedAt?: Date | string | null
+  }
+
+  export type DocumentVersionCreateOrConnectWithoutUserInput = {
+    where: DocumentVersionWhereUniqueInput
+    create: XOR<DocumentVersionCreateWithoutUserInput, DocumentVersionUncheckedCreateWithoutUserInput>
+  }
+
+  export type DocumentVersionCreateManyUserInputEnvelope = {
+    data: DocumentVersionCreateManyUserInput | DocumentVersionCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -21344,6 +25671,77 @@ export namespace Prisma {
     deletedAt?: DateTimeNullableFilter<"CalendarEvent"> | Date | string | null
   }
 
+  export type DocumentUpsertWithWhereUniqueWithoutUserInput = {
+    where: DocumentWhereUniqueInput
+    update: XOR<DocumentUpdateWithoutUserInput, DocumentUncheckedUpdateWithoutUserInput>
+    create: XOR<DocumentCreateWithoutUserInput, DocumentUncheckedCreateWithoutUserInput>
+  }
+
+  export type DocumentUpdateWithWhereUniqueWithoutUserInput = {
+    where: DocumentWhereUniqueInput
+    data: XOR<DocumentUpdateWithoutUserInput, DocumentUncheckedUpdateWithoutUserInput>
+  }
+
+  export type DocumentUpdateManyWithWhereWithoutUserInput = {
+    where: DocumentScalarWhereInput
+    data: XOR<DocumentUpdateManyMutationInput, DocumentUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type DocumentScalarWhereInput = {
+    AND?: DocumentScalarWhereInput | DocumentScalarWhereInput[]
+    OR?: DocumentScalarWhereInput[]
+    NOT?: DocumentScalarWhereInput | DocumentScalarWhereInput[]
+    id?: StringFilter<"Document"> | string
+    userId?: StringFilter<"Document"> | string
+    title?: StringFilter<"Document"> | string
+    type?: EnumDocumentTypeFilter<"Document"> | $Enums.DocumentType
+    description?: StringNullableFilter<"Document"> | string | null
+    tags?: StringNullableListFilter<"Document">
+    companyId?: StringNullableFilter<"Document"> | string | null
+    contactId?: StringNullableFilter<"Document"> | string | null
+    applicationId?: StringNullableFilter<"Document"> | string | null
+    taskId?: StringNullableFilter<"Document"> | string | null
+    projectId?: StringNullableFilter<"Document"> | string | null
+    createdAt?: DateTimeFilter<"Document"> | Date | string
+    updatedAt?: DateTimeFilter<"Document"> | Date | string
+    deletedAt?: DateTimeNullableFilter<"Document"> | Date | string | null
+  }
+
+  export type DocumentVersionUpsertWithWhereUniqueWithoutUserInput = {
+    where: DocumentVersionWhereUniqueInput
+    update: XOR<DocumentVersionUpdateWithoutUserInput, DocumentVersionUncheckedUpdateWithoutUserInput>
+    create: XOR<DocumentVersionCreateWithoutUserInput, DocumentVersionUncheckedCreateWithoutUserInput>
+  }
+
+  export type DocumentVersionUpdateWithWhereUniqueWithoutUserInput = {
+    where: DocumentVersionWhereUniqueInput
+    data: XOR<DocumentVersionUpdateWithoutUserInput, DocumentVersionUncheckedUpdateWithoutUserInput>
+  }
+
+  export type DocumentVersionUpdateManyWithWhereWithoutUserInput = {
+    where: DocumentVersionScalarWhereInput
+    data: XOR<DocumentVersionUpdateManyMutationInput, DocumentVersionUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type DocumentVersionScalarWhereInput = {
+    AND?: DocumentVersionScalarWhereInput | DocumentVersionScalarWhereInput[]
+    OR?: DocumentVersionScalarWhereInput[]
+    NOT?: DocumentVersionScalarWhereInput | DocumentVersionScalarWhereInput[]
+    id?: StringFilter<"DocumentVersion"> | string
+    documentId?: StringFilter<"DocumentVersion"> | string
+    userId?: StringFilter<"DocumentVersion"> | string
+    version?: IntFilter<"DocumentVersion"> | number
+    fileName?: StringFilter<"DocumentVersion"> | string
+    fileSize?: IntFilter<"DocumentVersion"> | number
+    mimeType?: StringFilter<"DocumentVersion"> | string
+    fileUrl?: StringFilter<"DocumentVersion"> | string
+    storageProvider?: StringFilter<"DocumentVersion"> | string
+    storageKey?: StringNullableFilter<"DocumentVersion"> | string | null
+    changelog?: StringNullableFilter<"DocumentVersion"> | string | null
+    createdAt?: DateTimeFilter<"DocumentVersion"> | Date | string
+    deletedAt?: DateTimeNullableFilter<"DocumentVersion"> | Date | string | null
+  }
+
   export type ContactCreateWithoutCompanyInput = {
     id?: string
     photo: string
@@ -21362,6 +25760,7 @@ export namespace Prisma {
     applications?: ApplicationCreateNestedManyWithoutRecruiterContactInput
     linkedNotes?: NoteCreateNestedManyWithoutContactInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutContactInput
+    documents?: DocumentCreateNestedManyWithoutContactInput
   }
 
   export type ContactUncheckedCreateWithoutCompanyInput = {
@@ -21382,6 +25781,7 @@ export namespace Prisma {
     applications?: ApplicationUncheckedCreateNestedManyWithoutRecruiterContactInput
     linkedNotes?: NoteUncheckedCreateNestedManyWithoutContactInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutContactInput
+    documents?: DocumentUncheckedCreateNestedManyWithoutContactInput
   }
 
   export type ContactCreateOrConnectWithoutCompanyInput = {
@@ -21410,6 +25810,7 @@ export namespace Prisma {
     stageHistory?: ApplicationStageHistoryCreateNestedManyWithoutApplicationInput
     linkedNotes?: NoteCreateNestedManyWithoutApplicationInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutApplicationInput
+    documents?: DocumentCreateNestedManyWithoutApplicationInput
   }
 
   export type ApplicationUncheckedCreateWithoutCompanyInput = {
@@ -21428,6 +25829,7 @@ export namespace Prisma {
     stageHistory?: ApplicationStageHistoryUncheckedCreateNestedManyWithoutApplicationInput
     linkedNotes?: NoteUncheckedCreateNestedManyWithoutApplicationInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutApplicationInput
+    documents?: DocumentUncheckedCreateNestedManyWithoutApplicationInput
   }
 
   export type ApplicationCreateOrConnectWithoutCompanyInput = {
@@ -21526,6 +25928,50 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type DocumentCreateWithoutCompanyInput = {
+    id?: string
+    title: string
+    type?: $Enums.DocumentType
+    description?: string | null
+    tags?: DocumentCreatetagsInput | string[]
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    user: UserCreateNestedOneWithoutDocumentsInput
+    contact?: ContactCreateNestedOneWithoutDocumentsInput
+    application?: ApplicationCreateNestedOneWithoutDocumentsInput
+    task?: TaskCreateNestedOneWithoutDocumentsInput
+    project?: ProjectCreateNestedOneWithoutDocumentsInput
+    versions?: DocumentVersionCreateNestedManyWithoutDocumentInput
+  }
+
+  export type DocumentUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    userId: string
+    title: string
+    type?: $Enums.DocumentType
+    description?: string | null
+    tags?: DocumentCreatetagsInput | string[]
+    contactId?: string | null
+    applicationId?: string | null
+    taskId?: string | null
+    projectId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    versions?: DocumentVersionUncheckedCreateNestedManyWithoutDocumentInput
+  }
+
+  export type DocumentCreateOrConnectWithoutCompanyInput = {
+    where: DocumentWhereUniqueInput
+    create: XOR<DocumentCreateWithoutCompanyInput, DocumentUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type DocumentCreateManyCompanyInputEnvelope = {
+    data: DocumentCreateManyCompanyInput | DocumentCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserCreateWithoutCompaniesInput = {
     id?: string
     fullName: string
@@ -21543,6 +25989,8 @@ export namespace Prisma {
     projectActivities?: ProjectActivityCreateNestedManyWithoutCreatedByInput
     notes?: NoteCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
+    documents?: DocumentCreateNestedManyWithoutUserInput
+    documentVersions?: DocumentVersionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCompaniesInput = {
@@ -21562,6 +26010,8 @@ export namespace Prisma {
     projectActivities?: ProjectActivityUncheckedCreateNestedManyWithoutCreatedByInput
     notes?: NoteUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
+    documents?: DocumentUncheckedCreateNestedManyWithoutUserInput
+    documentVersions?: DocumentVersionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCompaniesInput = {
@@ -21633,6 +26083,22 @@ export namespace Prisma {
     data: XOR<CalendarEventUpdateManyMutationInput, CalendarEventUncheckedUpdateManyWithoutCompanyInput>
   }
 
+  export type DocumentUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: DocumentWhereUniqueInput
+    update: XOR<DocumentUpdateWithoutCompanyInput, DocumentUncheckedUpdateWithoutCompanyInput>
+    create: XOR<DocumentCreateWithoutCompanyInput, DocumentUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type DocumentUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: DocumentWhereUniqueInput
+    data: XOR<DocumentUpdateWithoutCompanyInput, DocumentUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type DocumentUpdateManyWithWhereWithoutCompanyInput = {
+    where: DocumentScalarWhereInput
+    data: XOR<DocumentUpdateManyMutationInput, DocumentUncheckedUpdateManyWithoutCompanyInput>
+  }
+
   export type UserUpsertWithoutCompaniesInput = {
     update: XOR<UserUpdateWithoutCompaniesInput, UserUncheckedUpdateWithoutCompaniesInput>
     create: XOR<UserCreateWithoutCompaniesInput, UserUncheckedCreateWithoutCompaniesInput>
@@ -21661,6 +26127,8 @@ export namespace Prisma {
     projectActivities?: ProjectActivityUpdateManyWithoutCreatedByNestedInput
     notes?: NoteUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
+    documents?: DocumentUpdateManyWithoutUserNestedInput
+    documentVersions?: DocumentVersionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCompaniesInput = {
@@ -21680,6 +26148,8 @@ export namespace Prisma {
     projectActivities?: ProjectActivityUncheckedUpdateManyWithoutCreatedByNestedInput
     notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
+    documents?: DocumentUncheckedUpdateManyWithoutUserNestedInput
+    documentVersions?: DocumentVersionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutContactsInput = {
@@ -21699,6 +26169,8 @@ export namespace Prisma {
     projectActivities?: ProjectActivityCreateNestedManyWithoutCreatedByInput
     notes?: NoteCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
+    documents?: DocumentCreateNestedManyWithoutUserInput
+    documentVersions?: DocumentVersionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutContactsInput = {
@@ -21718,6 +26190,8 @@ export namespace Prisma {
     projectActivities?: ProjectActivityUncheckedCreateNestedManyWithoutCreatedByInput
     notes?: NoteUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
+    documents?: DocumentUncheckedCreateNestedManyWithoutUserInput
+    documentVersions?: DocumentVersionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutContactsInput = {
@@ -21746,6 +26220,7 @@ export namespace Prisma {
     applications?: ApplicationCreateNestedManyWithoutCompanyInput
     linkedNotes?: NoteCreateNestedManyWithoutCompanyInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutCompanyInput
+    documents?: DocumentCreateNestedManyWithoutCompanyInput
     user: UserCreateNestedOneWithoutCompaniesInput
   }
 
@@ -21771,6 +26246,7 @@ export namespace Prisma {
     applications?: ApplicationUncheckedCreateNestedManyWithoutCompanyInput
     linkedNotes?: NoteUncheckedCreateNestedManyWithoutCompanyInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutCompanyInput
+    documents?: DocumentUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutContactsInput = {
@@ -21794,6 +26270,7 @@ export namespace Prisma {
     stageHistory?: ApplicationStageHistoryCreateNestedManyWithoutApplicationInput
     linkedNotes?: NoteCreateNestedManyWithoutApplicationInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutApplicationInput
+    documents?: DocumentCreateNestedManyWithoutApplicationInput
   }
 
   export type ApplicationUncheckedCreateWithoutRecruiterContactInput = {
@@ -21812,6 +26289,7 @@ export namespace Prisma {
     stageHistory?: ApplicationStageHistoryUncheckedCreateNestedManyWithoutApplicationInput
     linkedNotes?: NoteUncheckedCreateNestedManyWithoutApplicationInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutApplicationInput
+    documents?: DocumentUncheckedCreateNestedManyWithoutApplicationInput
   }
 
   export type ApplicationCreateOrConnectWithoutRecruiterContactInput = {
@@ -21910,6 +26388,50 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type DocumentCreateWithoutContactInput = {
+    id?: string
+    title: string
+    type?: $Enums.DocumentType
+    description?: string | null
+    tags?: DocumentCreatetagsInput | string[]
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    user: UserCreateNestedOneWithoutDocumentsInput
+    company?: CompanyCreateNestedOneWithoutDocumentsInput
+    application?: ApplicationCreateNestedOneWithoutDocumentsInput
+    task?: TaskCreateNestedOneWithoutDocumentsInput
+    project?: ProjectCreateNestedOneWithoutDocumentsInput
+    versions?: DocumentVersionCreateNestedManyWithoutDocumentInput
+  }
+
+  export type DocumentUncheckedCreateWithoutContactInput = {
+    id?: string
+    userId: string
+    title: string
+    type?: $Enums.DocumentType
+    description?: string | null
+    tags?: DocumentCreatetagsInput | string[]
+    companyId?: string | null
+    applicationId?: string | null
+    taskId?: string | null
+    projectId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    versions?: DocumentVersionUncheckedCreateNestedManyWithoutDocumentInput
+  }
+
+  export type DocumentCreateOrConnectWithoutContactInput = {
+    where: DocumentWhereUniqueInput
+    create: XOR<DocumentCreateWithoutContactInput, DocumentUncheckedCreateWithoutContactInput>
+  }
+
+  export type DocumentCreateManyContactInputEnvelope = {
+    data: DocumentCreateManyContactInput | DocumentCreateManyContactInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserUpsertWithoutContactsInput = {
     update: XOR<UserUpdateWithoutContactsInput, UserUncheckedUpdateWithoutContactsInput>
     create: XOR<UserCreateWithoutContactsInput, UserUncheckedCreateWithoutContactsInput>
@@ -21938,6 +26460,8 @@ export namespace Prisma {
     projectActivities?: ProjectActivityUpdateManyWithoutCreatedByNestedInput
     notes?: NoteUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
+    documents?: DocumentUpdateManyWithoutUserNestedInput
+    documentVersions?: DocumentVersionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutContactsInput = {
@@ -21957,6 +26481,8 @@ export namespace Prisma {
     projectActivities?: ProjectActivityUncheckedUpdateManyWithoutCreatedByNestedInput
     notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
+    documents?: DocumentUncheckedUpdateManyWithoutUserNestedInput
+    documentVersions?: DocumentVersionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CompanyUpsertWithoutContactsInput = {
@@ -21991,6 +26517,7 @@ export namespace Prisma {
     applications?: ApplicationUpdateManyWithoutCompanyNestedInput
     linkedNotes?: NoteUpdateManyWithoutCompanyNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutCompanyNestedInput
+    documents?: DocumentUpdateManyWithoutCompanyNestedInput
     user?: UserUpdateOneRequiredWithoutCompaniesNestedInput
   }
 
@@ -22016,6 +26543,7 @@ export namespace Prisma {
     applications?: ApplicationUncheckedUpdateManyWithoutCompanyNestedInput
     linkedNotes?: NoteUncheckedUpdateManyWithoutCompanyNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutCompanyNestedInput
+    documents?: DocumentUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type ApplicationUpsertWithWhereUniqueWithoutRecruiterContactInput = {
@@ -22066,6 +26594,22 @@ export namespace Prisma {
     data: XOR<CalendarEventUpdateManyMutationInput, CalendarEventUncheckedUpdateManyWithoutContactInput>
   }
 
+  export type DocumentUpsertWithWhereUniqueWithoutContactInput = {
+    where: DocumentWhereUniqueInput
+    update: XOR<DocumentUpdateWithoutContactInput, DocumentUncheckedUpdateWithoutContactInput>
+    create: XOR<DocumentCreateWithoutContactInput, DocumentUncheckedCreateWithoutContactInput>
+  }
+
+  export type DocumentUpdateWithWhereUniqueWithoutContactInput = {
+    where: DocumentWhereUniqueInput
+    data: XOR<DocumentUpdateWithoutContactInput, DocumentUncheckedUpdateWithoutContactInput>
+  }
+
+  export type DocumentUpdateManyWithWhereWithoutContactInput = {
+    where: DocumentScalarWhereInput
+    data: XOR<DocumentUpdateManyMutationInput, DocumentUncheckedUpdateManyWithoutContactInput>
+  }
+
   export type UserCreateWithoutApplicationsInput = {
     id?: string
     fullName: string
@@ -22083,6 +26627,8 @@ export namespace Prisma {
     projectActivities?: ProjectActivityCreateNestedManyWithoutCreatedByInput
     notes?: NoteCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
+    documents?: DocumentCreateNestedManyWithoutUserInput
+    documentVersions?: DocumentVersionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutApplicationsInput = {
@@ -22102,6 +26648,8 @@ export namespace Prisma {
     projectActivities?: ProjectActivityUncheckedCreateNestedManyWithoutCreatedByInput
     notes?: NoteUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
+    documents?: DocumentUncheckedCreateNestedManyWithoutUserInput
+    documentVersions?: DocumentVersionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutApplicationsInput = {
@@ -22130,6 +26678,7 @@ export namespace Prisma {
     contacts?: ContactCreateNestedManyWithoutCompanyInput
     linkedNotes?: NoteCreateNestedManyWithoutCompanyInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutCompanyInput
+    documents?: DocumentCreateNestedManyWithoutCompanyInput
     user: UserCreateNestedOneWithoutCompaniesInput
   }
 
@@ -22155,6 +26704,7 @@ export namespace Prisma {
     contacts?: ContactUncheckedCreateNestedManyWithoutCompanyInput
     linkedNotes?: NoteUncheckedCreateNestedManyWithoutCompanyInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutCompanyInput
+    documents?: DocumentUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutApplicationsInput = {
@@ -22180,6 +26730,7 @@ export namespace Prisma {
     company: CompanyCreateNestedOneWithoutContactsInput
     linkedNotes?: NoteCreateNestedManyWithoutContactInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutContactInput
+    documents?: DocumentCreateNestedManyWithoutContactInput
   }
 
   export type ContactUncheckedCreateWithoutApplicationsInput = {
@@ -22200,6 +26751,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     linkedNotes?: NoteUncheckedCreateNestedManyWithoutContactInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutContactInput
+    documents?: DocumentUncheckedCreateNestedManyWithoutContactInput
   }
 
   export type ContactCreateOrConnectWithoutApplicationsInput = {
@@ -22319,6 +26871,50 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type DocumentCreateWithoutApplicationInput = {
+    id?: string
+    title: string
+    type?: $Enums.DocumentType
+    description?: string | null
+    tags?: DocumentCreatetagsInput | string[]
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    user: UserCreateNestedOneWithoutDocumentsInput
+    company?: CompanyCreateNestedOneWithoutDocumentsInput
+    contact?: ContactCreateNestedOneWithoutDocumentsInput
+    task?: TaskCreateNestedOneWithoutDocumentsInput
+    project?: ProjectCreateNestedOneWithoutDocumentsInput
+    versions?: DocumentVersionCreateNestedManyWithoutDocumentInput
+  }
+
+  export type DocumentUncheckedCreateWithoutApplicationInput = {
+    id?: string
+    userId: string
+    title: string
+    type?: $Enums.DocumentType
+    description?: string | null
+    tags?: DocumentCreatetagsInput | string[]
+    companyId?: string | null
+    contactId?: string | null
+    taskId?: string | null
+    projectId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    versions?: DocumentVersionUncheckedCreateNestedManyWithoutDocumentInput
+  }
+
+  export type DocumentCreateOrConnectWithoutApplicationInput = {
+    where: DocumentWhereUniqueInput
+    create: XOR<DocumentCreateWithoutApplicationInput, DocumentUncheckedCreateWithoutApplicationInput>
+  }
+
+  export type DocumentCreateManyApplicationInputEnvelope = {
+    data: DocumentCreateManyApplicationInput | DocumentCreateManyApplicationInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserUpsertWithoutApplicationsInput = {
     update: XOR<UserUpdateWithoutApplicationsInput, UserUncheckedUpdateWithoutApplicationsInput>
     create: XOR<UserCreateWithoutApplicationsInput, UserUncheckedCreateWithoutApplicationsInput>
@@ -22347,6 +26943,8 @@ export namespace Prisma {
     projectActivities?: ProjectActivityUpdateManyWithoutCreatedByNestedInput
     notes?: NoteUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
+    documents?: DocumentUpdateManyWithoutUserNestedInput
+    documentVersions?: DocumentVersionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutApplicationsInput = {
@@ -22366,6 +26964,8 @@ export namespace Prisma {
     projectActivities?: ProjectActivityUncheckedUpdateManyWithoutCreatedByNestedInput
     notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
+    documents?: DocumentUncheckedUpdateManyWithoutUserNestedInput
+    documentVersions?: DocumentVersionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CompanyUpsertWithoutApplicationsInput = {
@@ -22400,6 +27000,7 @@ export namespace Prisma {
     contacts?: ContactUpdateManyWithoutCompanyNestedInput
     linkedNotes?: NoteUpdateManyWithoutCompanyNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutCompanyNestedInput
+    documents?: DocumentUpdateManyWithoutCompanyNestedInput
     user?: UserUpdateOneRequiredWithoutCompaniesNestedInput
   }
 
@@ -22425,6 +27026,7 @@ export namespace Prisma {
     contacts?: ContactUncheckedUpdateManyWithoutCompanyNestedInput
     linkedNotes?: NoteUncheckedUpdateManyWithoutCompanyNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutCompanyNestedInput
+    documents?: DocumentUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type ContactUpsertWithoutApplicationsInput = {
@@ -22456,6 +27058,7 @@ export namespace Prisma {
     company?: CompanyUpdateOneRequiredWithoutContactsNestedInput
     linkedNotes?: NoteUpdateManyWithoutContactNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutContactNestedInput
+    documents?: DocumentUpdateManyWithoutContactNestedInput
   }
 
   export type ContactUncheckedUpdateWithoutApplicationsInput = {
@@ -22476,6 +27079,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     linkedNotes?: NoteUncheckedUpdateManyWithoutContactNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutContactNestedInput
+    documents?: DocumentUncheckedUpdateManyWithoutContactNestedInput
   }
 
   export type ApplicationStageHistoryUpsertWithWhereUniqueWithoutApplicationInput = {
@@ -22526,6 +27130,22 @@ export namespace Prisma {
     data: XOR<CalendarEventUpdateManyMutationInput, CalendarEventUncheckedUpdateManyWithoutApplicationInput>
   }
 
+  export type DocumentUpsertWithWhereUniqueWithoutApplicationInput = {
+    where: DocumentWhereUniqueInput
+    update: XOR<DocumentUpdateWithoutApplicationInput, DocumentUncheckedUpdateWithoutApplicationInput>
+    create: XOR<DocumentCreateWithoutApplicationInput, DocumentUncheckedCreateWithoutApplicationInput>
+  }
+
+  export type DocumentUpdateWithWhereUniqueWithoutApplicationInput = {
+    where: DocumentWhereUniqueInput
+    data: XOR<DocumentUpdateWithoutApplicationInput, DocumentUncheckedUpdateWithoutApplicationInput>
+  }
+
+  export type DocumentUpdateManyWithWhereWithoutApplicationInput = {
+    where: DocumentScalarWhereInput
+    data: XOR<DocumentUpdateManyMutationInput, DocumentUncheckedUpdateManyWithoutApplicationInput>
+  }
+
   export type ApplicationCreateWithoutStageHistoryInput = {
     id?: string
     position: string
@@ -22542,6 +27162,7 @@ export namespace Prisma {
     recruiterContact?: ContactCreateNestedOneWithoutApplicationsInput
     linkedNotes?: NoteCreateNestedManyWithoutApplicationInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutApplicationInput
+    documents?: DocumentCreateNestedManyWithoutApplicationInput
   }
 
   export type ApplicationUncheckedCreateWithoutStageHistoryInput = {
@@ -22560,6 +27181,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     linkedNotes?: NoteUncheckedCreateNestedManyWithoutApplicationInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutApplicationInput
+    documents?: DocumentUncheckedCreateNestedManyWithoutApplicationInput
   }
 
   export type ApplicationCreateOrConnectWithoutStageHistoryInput = {
@@ -22584,6 +27206,8 @@ export namespace Prisma {
     projectActivities?: ProjectActivityCreateNestedManyWithoutCreatedByInput
     notes?: NoteCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
+    documents?: DocumentCreateNestedManyWithoutUserInput
+    documentVersions?: DocumentVersionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutStageChangesInput = {
@@ -22603,6 +27227,8 @@ export namespace Prisma {
     projectActivities?: ProjectActivityUncheckedCreateNestedManyWithoutCreatedByInput
     notes?: NoteUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
+    documents?: DocumentUncheckedCreateNestedManyWithoutUserInput
+    documentVersions?: DocumentVersionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutStageChangesInput = {
@@ -22637,6 +27263,7 @@ export namespace Prisma {
     recruiterContact?: ContactUpdateOneWithoutApplicationsNestedInput
     linkedNotes?: NoteUpdateManyWithoutApplicationNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutApplicationNestedInput
+    documents?: DocumentUpdateManyWithoutApplicationNestedInput
   }
 
   export type ApplicationUncheckedUpdateWithoutStageHistoryInput = {
@@ -22655,6 +27282,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     linkedNotes?: NoteUncheckedUpdateManyWithoutApplicationNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutApplicationNestedInput
+    documents?: DocumentUncheckedUpdateManyWithoutApplicationNestedInput
   }
 
   export type UserUpsertWithoutStageChangesInput = {
@@ -22685,6 +27313,8 @@ export namespace Prisma {
     projectActivities?: ProjectActivityUpdateManyWithoutCreatedByNestedInput
     notes?: NoteUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
+    documents?: DocumentUpdateManyWithoutUserNestedInput
+    documentVersions?: DocumentVersionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutStageChangesInput = {
@@ -22704,6 +27334,8 @@ export namespace Prisma {
     projectActivities?: ProjectActivityUncheckedUpdateManyWithoutCreatedByNestedInput
     notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
+    documents?: DocumentUncheckedUpdateManyWithoutUserNestedInput
+    documentVersions?: DocumentVersionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutTasksInput = {
@@ -22723,6 +27355,8 @@ export namespace Prisma {
     projectActivities?: ProjectActivityCreateNestedManyWithoutCreatedByInput
     notes?: NoteCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
+    documents?: DocumentCreateNestedManyWithoutUserInput
+    documentVersions?: DocumentVersionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTasksInput = {
@@ -22742,6 +27376,8 @@ export namespace Prisma {
     projectActivities?: ProjectActivityUncheckedCreateNestedManyWithoutCreatedByInput
     notes?: NoteUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
+    documents?: DocumentUncheckedCreateNestedManyWithoutUserInput
+    documentVersions?: DocumentVersionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTasksInput = {
@@ -22766,6 +27402,7 @@ export namespace Prisma {
     recurrenceSource?: TaskCreateNestedOneWithoutNextOccurrenceInput
     linkedNotes?: NoteCreateNestedManyWithoutTaskInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutTaskInput
+    documents?: DocumentCreateNestedManyWithoutTaskInput
   }
 
   export type TaskUncheckedCreateWithoutNextOccurrenceInput = {
@@ -22785,6 +27422,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     linkedNotes?: NoteUncheckedCreateNestedManyWithoutTaskInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutTaskInput
+    documents?: DocumentUncheckedCreateNestedManyWithoutTaskInput
   }
 
   export type TaskCreateOrConnectWithoutNextOccurrenceInput = {
@@ -22809,6 +27447,7 @@ export namespace Prisma {
     nextOccurrence?: TaskCreateNestedOneWithoutRecurrenceSourceInput
     linkedNotes?: NoteCreateNestedManyWithoutTaskInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutTaskInput
+    documents?: DocumentCreateNestedManyWithoutTaskInput
   }
 
   export type TaskUncheckedCreateWithoutRecurrenceSourceInput = {
@@ -22828,6 +27467,7 @@ export namespace Prisma {
     nextOccurrence?: TaskUncheckedCreateNestedOneWithoutRecurrenceSourceInput
     linkedNotes?: NoteUncheckedCreateNestedManyWithoutTaskInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutTaskInput
+    documents?: DocumentUncheckedCreateNestedManyWithoutTaskInput
   }
 
   export type TaskCreateOrConnectWithoutRecurrenceSourceInput = {
@@ -22921,6 +27561,50 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type DocumentCreateWithoutTaskInput = {
+    id?: string
+    title: string
+    type?: $Enums.DocumentType
+    description?: string | null
+    tags?: DocumentCreatetagsInput | string[]
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    user: UserCreateNestedOneWithoutDocumentsInput
+    company?: CompanyCreateNestedOneWithoutDocumentsInput
+    contact?: ContactCreateNestedOneWithoutDocumentsInput
+    application?: ApplicationCreateNestedOneWithoutDocumentsInput
+    project?: ProjectCreateNestedOneWithoutDocumentsInput
+    versions?: DocumentVersionCreateNestedManyWithoutDocumentInput
+  }
+
+  export type DocumentUncheckedCreateWithoutTaskInput = {
+    id?: string
+    userId: string
+    title: string
+    type?: $Enums.DocumentType
+    description?: string | null
+    tags?: DocumentCreatetagsInput | string[]
+    companyId?: string | null
+    contactId?: string | null
+    applicationId?: string | null
+    projectId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    versions?: DocumentVersionUncheckedCreateNestedManyWithoutDocumentInput
+  }
+
+  export type DocumentCreateOrConnectWithoutTaskInput = {
+    where: DocumentWhereUniqueInput
+    create: XOR<DocumentCreateWithoutTaskInput, DocumentUncheckedCreateWithoutTaskInput>
+  }
+
+  export type DocumentCreateManyTaskInputEnvelope = {
+    data: DocumentCreateManyTaskInput | DocumentCreateManyTaskInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserUpsertWithoutTasksInput = {
     update: XOR<UserUpdateWithoutTasksInput, UserUncheckedUpdateWithoutTasksInput>
     create: XOR<UserCreateWithoutTasksInput, UserUncheckedCreateWithoutTasksInput>
@@ -22949,6 +27633,8 @@ export namespace Prisma {
     projectActivities?: ProjectActivityUpdateManyWithoutCreatedByNestedInput
     notes?: NoteUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
+    documents?: DocumentUpdateManyWithoutUserNestedInput
+    documentVersions?: DocumentVersionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTasksInput = {
@@ -22968,6 +27654,8 @@ export namespace Prisma {
     projectActivities?: ProjectActivityUncheckedUpdateManyWithoutCreatedByNestedInput
     notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
+    documents?: DocumentUncheckedUpdateManyWithoutUserNestedInput
+    documentVersions?: DocumentVersionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type TaskUpsertWithoutNextOccurrenceInput = {
@@ -22998,6 +27686,7 @@ export namespace Prisma {
     recurrenceSource?: TaskUpdateOneWithoutNextOccurrenceNestedInput
     linkedNotes?: NoteUpdateManyWithoutTaskNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutTaskNestedInput
+    documents?: DocumentUpdateManyWithoutTaskNestedInput
   }
 
   export type TaskUncheckedUpdateWithoutNextOccurrenceInput = {
@@ -23017,6 +27706,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     linkedNotes?: NoteUncheckedUpdateManyWithoutTaskNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutTaskNestedInput
+    documents?: DocumentUncheckedUpdateManyWithoutTaskNestedInput
   }
 
   export type TaskUpsertWithoutRecurrenceSourceInput = {
@@ -23047,6 +27737,7 @@ export namespace Prisma {
     nextOccurrence?: TaskUpdateOneWithoutRecurrenceSourceNestedInput
     linkedNotes?: NoteUpdateManyWithoutTaskNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutTaskNestedInput
+    documents?: DocumentUpdateManyWithoutTaskNestedInput
   }
 
   export type TaskUncheckedUpdateWithoutRecurrenceSourceInput = {
@@ -23066,6 +27757,7 @@ export namespace Prisma {
     nextOccurrence?: TaskUncheckedUpdateOneWithoutRecurrenceSourceNestedInput
     linkedNotes?: NoteUncheckedUpdateManyWithoutTaskNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutTaskNestedInput
+    documents?: DocumentUncheckedUpdateManyWithoutTaskNestedInput
   }
 
   export type NoteUpsertWithWhereUniqueWithoutTaskInput = {
@@ -23100,6 +27792,22 @@ export namespace Prisma {
     data: XOR<CalendarEventUpdateManyMutationInput, CalendarEventUncheckedUpdateManyWithoutTaskInput>
   }
 
+  export type DocumentUpsertWithWhereUniqueWithoutTaskInput = {
+    where: DocumentWhereUniqueInput
+    update: XOR<DocumentUpdateWithoutTaskInput, DocumentUncheckedUpdateWithoutTaskInput>
+    create: XOR<DocumentCreateWithoutTaskInput, DocumentUncheckedCreateWithoutTaskInput>
+  }
+
+  export type DocumentUpdateWithWhereUniqueWithoutTaskInput = {
+    where: DocumentWhereUniqueInput
+    data: XOR<DocumentUpdateWithoutTaskInput, DocumentUncheckedUpdateWithoutTaskInput>
+  }
+
+  export type DocumentUpdateManyWithWhereWithoutTaskInput = {
+    where: DocumentScalarWhereInput
+    data: XOR<DocumentUpdateManyMutationInput, DocumentUncheckedUpdateManyWithoutTaskInput>
+  }
+
   export type UserCreateWithoutProjectsInput = {
     id?: string
     fullName: string
@@ -23117,6 +27825,8 @@ export namespace Prisma {
     projectActivities?: ProjectActivityCreateNestedManyWithoutCreatedByInput
     notes?: NoteCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
+    documents?: DocumentCreateNestedManyWithoutUserInput
+    documentVersions?: DocumentVersionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutProjectsInput = {
@@ -23136,6 +27846,8 @@ export namespace Prisma {
     projectActivities?: ProjectActivityUncheckedCreateNestedManyWithoutCreatedByInput
     notes?: NoteUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
+    documents?: DocumentUncheckedCreateNestedManyWithoutUserInput
+    documentVersions?: DocumentVersionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutProjectsInput = {
@@ -23263,6 +27975,50 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type DocumentCreateWithoutProjectInput = {
+    id?: string
+    title: string
+    type?: $Enums.DocumentType
+    description?: string | null
+    tags?: DocumentCreatetagsInput | string[]
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    user: UserCreateNestedOneWithoutDocumentsInput
+    company?: CompanyCreateNestedOneWithoutDocumentsInput
+    contact?: ContactCreateNestedOneWithoutDocumentsInput
+    application?: ApplicationCreateNestedOneWithoutDocumentsInput
+    task?: TaskCreateNestedOneWithoutDocumentsInput
+    versions?: DocumentVersionCreateNestedManyWithoutDocumentInput
+  }
+
+  export type DocumentUncheckedCreateWithoutProjectInput = {
+    id?: string
+    userId: string
+    title: string
+    type?: $Enums.DocumentType
+    description?: string | null
+    tags?: DocumentCreatetagsInput | string[]
+    companyId?: string | null
+    contactId?: string | null
+    applicationId?: string | null
+    taskId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    versions?: DocumentVersionUncheckedCreateNestedManyWithoutDocumentInput
+  }
+
+  export type DocumentCreateOrConnectWithoutProjectInput = {
+    where: DocumentWhereUniqueInput
+    create: XOR<DocumentCreateWithoutProjectInput, DocumentUncheckedCreateWithoutProjectInput>
+  }
+
+  export type DocumentCreateManyProjectInputEnvelope = {
+    data: DocumentCreateManyProjectInput | DocumentCreateManyProjectInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserUpsertWithoutProjectsInput = {
     update: XOR<UserUpdateWithoutProjectsInput, UserUncheckedUpdateWithoutProjectsInput>
     create: XOR<UserCreateWithoutProjectsInput, UserUncheckedCreateWithoutProjectsInput>
@@ -23291,6 +28047,8 @@ export namespace Prisma {
     projectActivities?: ProjectActivityUpdateManyWithoutCreatedByNestedInput
     notes?: NoteUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
+    documents?: DocumentUpdateManyWithoutUserNestedInput
+    documentVersions?: DocumentVersionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutProjectsInput = {
@@ -23310,6 +28068,8 @@ export namespace Prisma {
     projectActivities?: ProjectActivityUncheckedUpdateManyWithoutCreatedByNestedInput
     notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
+    documents?: DocumentUncheckedUpdateManyWithoutUserNestedInput
+    documentVersions?: DocumentVersionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ProjectActivityUpsertWithWhereUniqueWithoutProjectInput = {
@@ -23360,6 +28120,22 @@ export namespace Prisma {
     data: XOR<CalendarEventUpdateManyMutationInput, CalendarEventUncheckedUpdateManyWithoutProjectInput>
   }
 
+  export type DocumentUpsertWithWhereUniqueWithoutProjectInput = {
+    where: DocumentWhereUniqueInput
+    update: XOR<DocumentUpdateWithoutProjectInput, DocumentUncheckedUpdateWithoutProjectInput>
+    create: XOR<DocumentCreateWithoutProjectInput, DocumentUncheckedCreateWithoutProjectInput>
+  }
+
+  export type DocumentUpdateWithWhereUniqueWithoutProjectInput = {
+    where: DocumentWhereUniqueInput
+    data: XOR<DocumentUpdateWithoutProjectInput, DocumentUncheckedUpdateWithoutProjectInput>
+  }
+
+  export type DocumentUpdateManyWithWhereWithoutProjectInput = {
+    where: DocumentScalarWhereInput
+    data: XOR<DocumentUpdateManyMutationInput, DocumentUncheckedUpdateManyWithoutProjectInput>
+  }
+
   export type ProjectCreateWithoutActivitiesInput = {
     id?: string
     name: string
@@ -23376,6 +28152,7 @@ export namespace Prisma {
     user: UserCreateNestedOneWithoutProjectsInput
     linkedNotes?: NoteCreateNestedManyWithoutProjectInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutProjectInput
+    documents?: DocumentCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateWithoutActivitiesInput = {
@@ -23394,6 +28171,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     linkedNotes?: NoteUncheckedCreateNestedManyWithoutProjectInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutProjectInput
+    documents?: DocumentUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectCreateOrConnectWithoutActivitiesInput = {
@@ -23418,6 +28196,8 @@ export namespace Prisma {
     projects?: ProjectCreateNestedManyWithoutUserInput
     notes?: NoteCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
+    documents?: DocumentCreateNestedManyWithoutUserInput
+    documentVersions?: DocumentVersionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutProjectActivitiesInput = {
@@ -23437,6 +28217,8 @@ export namespace Prisma {
     projects?: ProjectUncheckedCreateNestedManyWithoutUserInput
     notes?: NoteUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
+    documents?: DocumentUncheckedCreateNestedManyWithoutUserInput
+    documentVersions?: DocumentVersionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutProjectActivitiesInput = {
@@ -23471,6 +28253,7 @@ export namespace Prisma {
     user?: UserUpdateOneRequiredWithoutProjectsNestedInput
     linkedNotes?: NoteUpdateManyWithoutProjectNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutProjectNestedInput
+    documents?: DocumentUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateWithoutActivitiesInput = {
@@ -23489,6 +28272,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     linkedNotes?: NoteUncheckedUpdateManyWithoutProjectNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutProjectNestedInput
+    documents?: DocumentUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type UserUpsertWithoutProjectActivitiesInput = {
@@ -23519,6 +28303,8 @@ export namespace Prisma {
     projects?: ProjectUpdateManyWithoutUserNestedInput
     notes?: NoteUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
+    documents?: DocumentUpdateManyWithoutUserNestedInput
+    documentVersions?: DocumentVersionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutProjectActivitiesInput = {
@@ -23538,6 +28324,8 @@ export namespace Prisma {
     projects?: ProjectUncheckedUpdateManyWithoutUserNestedInput
     notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
+    documents?: DocumentUncheckedUpdateManyWithoutUserNestedInput
+    documentVersions?: DocumentVersionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutNotesInput = {
@@ -23557,6 +28345,8 @@ export namespace Prisma {
     projects?: ProjectCreateNestedManyWithoutUserInput
     projectActivities?: ProjectActivityCreateNestedManyWithoutCreatedByInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
+    documents?: DocumentCreateNestedManyWithoutUserInput
+    documentVersions?: DocumentVersionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutNotesInput = {
@@ -23576,6 +28366,8 @@ export namespace Prisma {
     projects?: ProjectUncheckedCreateNestedManyWithoutUserInput
     projectActivities?: ProjectActivityUncheckedCreateNestedManyWithoutCreatedByInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
+    documents?: DocumentUncheckedCreateNestedManyWithoutUserInput
+    documentVersions?: DocumentVersionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutNotesInput = {
@@ -23604,6 +28396,7 @@ export namespace Prisma {
     contacts?: ContactCreateNestedManyWithoutCompanyInput
     applications?: ApplicationCreateNestedManyWithoutCompanyInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutCompanyInput
+    documents?: DocumentCreateNestedManyWithoutCompanyInput
     user: UserCreateNestedOneWithoutCompaniesInput
   }
 
@@ -23629,6 +28422,7 @@ export namespace Prisma {
     contacts?: ContactUncheckedCreateNestedManyWithoutCompanyInput
     applications?: ApplicationUncheckedCreateNestedManyWithoutCompanyInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutCompanyInput
+    documents?: DocumentUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutLinkedNotesInput = {
@@ -23654,6 +28448,7 @@ export namespace Prisma {
     company: CompanyCreateNestedOneWithoutContactsInput
     applications?: ApplicationCreateNestedManyWithoutRecruiterContactInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutContactInput
+    documents?: DocumentCreateNestedManyWithoutContactInput
   }
 
   export type ContactUncheckedCreateWithoutLinkedNotesInput = {
@@ -23674,6 +28469,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     applications?: ApplicationUncheckedCreateNestedManyWithoutRecruiterContactInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutContactInput
+    documents?: DocumentUncheckedCreateNestedManyWithoutContactInput
   }
 
   export type ContactCreateOrConnectWithoutLinkedNotesInput = {
@@ -23697,6 +28493,7 @@ export namespace Prisma {
     recruiterContact?: ContactCreateNestedOneWithoutApplicationsInput
     stageHistory?: ApplicationStageHistoryCreateNestedManyWithoutApplicationInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutApplicationInput
+    documents?: DocumentCreateNestedManyWithoutApplicationInput
   }
 
   export type ApplicationUncheckedCreateWithoutLinkedNotesInput = {
@@ -23715,6 +28512,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     stageHistory?: ApplicationStageHistoryUncheckedCreateNestedManyWithoutApplicationInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutApplicationInput
+    documents?: DocumentUncheckedCreateNestedManyWithoutApplicationInput
   }
 
   export type ApplicationCreateOrConnectWithoutLinkedNotesInput = {
@@ -23739,6 +28537,7 @@ export namespace Prisma {
     recurrenceSource?: TaskCreateNestedOneWithoutNextOccurrenceInput
     nextOccurrence?: TaskCreateNestedOneWithoutRecurrenceSourceInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutTaskInput
+    documents?: DocumentCreateNestedManyWithoutTaskInput
   }
 
   export type TaskUncheckedCreateWithoutLinkedNotesInput = {
@@ -23758,6 +28557,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     nextOccurrence?: TaskUncheckedCreateNestedOneWithoutRecurrenceSourceInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutTaskInput
+    documents?: DocumentUncheckedCreateNestedManyWithoutTaskInput
   }
 
   export type TaskCreateOrConnectWithoutLinkedNotesInput = {
@@ -23781,6 +28581,7 @@ export namespace Prisma {
     user: UserCreateNestedOneWithoutProjectsInput
     activities?: ProjectActivityCreateNestedManyWithoutProjectInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutProjectInput
+    documents?: DocumentCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateWithoutLinkedNotesInput = {
@@ -23799,6 +28600,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     activities?: ProjectActivityUncheckedCreateNestedManyWithoutProjectInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutProjectInput
+    documents?: DocumentUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectCreateOrConnectWithoutLinkedNotesInput = {
@@ -23834,6 +28636,8 @@ export namespace Prisma {
     projects?: ProjectUpdateManyWithoutUserNestedInput
     projectActivities?: ProjectActivityUpdateManyWithoutCreatedByNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
+    documents?: DocumentUpdateManyWithoutUserNestedInput
+    documentVersions?: DocumentVersionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutNotesInput = {
@@ -23853,6 +28657,8 @@ export namespace Prisma {
     projects?: ProjectUncheckedUpdateManyWithoutUserNestedInput
     projectActivities?: ProjectActivityUncheckedUpdateManyWithoutCreatedByNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
+    documents?: DocumentUncheckedUpdateManyWithoutUserNestedInput
+    documentVersions?: DocumentVersionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CompanyUpsertWithoutLinkedNotesInput = {
@@ -23887,6 +28693,7 @@ export namespace Prisma {
     contacts?: ContactUpdateManyWithoutCompanyNestedInput
     applications?: ApplicationUpdateManyWithoutCompanyNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutCompanyNestedInput
+    documents?: DocumentUpdateManyWithoutCompanyNestedInput
     user?: UserUpdateOneRequiredWithoutCompaniesNestedInput
   }
 
@@ -23912,6 +28719,7 @@ export namespace Prisma {
     contacts?: ContactUncheckedUpdateManyWithoutCompanyNestedInput
     applications?: ApplicationUncheckedUpdateManyWithoutCompanyNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutCompanyNestedInput
+    documents?: DocumentUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type ContactUpsertWithoutLinkedNotesInput = {
@@ -23943,6 +28751,7 @@ export namespace Prisma {
     company?: CompanyUpdateOneRequiredWithoutContactsNestedInput
     applications?: ApplicationUpdateManyWithoutRecruiterContactNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutContactNestedInput
+    documents?: DocumentUpdateManyWithoutContactNestedInput
   }
 
   export type ContactUncheckedUpdateWithoutLinkedNotesInput = {
@@ -23963,6 +28772,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     applications?: ApplicationUncheckedUpdateManyWithoutRecruiterContactNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutContactNestedInput
+    documents?: DocumentUncheckedUpdateManyWithoutContactNestedInput
   }
 
   export type ApplicationUpsertWithoutLinkedNotesInput = {
@@ -23992,6 +28802,7 @@ export namespace Prisma {
     recruiterContact?: ContactUpdateOneWithoutApplicationsNestedInput
     stageHistory?: ApplicationStageHistoryUpdateManyWithoutApplicationNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutApplicationNestedInput
+    documents?: DocumentUpdateManyWithoutApplicationNestedInput
   }
 
   export type ApplicationUncheckedUpdateWithoutLinkedNotesInput = {
@@ -24010,6 +28821,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     stageHistory?: ApplicationStageHistoryUncheckedUpdateManyWithoutApplicationNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutApplicationNestedInput
+    documents?: DocumentUncheckedUpdateManyWithoutApplicationNestedInput
   }
 
   export type TaskUpsertWithoutLinkedNotesInput = {
@@ -24040,6 +28852,7 @@ export namespace Prisma {
     recurrenceSource?: TaskUpdateOneWithoutNextOccurrenceNestedInput
     nextOccurrence?: TaskUpdateOneWithoutRecurrenceSourceNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutTaskNestedInput
+    documents?: DocumentUpdateManyWithoutTaskNestedInput
   }
 
   export type TaskUncheckedUpdateWithoutLinkedNotesInput = {
@@ -24059,6 +28872,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     nextOccurrence?: TaskUncheckedUpdateOneWithoutRecurrenceSourceNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutTaskNestedInput
+    documents?: DocumentUncheckedUpdateManyWithoutTaskNestedInput
   }
 
   export type ProjectUpsertWithoutLinkedNotesInput = {
@@ -24088,6 +28902,7 @@ export namespace Prisma {
     user?: UserUpdateOneRequiredWithoutProjectsNestedInput
     activities?: ProjectActivityUpdateManyWithoutProjectNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutProjectNestedInput
+    documents?: DocumentUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateWithoutLinkedNotesInput = {
@@ -24106,6 +28921,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     activities?: ProjectActivityUncheckedUpdateManyWithoutProjectNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutProjectNestedInput
+    documents?: DocumentUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type UserCreateWithoutCalendarEventsInput = {
@@ -24125,6 +28941,8 @@ export namespace Prisma {
     projects?: ProjectCreateNestedManyWithoutUserInput
     projectActivities?: ProjectActivityCreateNestedManyWithoutCreatedByInput
     notes?: NoteCreateNestedManyWithoutUserInput
+    documents?: DocumentCreateNestedManyWithoutUserInput
+    documentVersions?: DocumentVersionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCalendarEventsInput = {
@@ -24144,6 +28962,8 @@ export namespace Prisma {
     projects?: ProjectUncheckedCreateNestedManyWithoutUserInput
     projectActivities?: ProjectActivityUncheckedCreateNestedManyWithoutCreatedByInput
     notes?: NoteUncheckedCreateNestedManyWithoutUserInput
+    documents?: DocumentUncheckedCreateNestedManyWithoutUserInput
+    documentVersions?: DocumentVersionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCalendarEventsInput = {
@@ -24172,6 +28992,7 @@ export namespace Prisma {
     contacts?: ContactCreateNestedManyWithoutCompanyInput
     applications?: ApplicationCreateNestedManyWithoutCompanyInput
     linkedNotes?: NoteCreateNestedManyWithoutCompanyInput
+    documents?: DocumentCreateNestedManyWithoutCompanyInput
     user: UserCreateNestedOneWithoutCompaniesInput
   }
 
@@ -24197,6 +29018,7 @@ export namespace Prisma {
     contacts?: ContactUncheckedCreateNestedManyWithoutCompanyInput
     applications?: ApplicationUncheckedCreateNestedManyWithoutCompanyInput
     linkedNotes?: NoteUncheckedCreateNestedManyWithoutCompanyInput
+    documents?: DocumentUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutCalendarEventsInput = {
@@ -24222,6 +29044,7 @@ export namespace Prisma {
     company: CompanyCreateNestedOneWithoutContactsInput
     applications?: ApplicationCreateNestedManyWithoutRecruiterContactInput
     linkedNotes?: NoteCreateNestedManyWithoutContactInput
+    documents?: DocumentCreateNestedManyWithoutContactInput
   }
 
   export type ContactUncheckedCreateWithoutCalendarEventsInput = {
@@ -24242,6 +29065,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     applications?: ApplicationUncheckedCreateNestedManyWithoutRecruiterContactInput
     linkedNotes?: NoteUncheckedCreateNestedManyWithoutContactInput
+    documents?: DocumentUncheckedCreateNestedManyWithoutContactInput
   }
 
   export type ContactCreateOrConnectWithoutCalendarEventsInput = {
@@ -24265,6 +29089,7 @@ export namespace Prisma {
     recruiterContact?: ContactCreateNestedOneWithoutApplicationsInput
     stageHistory?: ApplicationStageHistoryCreateNestedManyWithoutApplicationInput
     linkedNotes?: NoteCreateNestedManyWithoutApplicationInput
+    documents?: DocumentCreateNestedManyWithoutApplicationInput
   }
 
   export type ApplicationUncheckedCreateWithoutCalendarEventsInput = {
@@ -24283,6 +29108,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     stageHistory?: ApplicationStageHistoryUncheckedCreateNestedManyWithoutApplicationInput
     linkedNotes?: NoteUncheckedCreateNestedManyWithoutApplicationInput
+    documents?: DocumentUncheckedCreateNestedManyWithoutApplicationInput
   }
 
   export type ApplicationCreateOrConnectWithoutCalendarEventsInput = {
@@ -24307,6 +29133,7 @@ export namespace Prisma {
     recurrenceSource?: TaskCreateNestedOneWithoutNextOccurrenceInput
     nextOccurrence?: TaskCreateNestedOneWithoutRecurrenceSourceInput
     linkedNotes?: NoteCreateNestedManyWithoutTaskInput
+    documents?: DocumentCreateNestedManyWithoutTaskInput
   }
 
   export type TaskUncheckedCreateWithoutCalendarEventsInput = {
@@ -24326,6 +29153,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     nextOccurrence?: TaskUncheckedCreateNestedOneWithoutRecurrenceSourceInput
     linkedNotes?: NoteUncheckedCreateNestedManyWithoutTaskInput
+    documents?: DocumentUncheckedCreateNestedManyWithoutTaskInput
   }
 
   export type TaskCreateOrConnectWithoutCalendarEventsInput = {
@@ -24349,6 +29177,7 @@ export namespace Prisma {
     user: UserCreateNestedOneWithoutProjectsInput
     activities?: ProjectActivityCreateNestedManyWithoutProjectInput
     linkedNotes?: NoteCreateNestedManyWithoutProjectInput
+    documents?: DocumentCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateWithoutCalendarEventsInput = {
@@ -24367,6 +29196,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     activities?: ProjectActivityUncheckedCreateNestedManyWithoutProjectInput
     linkedNotes?: NoteUncheckedCreateNestedManyWithoutProjectInput
+    documents?: DocumentUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectCreateOrConnectWithoutCalendarEventsInput = {
@@ -24402,6 +29232,8 @@ export namespace Prisma {
     projects?: ProjectUpdateManyWithoutUserNestedInput
     projectActivities?: ProjectActivityUpdateManyWithoutCreatedByNestedInput
     notes?: NoteUpdateManyWithoutUserNestedInput
+    documents?: DocumentUpdateManyWithoutUserNestedInput
+    documentVersions?: DocumentVersionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCalendarEventsInput = {
@@ -24421,6 +29253,8 @@ export namespace Prisma {
     projects?: ProjectUncheckedUpdateManyWithoutUserNestedInput
     projectActivities?: ProjectActivityUncheckedUpdateManyWithoutCreatedByNestedInput
     notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
+    documents?: DocumentUncheckedUpdateManyWithoutUserNestedInput
+    documentVersions?: DocumentVersionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CompanyUpsertWithoutCalendarEventsInput = {
@@ -24455,6 +29289,7 @@ export namespace Prisma {
     contacts?: ContactUpdateManyWithoutCompanyNestedInput
     applications?: ApplicationUpdateManyWithoutCompanyNestedInput
     linkedNotes?: NoteUpdateManyWithoutCompanyNestedInput
+    documents?: DocumentUpdateManyWithoutCompanyNestedInput
     user?: UserUpdateOneRequiredWithoutCompaniesNestedInput
   }
 
@@ -24480,6 +29315,7 @@ export namespace Prisma {
     contacts?: ContactUncheckedUpdateManyWithoutCompanyNestedInput
     applications?: ApplicationUncheckedUpdateManyWithoutCompanyNestedInput
     linkedNotes?: NoteUncheckedUpdateManyWithoutCompanyNestedInput
+    documents?: DocumentUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type ContactUpsertWithoutCalendarEventsInput = {
@@ -24511,6 +29347,7 @@ export namespace Prisma {
     company?: CompanyUpdateOneRequiredWithoutContactsNestedInput
     applications?: ApplicationUpdateManyWithoutRecruiterContactNestedInput
     linkedNotes?: NoteUpdateManyWithoutContactNestedInput
+    documents?: DocumentUpdateManyWithoutContactNestedInput
   }
 
   export type ContactUncheckedUpdateWithoutCalendarEventsInput = {
@@ -24531,6 +29368,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     applications?: ApplicationUncheckedUpdateManyWithoutRecruiterContactNestedInput
     linkedNotes?: NoteUncheckedUpdateManyWithoutContactNestedInput
+    documents?: DocumentUncheckedUpdateManyWithoutContactNestedInput
   }
 
   export type ApplicationUpsertWithoutCalendarEventsInput = {
@@ -24560,6 +29398,7 @@ export namespace Prisma {
     recruiterContact?: ContactUpdateOneWithoutApplicationsNestedInput
     stageHistory?: ApplicationStageHistoryUpdateManyWithoutApplicationNestedInput
     linkedNotes?: NoteUpdateManyWithoutApplicationNestedInput
+    documents?: DocumentUpdateManyWithoutApplicationNestedInput
   }
 
   export type ApplicationUncheckedUpdateWithoutCalendarEventsInput = {
@@ -24578,6 +29417,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     stageHistory?: ApplicationStageHistoryUncheckedUpdateManyWithoutApplicationNestedInput
     linkedNotes?: NoteUncheckedUpdateManyWithoutApplicationNestedInput
+    documents?: DocumentUncheckedUpdateManyWithoutApplicationNestedInput
   }
 
   export type TaskUpsertWithoutCalendarEventsInput = {
@@ -24608,6 +29448,7 @@ export namespace Prisma {
     recurrenceSource?: TaskUpdateOneWithoutNextOccurrenceNestedInput
     nextOccurrence?: TaskUpdateOneWithoutRecurrenceSourceNestedInput
     linkedNotes?: NoteUpdateManyWithoutTaskNestedInput
+    documents?: DocumentUpdateManyWithoutTaskNestedInput
   }
 
   export type TaskUncheckedUpdateWithoutCalendarEventsInput = {
@@ -24627,6 +29468,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     nextOccurrence?: TaskUncheckedUpdateOneWithoutRecurrenceSourceNestedInput
     linkedNotes?: NoteUncheckedUpdateManyWithoutTaskNestedInput
+    documents?: DocumentUncheckedUpdateManyWithoutTaskNestedInput
   }
 
   export type ProjectUpsertWithoutCalendarEventsInput = {
@@ -24656,6 +29498,7 @@ export namespace Prisma {
     user?: UserUpdateOneRequiredWithoutProjectsNestedInput
     activities?: ProjectActivityUpdateManyWithoutProjectNestedInput
     linkedNotes?: NoteUpdateManyWithoutProjectNestedInput
+    documents?: DocumentUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateWithoutCalendarEventsInput = {
@@ -24674,6 +29517,843 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     activities?: ProjectActivityUncheckedUpdateManyWithoutProjectNestedInput
     linkedNotes?: NoteUncheckedUpdateManyWithoutProjectNestedInput
+    documents?: DocumentUncheckedUpdateManyWithoutProjectNestedInput
+  }
+
+  export type UserCreateWithoutDocumentsInput = {
+    id?: string
+    fullName: string
+    email: string
+    passwordHash: string
+    role?: $Enums.UserRole
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    companies?: CompanyCreateNestedManyWithoutUserInput
+    contacts?: ContactCreateNestedManyWithoutUserInput
+    applications?: ApplicationCreateNestedManyWithoutUserInput
+    stageChanges?: ApplicationStageHistoryCreateNestedManyWithoutChangedByInput
+    tasks?: TaskCreateNestedManyWithoutUserInput
+    projects?: ProjectCreateNestedManyWithoutUserInput
+    projectActivities?: ProjectActivityCreateNestedManyWithoutCreatedByInput
+    notes?: NoteCreateNestedManyWithoutUserInput
+    calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
+    documentVersions?: DocumentVersionCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutDocumentsInput = {
+    id?: string
+    fullName: string
+    email: string
+    passwordHash: string
+    role?: $Enums.UserRole
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    companies?: CompanyUncheckedCreateNestedManyWithoutUserInput
+    contacts?: ContactUncheckedCreateNestedManyWithoutUserInput
+    applications?: ApplicationUncheckedCreateNestedManyWithoutUserInput
+    stageChanges?: ApplicationStageHistoryUncheckedCreateNestedManyWithoutChangedByInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
+    projects?: ProjectUncheckedCreateNestedManyWithoutUserInput
+    projectActivities?: ProjectActivityUncheckedCreateNestedManyWithoutCreatedByInput
+    notes?: NoteUncheckedCreateNestedManyWithoutUserInput
+    calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
+    documentVersions?: DocumentVersionUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutDocumentsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutDocumentsInput, UserUncheckedCreateWithoutDocumentsInput>
+  }
+
+  export type CompanyCreateWithoutDocumentsInput = {
+    id?: string
+    logo?: string | null
+    name: string
+    country?: string | null
+    industry?: string | null
+    website?: string | null
+    linkedIn?: string | null
+    careerPage?: string | null
+    techStack?: CompanyCreatetechStackInput | string[]
+    size?: number | null
+    salaryRange?: string | null
+    remote?: boolean
+    notes?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    contacts?: ContactCreateNestedManyWithoutCompanyInput
+    applications?: ApplicationCreateNestedManyWithoutCompanyInput
+    linkedNotes?: NoteCreateNestedManyWithoutCompanyInput
+    calendarEvents?: CalendarEventCreateNestedManyWithoutCompanyInput
+    user: UserCreateNestedOneWithoutCompaniesInput
+  }
+
+  export type CompanyUncheckedCreateWithoutDocumentsInput = {
+    id?: string
+    userId: string
+    logo?: string | null
+    name: string
+    country?: string | null
+    industry?: string | null
+    website?: string | null
+    linkedIn?: string | null
+    careerPage?: string | null
+    techStack?: CompanyCreatetechStackInput | string[]
+    size?: number | null
+    salaryRange?: string | null
+    remote?: boolean
+    notes?: string | null
+    status?: $Enums.CompanyStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    contacts?: ContactUncheckedCreateNestedManyWithoutCompanyInput
+    applications?: ApplicationUncheckedCreateNestedManyWithoutCompanyInput
+    linkedNotes?: NoteUncheckedCreateNestedManyWithoutCompanyInput
+    calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutDocumentsInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutDocumentsInput, CompanyUncheckedCreateWithoutDocumentsInput>
+  }
+
+  export type ContactCreateWithoutDocumentsInput = {
+    id?: string
+    photo: string
+    name: string
+    email: string
+    phone: string
+    linkedIn: string
+    role: string
+    notes?: string | null
+    lastContactAt: Date | string
+    nextFollowUpAt: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    user: UserCreateNestedOneWithoutContactsInput
+    company: CompanyCreateNestedOneWithoutContactsInput
+    applications?: ApplicationCreateNestedManyWithoutRecruiterContactInput
+    linkedNotes?: NoteCreateNestedManyWithoutContactInput
+    calendarEvents?: CalendarEventCreateNestedManyWithoutContactInput
+  }
+
+  export type ContactUncheckedCreateWithoutDocumentsInput = {
+    id?: string
+    userId: string
+    companyId: string
+    photo: string
+    name: string
+    email: string
+    phone: string
+    linkedIn: string
+    role: string
+    notes?: string | null
+    lastContactAt: Date | string
+    nextFollowUpAt: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    applications?: ApplicationUncheckedCreateNestedManyWithoutRecruiterContactInput
+    linkedNotes?: NoteUncheckedCreateNestedManyWithoutContactInput
+    calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutContactInput
+  }
+
+  export type ContactCreateOrConnectWithoutDocumentsInput = {
+    where: ContactWhereUniqueInput
+    create: XOR<ContactCreateWithoutDocumentsInput, ContactUncheckedCreateWithoutDocumentsInput>
+  }
+
+  export type ApplicationCreateWithoutDocumentsInput = {
+    id?: string
+    position: string
+    dateApplied?: Date | string | null
+    salary?: string | null
+    timezone?: string
+    stage?: $Enums.ApplicationStage
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    user: UserCreateNestedOneWithoutApplicationsInput
+    company: CompanyCreateNestedOneWithoutApplicationsInput
+    recruiterContact?: ContactCreateNestedOneWithoutApplicationsInput
+    stageHistory?: ApplicationStageHistoryCreateNestedManyWithoutApplicationInput
+    linkedNotes?: NoteCreateNestedManyWithoutApplicationInput
+    calendarEvents?: CalendarEventCreateNestedManyWithoutApplicationInput
+  }
+
+  export type ApplicationUncheckedCreateWithoutDocumentsInput = {
+    id?: string
+    userId: string
+    companyId: string
+    position: string
+    dateApplied?: Date | string | null
+    salary?: string | null
+    timezone?: string
+    recruiter?: string | null
+    stage?: $Enums.ApplicationStage
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    stageHistory?: ApplicationStageHistoryUncheckedCreateNestedManyWithoutApplicationInput
+    linkedNotes?: NoteUncheckedCreateNestedManyWithoutApplicationInput
+    calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutApplicationInput
+  }
+
+  export type ApplicationCreateOrConnectWithoutDocumentsInput = {
+    where: ApplicationWhereUniqueInput
+    create: XOR<ApplicationCreateWithoutDocumentsInput, ApplicationUncheckedCreateWithoutDocumentsInput>
+  }
+
+  export type TaskCreateWithoutDocumentsInput = {
+    id?: string
+    title: string
+    type?: $Enums.TaskType
+    priority?: $Enums.TaskPriority
+    dueDate?: Date | string | null
+    timezone?: string
+    status?: $Enums.TaskStatus
+    repeatPattern?: $Enums.TaskRepeatPattern
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    user: UserCreateNestedOneWithoutTasksInput
+    recurrenceSource?: TaskCreateNestedOneWithoutNextOccurrenceInput
+    nextOccurrence?: TaskCreateNestedOneWithoutRecurrenceSourceInput
+    linkedNotes?: NoteCreateNestedManyWithoutTaskInput
+    calendarEvents?: CalendarEventCreateNestedManyWithoutTaskInput
+  }
+
+  export type TaskUncheckedCreateWithoutDocumentsInput = {
+    id?: string
+    userId: string
+    title: string
+    type?: $Enums.TaskType
+    priority?: $Enums.TaskPriority
+    dueDate?: Date | string | null
+    timezone?: string
+    status?: $Enums.TaskStatus
+    repeatPattern?: $Enums.TaskRepeatPattern
+    completedAt?: Date | string | null
+    recurrenceSourceId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    nextOccurrence?: TaskUncheckedCreateNestedOneWithoutRecurrenceSourceInput
+    linkedNotes?: NoteUncheckedCreateNestedManyWithoutTaskInput
+    calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutTaskInput
+  }
+
+  export type TaskCreateOrConnectWithoutDocumentsInput = {
+    where: TaskWhereUniqueInput
+    create: XOR<TaskCreateWithoutDocumentsInput, TaskUncheckedCreateWithoutDocumentsInput>
+  }
+
+  export type ProjectCreateWithoutDocumentsInput = {
+    id?: string
+    name: string
+    githubUrl?: string | null
+    liveDemoUrl?: string | null
+    status?: $Enums.ProjectStatus
+    progress?: number
+    stack?: ProjectCreatestackInput | string[]
+    screenshots?: ProjectCreatescreenshotsInput | string[]
+    lessonsLearned?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    user: UserCreateNestedOneWithoutProjectsInput
+    activities?: ProjectActivityCreateNestedManyWithoutProjectInput
+    linkedNotes?: NoteCreateNestedManyWithoutProjectInput
+    calendarEvents?: CalendarEventCreateNestedManyWithoutProjectInput
+  }
+
+  export type ProjectUncheckedCreateWithoutDocumentsInput = {
+    id?: string
+    userId: string
+    name: string
+    githubUrl?: string | null
+    liveDemoUrl?: string | null
+    status?: $Enums.ProjectStatus
+    progress?: number
+    stack?: ProjectCreatestackInput | string[]
+    screenshots?: ProjectCreatescreenshotsInput | string[]
+    lessonsLearned?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    activities?: ProjectActivityUncheckedCreateNestedManyWithoutProjectInput
+    linkedNotes?: NoteUncheckedCreateNestedManyWithoutProjectInput
+    calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutProjectInput
+  }
+
+  export type ProjectCreateOrConnectWithoutDocumentsInput = {
+    where: ProjectWhereUniqueInput
+    create: XOR<ProjectCreateWithoutDocumentsInput, ProjectUncheckedCreateWithoutDocumentsInput>
+  }
+
+  export type DocumentVersionCreateWithoutDocumentInput = {
+    id?: string
+    version: number
+    fileName: string
+    fileSize: number
+    mimeType: string
+    fileUrl: string
+    storageProvider?: string
+    storageKey?: string | null
+    changelog?: string | null
+    createdAt?: Date | string
+    deletedAt?: Date | string | null
+    user: UserCreateNestedOneWithoutDocumentVersionsInput
+  }
+
+  export type DocumentVersionUncheckedCreateWithoutDocumentInput = {
+    id?: string
+    userId: string
+    version: number
+    fileName: string
+    fileSize: number
+    mimeType: string
+    fileUrl: string
+    storageProvider?: string
+    storageKey?: string | null
+    changelog?: string | null
+    createdAt?: Date | string
+    deletedAt?: Date | string | null
+  }
+
+  export type DocumentVersionCreateOrConnectWithoutDocumentInput = {
+    where: DocumentVersionWhereUniqueInput
+    create: XOR<DocumentVersionCreateWithoutDocumentInput, DocumentVersionUncheckedCreateWithoutDocumentInput>
+  }
+
+  export type DocumentVersionCreateManyDocumentInputEnvelope = {
+    data: DocumentVersionCreateManyDocumentInput | DocumentVersionCreateManyDocumentInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserUpsertWithoutDocumentsInput = {
+    update: XOR<UserUpdateWithoutDocumentsInput, UserUncheckedUpdateWithoutDocumentsInput>
+    create: XOR<UserCreateWithoutDocumentsInput, UserUncheckedCreateWithoutDocumentsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutDocumentsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutDocumentsInput, UserUncheckedUpdateWithoutDocumentsInput>
+  }
+
+  export type UserUpdateWithoutDocumentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    companies?: CompanyUpdateManyWithoutUserNestedInput
+    contacts?: ContactUpdateManyWithoutUserNestedInput
+    applications?: ApplicationUpdateManyWithoutUserNestedInput
+    stageChanges?: ApplicationStageHistoryUpdateManyWithoutChangedByNestedInput
+    tasks?: TaskUpdateManyWithoutUserNestedInput
+    projects?: ProjectUpdateManyWithoutUserNestedInput
+    projectActivities?: ProjectActivityUpdateManyWithoutCreatedByNestedInput
+    notes?: NoteUpdateManyWithoutUserNestedInput
+    calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
+    documentVersions?: DocumentVersionUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutDocumentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    companies?: CompanyUncheckedUpdateManyWithoutUserNestedInput
+    contacts?: ContactUncheckedUpdateManyWithoutUserNestedInput
+    applications?: ApplicationUncheckedUpdateManyWithoutUserNestedInput
+    stageChanges?: ApplicationStageHistoryUncheckedUpdateManyWithoutChangedByNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
+    projects?: ProjectUncheckedUpdateManyWithoutUserNestedInput
+    projectActivities?: ProjectActivityUncheckedUpdateManyWithoutCreatedByNestedInput
+    notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
+    calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
+    documentVersions?: DocumentVersionUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type CompanyUpsertWithoutDocumentsInput = {
+    update: XOR<CompanyUpdateWithoutDocumentsInput, CompanyUncheckedUpdateWithoutDocumentsInput>
+    create: XOR<CompanyCreateWithoutDocumentsInput, CompanyUncheckedCreateWithoutDocumentsInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutDocumentsInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutDocumentsInput, CompanyUncheckedUpdateWithoutDocumentsInput>
+  }
+
+  export type CompanyUpdateWithoutDocumentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    industry?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedIn?: NullableStringFieldUpdateOperationsInput | string | null
+    careerPage?: NullableStringFieldUpdateOperationsInput | string | null
+    techStack?: CompanyUpdatetechStackInput | string[]
+    size?: NullableIntFieldUpdateOperationsInput | number | null
+    salaryRange?: NullableStringFieldUpdateOperationsInput | string | null
+    remote?: BoolFieldUpdateOperationsInput | boolean
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    contacts?: ContactUpdateManyWithoutCompanyNestedInput
+    applications?: ApplicationUpdateManyWithoutCompanyNestedInput
+    linkedNotes?: NoteUpdateManyWithoutCompanyNestedInput
+    calendarEvents?: CalendarEventUpdateManyWithoutCompanyNestedInput
+    user?: UserUpdateOneRequiredWithoutCompaniesNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutDocumentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    logo?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    industry?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedIn?: NullableStringFieldUpdateOperationsInput | string | null
+    careerPage?: NullableStringFieldUpdateOperationsInput | string | null
+    techStack?: CompanyUpdatetechStackInput | string[]
+    size?: NullableIntFieldUpdateOperationsInput | number | null
+    salaryRange?: NullableStringFieldUpdateOperationsInput | string | null
+    remote?: BoolFieldUpdateOperationsInput | boolean
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    contacts?: ContactUncheckedUpdateManyWithoutCompanyNestedInput
+    applications?: ApplicationUncheckedUpdateManyWithoutCompanyNestedInput
+    linkedNotes?: NoteUncheckedUpdateManyWithoutCompanyNestedInput
+    calendarEvents?: CalendarEventUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type ContactUpsertWithoutDocumentsInput = {
+    update: XOR<ContactUpdateWithoutDocumentsInput, ContactUncheckedUpdateWithoutDocumentsInput>
+    create: XOR<ContactCreateWithoutDocumentsInput, ContactUncheckedCreateWithoutDocumentsInput>
+    where?: ContactWhereInput
+  }
+
+  export type ContactUpdateToOneWithWhereWithoutDocumentsInput = {
+    where?: ContactWhereInput
+    data: XOR<ContactUpdateWithoutDocumentsInput, ContactUncheckedUpdateWithoutDocumentsInput>
+  }
+
+  export type ContactUpdateWithoutDocumentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    photo?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    linkedIn?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    lastContactAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    nextFollowUpAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user?: UserUpdateOneRequiredWithoutContactsNestedInput
+    company?: CompanyUpdateOneRequiredWithoutContactsNestedInput
+    applications?: ApplicationUpdateManyWithoutRecruiterContactNestedInput
+    linkedNotes?: NoteUpdateManyWithoutContactNestedInput
+    calendarEvents?: CalendarEventUpdateManyWithoutContactNestedInput
+  }
+
+  export type ContactUncheckedUpdateWithoutDocumentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    photo?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    linkedIn?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    lastContactAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    nextFollowUpAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    applications?: ApplicationUncheckedUpdateManyWithoutRecruiterContactNestedInput
+    linkedNotes?: NoteUncheckedUpdateManyWithoutContactNestedInput
+    calendarEvents?: CalendarEventUncheckedUpdateManyWithoutContactNestedInput
+  }
+
+  export type ApplicationUpsertWithoutDocumentsInput = {
+    update: XOR<ApplicationUpdateWithoutDocumentsInput, ApplicationUncheckedUpdateWithoutDocumentsInput>
+    create: XOR<ApplicationCreateWithoutDocumentsInput, ApplicationUncheckedCreateWithoutDocumentsInput>
+    where?: ApplicationWhereInput
+  }
+
+  export type ApplicationUpdateToOneWithWhereWithoutDocumentsInput = {
+    where?: ApplicationWhereInput
+    data: XOR<ApplicationUpdateWithoutDocumentsInput, ApplicationUncheckedUpdateWithoutDocumentsInput>
+  }
+
+  export type ApplicationUpdateWithoutDocumentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    position?: StringFieldUpdateOperationsInput | string
+    dateApplied?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    salary?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: StringFieldUpdateOperationsInput | string
+    stage?: EnumApplicationStageFieldUpdateOperationsInput | $Enums.ApplicationStage
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user?: UserUpdateOneRequiredWithoutApplicationsNestedInput
+    company?: CompanyUpdateOneRequiredWithoutApplicationsNestedInput
+    recruiterContact?: ContactUpdateOneWithoutApplicationsNestedInput
+    stageHistory?: ApplicationStageHistoryUpdateManyWithoutApplicationNestedInput
+    linkedNotes?: NoteUpdateManyWithoutApplicationNestedInput
+    calendarEvents?: CalendarEventUpdateManyWithoutApplicationNestedInput
+  }
+
+  export type ApplicationUncheckedUpdateWithoutDocumentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    position?: StringFieldUpdateOperationsInput | string
+    dateApplied?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    salary?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: StringFieldUpdateOperationsInput | string
+    recruiter?: NullableStringFieldUpdateOperationsInput | string | null
+    stage?: EnumApplicationStageFieldUpdateOperationsInput | $Enums.ApplicationStage
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    stageHistory?: ApplicationStageHistoryUncheckedUpdateManyWithoutApplicationNestedInput
+    linkedNotes?: NoteUncheckedUpdateManyWithoutApplicationNestedInput
+    calendarEvents?: CalendarEventUncheckedUpdateManyWithoutApplicationNestedInput
+  }
+
+  export type TaskUpsertWithoutDocumentsInput = {
+    update: XOR<TaskUpdateWithoutDocumentsInput, TaskUncheckedUpdateWithoutDocumentsInput>
+    create: XOR<TaskCreateWithoutDocumentsInput, TaskUncheckedCreateWithoutDocumentsInput>
+    where?: TaskWhereInput
+  }
+
+  export type TaskUpdateToOneWithWhereWithoutDocumentsInput = {
+    where?: TaskWhereInput
+    data: XOR<TaskUpdateWithoutDocumentsInput, TaskUncheckedUpdateWithoutDocumentsInput>
+  }
+
+  export type TaskUpdateWithoutDocumentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    type?: EnumTaskTypeFieldUpdateOperationsInput | $Enums.TaskType
+    priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    timezone?: StringFieldUpdateOperationsInput | string
+    status?: EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
+    repeatPattern?: EnumTaskRepeatPatternFieldUpdateOperationsInput | $Enums.TaskRepeatPattern
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user?: UserUpdateOneRequiredWithoutTasksNestedInput
+    recurrenceSource?: TaskUpdateOneWithoutNextOccurrenceNestedInput
+    nextOccurrence?: TaskUpdateOneWithoutRecurrenceSourceNestedInput
+    linkedNotes?: NoteUpdateManyWithoutTaskNestedInput
+    calendarEvents?: CalendarEventUpdateManyWithoutTaskNestedInput
+  }
+
+  export type TaskUncheckedUpdateWithoutDocumentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    type?: EnumTaskTypeFieldUpdateOperationsInput | $Enums.TaskType
+    priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
+    dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    timezone?: StringFieldUpdateOperationsInput | string
+    status?: EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
+    repeatPattern?: EnumTaskRepeatPatternFieldUpdateOperationsInput | $Enums.TaskRepeatPattern
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    recurrenceSourceId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nextOccurrence?: TaskUncheckedUpdateOneWithoutRecurrenceSourceNestedInput
+    linkedNotes?: NoteUncheckedUpdateManyWithoutTaskNestedInput
+    calendarEvents?: CalendarEventUncheckedUpdateManyWithoutTaskNestedInput
+  }
+
+  export type ProjectUpsertWithoutDocumentsInput = {
+    update: XOR<ProjectUpdateWithoutDocumentsInput, ProjectUncheckedUpdateWithoutDocumentsInput>
+    create: XOR<ProjectCreateWithoutDocumentsInput, ProjectUncheckedCreateWithoutDocumentsInput>
+    where?: ProjectWhereInput
+  }
+
+  export type ProjectUpdateToOneWithWhereWithoutDocumentsInput = {
+    where?: ProjectWhereInput
+    data: XOR<ProjectUpdateWithoutDocumentsInput, ProjectUncheckedUpdateWithoutDocumentsInput>
+  }
+
+  export type ProjectUpdateWithoutDocumentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    liveDemoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+    progress?: IntFieldUpdateOperationsInput | number
+    stack?: ProjectUpdatestackInput | string[]
+    screenshots?: ProjectUpdatescreenshotsInput | string[]
+    lessonsLearned?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user?: UserUpdateOneRequiredWithoutProjectsNestedInput
+    activities?: ProjectActivityUpdateManyWithoutProjectNestedInput
+    linkedNotes?: NoteUpdateManyWithoutProjectNestedInput
+    calendarEvents?: CalendarEventUpdateManyWithoutProjectNestedInput
+  }
+
+  export type ProjectUncheckedUpdateWithoutDocumentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    liveDemoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+    progress?: IntFieldUpdateOperationsInput | number
+    stack?: ProjectUpdatestackInput | string[]
+    screenshots?: ProjectUpdatescreenshotsInput | string[]
+    lessonsLearned?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    activities?: ProjectActivityUncheckedUpdateManyWithoutProjectNestedInput
+    linkedNotes?: NoteUncheckedUpdateManyWithoutProjectNestedInput
+    calendarEvents?: CalendarEventUncheckedUpdateManyWithoutProjectNestedInput
+  }
+
+  export type DocumentVersionUpsertWithWhereUniqueWithoutDocumentInput = {
+    where: DocumentVersionWhereUniqueInput
+    update: XOR<DocumentVersionUpdateWithoutDocumentInput, DocumentVersionUncheckedUpdateWithoutDocumentInput>
+    create: XOR<DocumentVersionCreateWithoutDocumentInput, DocumentVersionUncheckedCreateWithoutDocumentInput>
+  }
+
+  export type DocumentVersionUpdateWithWhereUniqueWithoutDocumentInput = {
+    where: DocumentVersionWhereUniqueInput
+    data: XOR<DocumentVersionUpdateWithoutDocumentInput, DocumentVersionUncheckedUpdateWithoutDocumentInput>
+  }
+
+  export type DocumentVersionUpdateManyWithWhereWithoutDocumentInput = {
+    where: DocumentVersionScalarWhereInput
+    data: XOR<DocumentVersionUpdateManyMutationInput, DocumentVersionUncheckedUpdateManyWithoutDocumentInput>
+  }
+
+  export type DocumentCreateWithoutVersionsInput = {
+    id?: string
+    title: string
+    type?: $Enums.DocumentType
+    description?: string | null
+    tags?: DocumentCreatetagsInput | string[]
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    user: UserCreateNestedOneWithoutDocumentsInput
+    company?: CompanyCreateNestedOneWithoutDocumentsInput
+    contact?: ContactCreateNestedOneWithoutDocumentsInput
+    application?: ApplicationCreateNestedOneWithoutDocumentsInput
+    task?: TaskCreateNestedOneWithoutDocumentsInput
+    project?: ProjectCreateNestedOneWithoutDocumentsInput
+  }
+
+  export type DocumentUncheckedCreateWithoutVersionsInput = {
+    id?: string
+    userId: string
+    title: string
+    type?: $Enums.DocumentType
+    description?: string | null
+    tags?: DocumentCreatetagsInput | string[]
+    companyId?: string | null
+    contactId?: string | null
+    applicationId?: string | null
+    taskId?: string | null
+    projectId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+  }
+
+  export type DocumentCreateOrConnectWithoutVersionsInput = {
+    where: DocumentWhereUniqueInput
+    create: XOR<DocumentCreateWithoutVersionsInput, DocumentUncheckedCreateWithoutVersionsInput>
+  }
+
+  export type UserCreateWithoutDocumentVersionsInput = {
+    id?: string
+    fullName: string
+    email: string
+    passwordHash: string
+    role?: $Enums.UserRole
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    companies?: CompanyCreateNestedManyWithoutUserInput
+    contacts?: ContactCreateNestedManyWithoutUserInput
+    applications?: ApplicationCreateNestedManyWithoutUserInput
+    stageChanges?: ApplicationStageHistoryCreateNestedManyWithoutChangedByInput
+    tasks?: TaskCreateNestedManyWithoutUserInput
+    projects?: ProjectCreateNestedManyWithoutUserInput
+    projectActivities?: ProjectActivityCreateNestedManyWithoutCreatedByInput
+    notes?: NoteCreateNestedManyWithoutUserInput
+    calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
+    documents?: DocumentCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutDocumentVersionsInput = {
+    id?: string
+    fullName: string
+    email: string
+    passwordHash: string
+    role?: $Enums.UserRole
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    companies?: CompanyUncheckedCreateNestedManyWithoutUserInput
+    contacts?: ContactUncheckedCreateNestedManyWithoutUserInput
+    applications?: ApplicationUncheckedCreateNestedManyWithoutUserInput
+    stageChanges?: ApplicationStageHistoryUncheckedCreateNestedManyWithoutChangedByInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
+    projects?: ProjectUncheckedCreateNestedManyWithoutUserInput
+    projectActivities?: ProjectActivityUncheckedCreateNestedManyWithoutCreatedByInput
+    notes?: NoteUncheckedCreateNestedManyWithoutUserInput
+    calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
+    documents?: DocumentUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutDocumentVersionsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutDocumentVersionsInput, UserUncheckedCreateWithoutDocumentVersionsInput>
+  }
+
+  export type DocumentUpsertWithoutVersionsInput = {
+    update: XOR<DocumentUpdateWithoutVersionsInput, DocumentUncheckedUpdateWithoutVersionsInput>
+    create: XOR<DocumentCreateWithoutVersionsInput, DocumentUncheckedCreateWithoutVersionsInput>
+    where?: DocumentWhereInput
+  }
+
+  export type DocumentUpdateToOneWithWhereWithoutVersionsInput = {
+    where?: DocumentWhereInput
+    data: XOR<DocumentUpdateWithoutVersionsInput, DocumentUncheckedUpdateWithoutVersionsInput>
+  }
+
+  export type DocumentUpdateWithoutVersionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    type?: EnumDocumentTypeFieldUpdateOperationsInput | $Enums.DocumentType
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: DocumentUpdatetagsInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user?: UserUpdateOneRequiredWithoutDocumentsNestedInput
+    company?: CompanyUpdateOneWithoutDocumentsNestedInput
+    contact?: ContactUpdateOneWithoutDocumentsNestedInput
+    application?: ApplicationUpdateOneWithoutDocumentsNestedInput
+    task?: TaskUpdateOneWithoutDocumentsNestedInput
+    project?: ProjectUpdateOneWithoutDocumentsNestedInput
+  }
+
+  export type DocumentUncheckedUpdateWithoutVersionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    type?: EnumDocumentTypeFieldUpdateOperationsInput | $Enums.DocumentType
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: DocumentUpdatetagsInput | string[]
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    contactId?: NullableStringFieldUpdateOperationsInput | string | null
+    applicationId?: NullableStringFieldUpdateOperationsInput | string | null
+    taskId?: NullableStringFieldUpdateOperationsInput | string | null
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type UserUpsertWithoutDocumentVersionsInput = {
+    update: XOR<UserUpdateWithoutDocumentVersionsInput, UserUncheckedUpdateWithoutDocumentVersionsInput>
+    create: XOR<UserCreateWithoutDocumentVersionsInput, UserUncheckedCreateWithoutDocumentVersionsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutDocumentVersionsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutDocumentVersionsInput, UserUncheckedUpdateWithoutDocumentVersionsInput>
+  }
+
+  export type UserUpdateWithoutDocumentVersionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    companies?: CompanyUpdateManyWithoutUserNestedInput
+    contacts?: ContactUpdateManyWithoutUserNestedInput
+    applications?: ApplicationUpdateManyWithoutUserNestedInput
+    stageChanges?: ApplicationStageHistoryUpdateManyWithoutChangedByNestedInput
+    tasks?: TaskUpdateManyWithoutUserNestedInput
+    projects?: ProjectUpdateManyWithoutUserNestedInput
+    projectActivities?: ProjectActivityUpdateManyWithoutCreatedByNestedInput
+    notes?: NoteUpdateManyWithoutUserNestedInput
+    calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
+    documents?: DocumentUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutDocumentVersionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    companies?: CompanyUncheckedUpdateManyWithoutUserNestedInput
+    contacts?: ContactUncheckedUpdateManyWithoutUserNestedInput
+    applications?: ApplicationUncheckedUpdateManyWithoutUserNestedInput
+    stageChanges?: ApplicationStageHistoryUncheckedUpdateManyWithoutChangedByNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
+    projects?: ProjectUncheckedUpdateManyWithoutUserNestedInput
+    projectActivities?: ProjectActivityUncheckedUpdateManyWithoutCreatedByNestedInput
+    notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
+    calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
+    documents?: DocumentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CompanyCreateManyUserInput = {
@@ -24812,6 +30492,37 @@ export namespace Prisma {
     deletedAt?: Date | string | null
   }
 
+  export type DocumentCreateManyUserInput = {
+    id?: string
+    title: string
+    type?: $Enums.DocumentType
+    description?: string | null
+    tags?: DocumentCreatetagsInput | string[]
+    companyId?: string | null
+    contactId?: string | null
+    applicationId?: string | null
+    taskId?: string | null
+    projectId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+  }
+
+  export type DocumentVersionCreateManyUserInput = {
+    id?: string
+    documentId: string
+    version: number
+    fileName: string
+    fileSize: number
+    mimeType: string
+    fileUrl: string
+    storageProvider?: string
+    storageKey?: string | null
+    changelog?: string | null
+    createdAt?: Date | string
+    deletedAt?: Date | string | null
+  }
+
   export type CompanyUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     logo?: NullableStringFieldUpdateOperationsInput | string | null
@@ -24834,6 +30545,7 @@ export namespace Prisma {
     applications?: ApplicationUpdateManyWithoutCompanyNestedInput
     linkedNotes?: NoteUpdateManyWithoutCompanyNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutCompanyNestedInput
+    documents?: DocumentUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutUserInput = {
@@ -24858,6 +30570,7 @@ export namespace Prisma {
     applications?: ApplicationUncheckedUpdateManyWithoutCompanyNestedInput
     linkedNotes?: NoteUncheckedUpdateManyWithoutCompanyNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutCompanyNestedInput
+    documents?: DocumentUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateManyWithoutUserInput = {
@@ -24898,6 +30611,7 @@ export namespace Prisma {
     applications?: ApplicationUpdateManyWithoutRecruiterContactNestedInput
     linkedNotes?: NoteUpdateManyWithoutContactNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutContactNestedInput
+    documents?: DocumentUpdateManyWithoutContactNestedInput
   }
 
   export type ContactUncheckedUpdateWithoutUserInput = {
@@ -24918,6 +30632,7 @@ export namespace Prisma {
     applications?: ApplicationUncheckedUpdateManyWithoutRecruiterContactNestedInput
     linkedNotes?: NoteUncheckedUpdateManyWithoutContactNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutContactNestedInput
+    documents?: DocumentUncheckedUpdateManyWithoutContactNestedInput
   }
 
   export type ContactUncheckedUpdateManyWithoutUserInput = {
@@ -24953,6 +30668,7 @@ export namespace Prisma {
     stageHistory?: ApplicationStageHistoryUpdateManyWithoutApplicationNestedInput
     linkedNotes?: NoteUpdateManyWithoutApplicationNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutApplicationNestedInput
+    documents?: DocumentUpdateManyWithoutApplicationNestedInput
   }
 
   export type ApplicationUncheckedUpdateWithoutUserInput = {
@@ -24971,6 +30687,7 @@ export namespace Prisma {
     stageHistory?: ApplicationStageHistoryUncheckedUpdateManyWithoutApplicationNestedInput
     linkedNotes?: NoteUncheckedUpdateManyWithoutApplicationNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutApplicationNestedInput
+    documents?: DocumentUncheckedUpdateManyWithoutApplicationNestedInput
   }
 
   export type ApplicationUncheckedUpdateManyWithoutUserInput = {
@@ -25029,6 +30746,7 @@ export namespace Prisma {
     nextOccurrence?: TaskUpdateOneWithoutRecurrenceSourceNestedInput
     linkedNotes?: NoteUpdateManyWithoutTaskNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutTaskNestedInput
+    documents?: DocumentUpdateManyWithoutTaskNestedInput
   }
 
   export type TaskUncheckedUpdateWithoutUserInput = {
@@ -25048,6 +30766,7 @@ export namespace Prisma {
     nextOccurrence?: TaskUncheckedUpdateOneWithoutRecurrenceSourceNestedInput
     linkedNotes?: NoteUncheckedUpdateManyWithoutTaskNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutTaskNestedInput
+    documents?: DocumentUncheckedUpdateManyWithoutTaskNestedInput
   }
 
   export type TaskUncheckedUpdateManyWithoutUserInput = {
@@ -25082,6 +30801,7 @@ export namespace Prisma {
     activities?: ProjectActivityUpdateManyWithoutProjectNestedInput
     linkedNotes?: NoteUpdateManyWithoutProjectNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutProjectNestedInput
+    documents?: DocumentUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateWithoutUserInput = {
@@ -25100,6 +30820,7 @@ export namespace Prisma {
     activities?: ProjectActivityUncheckedUpdateManyWithoutProjectNestedInput
     linkedNotes?: NoteUncheckedUpdateManyWithoutProjectNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutProjectNestedInput
+    documents?: DocumentUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateManyWithoutUserInput = {
@@ -25252,6 +30973,101 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
+  export type DocumentUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    type?: EnumDocumentTypeFieldUpdateOperationsInput | $Enums.DocumentType
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: DocumentUpdatetagsInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    company?: CompanyUpdateOneWithoutDocumentsNestedInput
+    contact?: ContactUpdateOneWithoutDocumentsNestedInput
+    application?: ApplicationUpdateOneWithoutDocumentsNestedInput
+    task?: TaskUpdateOneWithoutDocumentsNestedInput
+    project?: ProjectUpdateOneWithoutDocumentsNestedInput
+    versions?: DocumentVersionUpdateManyWithoutDocumentNestedInput
+  }
+
+  export type DocumentUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    type?: EnumDocumentTypeFieldUpdateOperationsInput | $Enums.DocumentType
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: DocumentUpdatetagsInput | string[]
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    contactId?: NullableStringFieldUpdateOperationsInput | string | null
+    applicationId?: NullableStringFieldUpdateOperationsInput | string | null
+    taskId?: NullableStringFieldUpdateOperationsInput | string | null
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    versions?: DocumentVersionUncheckedUpdateManyWithoutDocumentNestedInput
+  }
+
+  export type DocumentUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    type?: EnumDocumentTypeFieldUpdateOperationsInput | $Enums.DocumentType
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: DocumentUpdatetagsInput | string[]
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    contactId?: NullableStringFieldUpdateOperationsInput | string | null
+    applicationId?: NullableStringFieldUpdateOperationsInput | string | null
+    taskId?: NullableStringFieldUpdateOperationsInput | string | null
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type DocumentVersionUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    version?: IntFieldUpdateOperationsInput | number
+    fileName?: StringFieldUpdateOperationsInput | string
+    fileSize?: IntFieldUpdateOperationsInput | number
+    mimeType?: StringFieldUpdateOperationsInput | string
+    fileUrl?: StringFieldUpdateOperationsInput | string
+    storageProvider?: StringFieldUpdateOperationsInput | string
+    storageKey?: NullableStringFieldUpdateOperationsInput | string | null
+    changelog?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    document?: DocumentUpdateOneRequiredWithoutVersionsNestedInput
+  }
+
+  export type DocumentVersionUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    documentId?: StringFieldUpdateOperationsInput | string
+    version?: IntFieldUpdateOperationsInput | number
+    fileName?: StringFieldUpdateOperationsInput | string
+    fileSize?: IntFieldUpdateOperationsInput | number
+    mimeType?: StringFieldUpdateOperationsInput | string
+    fileUrl?: StringFieldUpdateOperationsInput | string
+    storageProvider?: StringFieldUpdateOperationsInput | string
+    storageKey?: NullableStringFieldUpdateOperationsInput | string | null
+    changelog?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type DocumentVersionUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    documentId?: StringFieldUpdateOperationsInput | string
+    version?: IntFieldUpdateOperationsInput | number
+    fileName?: StringFieldUpdateOperationsInput | string
+    fileSize?: IntFieldUpdateOperationsInput | number
+    mimeType?: StringFieldUpdateOperationsInput | string
+    fileUrl?: StringFieldUpdateOperationsInput | string
+    storageProvider?: StringFieldUpdateOperationsInput | string
+    storageKey?: NullableStringFieldUpdateOperationsInput | string | null
+    changelog?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
   export type ContactCreateManyCompanyInput = {
     id?: string
     userId: string
@@ -25317,6 +31133,22 @@ export namespace Prisma {
     deletedAt?: Date | string | null
   }
 
+  export type DocumentCreateManyCompanyInput = {
+    id?: string
+    userId: string
+    title: string
+    type?: $Enums.DocumentType
+    description?: string | null
+    tags?: DocumentCreatetagsInput | string[]
+    contactId?: string | null
+    applicationId?: string | null
+    taskId?: string | null
+    projectId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+  }
+
   export type ContactUpdateWithoutCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
     photo?: StringFieldUpdateOperationsInput | string
@@ -25335,6 +31167,7 @@ export namespace Prisma {
     applications?: ApplicationUpdateManyWithoutRecruiterContactNestedInput
     linkedNotes?: NoteUpdateManyWithoutContactNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutContactNestedInput
+    documents?: DocumentUpdateManyWithoutContactNestedInput
   }
 
   export type ContactUncheckedUpdateWithoutCompanyInput = {
@@ -25355,6 +31188,7 @@ export namespace Prisma {
     applications?: ApplicationUncheckedUpdateManyWithoutRecruiterContactNestedInput
     linkedNotes?: NoteUncheckedUpdateManyWithoutContactNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutContactNestedInput
+    documents?: DocumentUncheckedUpdateManyWithoutContactNestedInput
   }
 
   export type ContactUncheckedUpdateManyWithoutCompanyInput = {
@@ -25390,6 +31224,7 @@ export namespace Prisma {
     stageHistory?: ApplicationStageHistoryUpdateManyWithoutApplicationNestedInput
     linkedNotes?: NoteUpdateManyWithoutApplicationNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutApplicationNestedInput
+    documents?: DocumentUpdateManyWithoutApplicationNestedInput
   }
 
   export type ApplicationUncheckedUpdateWithoutCompanyInput = {
@@ -25408,6 +31243,7 @@ export namespace Prisma {
     stageHistory?: ApplicationStageHistoryUncheckedUpdateManyWithoutApplicationNestedInput
     linkedNotes?: NoteUncheckedUpdateManyWithoutApplicationNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutApplicationNestedInput
+    documents?: DocumentUncheckedUpdateManyWithoutApplicationNestedInput
   }
 
   export type ApplicationUncheckedUpdateManyWithoutCompanyInput = {
@@ -25524,6 +31360,56 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
+  export type DocumentUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    type?: EnumDocumentTypeFieldUpdateOperationsInput | $Enums.DocumentType
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: DocumentUpdatetagsInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user?: UserUpdateOneRequiredWithoutDocumentsNestedInput
+    contact?: ContactUpdateOneWithoutDocumentsNestedInput
+    application?: ApplicationUpdateOneWithoutDocumentsNestedInput
+    task?: TaskUpdateOneWithoutDocumentsNestedInput
+    project?: ProjectUpdateOneWithoutDocumentsNestedInput
+    versions?: DocumentVersionUpdateManyWithoutDocumentNestedInput
+  }
+
+  export type DocumentUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    type?: EnumDocumentTypeFieldUpdateOperationsInput | $Enums.DocumentType
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: DocumentUpdatetagsInput | string[]
+    contactId?: NullableStringFieldUpdateOperationsInput | string | null
+    applicationId?: NullableStringFieldUpdateOperationsInput | string | null
+    taskId?: NullableStringFieldUpdateOperationsInput | string | null
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    versions?: DocumentVersionUncheckedUpdateManyWithoutDocumentNestedInput
+  }
+
+  export type DocumentUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    type?: EnumDocumentTypeFieldUpdateOperationsInput | $Enums.DocumentType
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: DocumentUpdatetagsInput | string[]
+    contactId?: NullableStringFieldUpdateOperationsInput | string | null
+    applicationId?: NullableStringFieldUpdateOperationsInput | string | null
+    taskId?: NullableStringFieldUpdateOperationsInput | string | null
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
   export type ApplicationCreateManyRecruiterContactInput = {
     id?: string
     userId: string
@@ -25572,6 +31458,22 @@ export namespace Prisma {
     deletedAt?: Date | string | null
   }
 
+  export type DocumentCreateManyContactInput = {
+    id?: string
+    userId: string
+    title: string
+    type?: $Enums.DocumentType
+    description?: string | null
+    tags?: DocumentCreatetagsInput | string[]
+    companyId?: string | null
+    applicationId?: string | null
+    taskId?: string | null
+    projectId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+  }
+
   export type ApplicationUpdateWithoutRecruiterContactInput = {
     id?: StringFieldUpdateOperationsInput | string
     position?: StringFieldUpdateOperationsInput | string
@@ -25588,6 +31490,7 @@ export namespace Prisma {
     stageHistory?: ApplicationStageHistoryUpdateManyWithoutApplicationNestedInput
     linkedNotes?: NoteUpdateManyWithoutApplicationNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutApplicationNestedInput
+    documents?: DocumentUpdateManyWithoutApplicationNestedInput
   }
 
   export type ApplicationUncheckedUpdateWithoutRecruiterContactInput = {
@@ -25606,6 +31509,7 @@ export namespace Prisma {
     stageHistory?: ApplicationStageHistoryUncheckedUpdateManyWithoutApplicationNestedInput
     linkedNotes?: NoteUncheckedUpdateManyWithoutApplicationNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutApplicationNestedInput
+    documents?: DocumentUncheckedUpdateManyWithoutApplicationNestedInput
   }
 
   export type ApplicationUncheckedUpdateManyWithoutRecruiterContactInput = {
@@ -25722,6 +31626,56 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
+  export type DocumentUpdateWithoutContactInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    type?: EnumDocumentTypeFieldUpdateOperationsInput | $Enums.DocumentType
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: DocumentUpdatetagsInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user?: UserUpdateOneRequiredWithoutDocumentsNestedInput
+    company?: CompanyUpdateOneWithoutDocumentsNestedInput
+    application?: ApplicationUpdateOneWithoutDocumentsNestedInput
+    task?: TaskUpdateOneWithoutDocumentsNestedInput
+    project?: ProjectUpdateOneWithoutDocumentsNestedInput
+    versions?: DocumentVersionUpdateManyWithoutDocumentNestedInput
+  }
+
+  export type DocumentUncheckedUpdateWithoutContactInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    type?: EnumDocumentTypeFieldUpdateOperationsInput | $Enums.DocumentType
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: DocumentUpdatetagsInput | string[]
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    applicationId?: NullableStringFieldUpdateOperationsInput | string | null
+    taskId?: NullableStringFieldUpdateOperationsInput | string | null
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    versions?: DocumentVersionUncheckedUpdateManyWithoutDocumentNestedInput
+  }
+
+  export type DocumentUncheckedUpdateManyWithoutContactInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    type?: EnumDocumentTypeFieldUpdateOperationsInput | $Enums.DocumentType
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: DocumentUpdatetagsInput | string[]
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    applicationId?: NullableStringFieldUpdateOperationsInput | string | null
+    taskId?: NullableStringFieldUpdateOperationsInput | string | null
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
   export type ApplicationStageHistoryCreateManyApplicationInput = {
     id?: string
     fromStage?: $Enums.ApplicationStage | null
@@ -25754,6 +31708,22 @@ export namespace Prisma {
     endAt?: Date | string | null
     timezone?: string
     reminders?: CalendarEventCreateremindersInput | number[]
+    companyId?: string | null
+    contactId?: string | null
+    taskId?: string | null
+    projectId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+  }
+
+  export type DocumentCreateManyApplicationInput = {
+    id?: string
+    userId: string
+    title: string
+    type?: $Enums.DocumentType
+    description?: string | null
+    tags?: DocumentCreatetagsInput | string[]
     companyId?: string | null
     contactId?: string | null
     taskId?: string | null
@@ -25886,6 +31856,56 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
+  export type DocumentUpdateWithoutApplicationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    type?: EnumDocumentTypeFieldUpdateOperationsInput | $Enums.DocumentType
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: DocumentUpdatetagsInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user?: UserUpdateOneRequiredWithoutDocumentsNestedInput
+    company?: CompanyUpdateOneWithoutDocumentsNestedInput
+    contact?: ContactUpdateOneWithoutDocumentsNestedInput
+    task?: TaskUpdateOneWithoutDocumentsNestedInput
+    project?: ProjectUpdateOneWithoutDocumentsNestedInput
+    versions?: DocumentVersionUpdateManyWithoutDocumentNestedInput
+  }
+
+  export type DocumentUncheckedUpdateWithoutApplicationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    type?: EnumDocumentTypeFieldUpdateOperationsInput | $Enums.DocumentType
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: DocumentUpdatetagsInput | string[]
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    contactId?: NullableStringFieldUpdateOperationsInput | string | null
+    taskId?: NullableStringFieldUpdateOperationsInput | string | null
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    versions?: DocumentVersionUncheckedUpdateManyWithoutDocumentNestedInput
+  }
+
+  export type DocumentUncheckedUpdateManyWithoutApplicationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    type?: EnumDocumentTypeFieldUpdateOperationsInput | $Enums.DocumentType
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: DocumentUpdatetagsInput | string[]
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    contactId?: NullableStringFieldUpdateOperationsInput | string | null
+    taskId?: NullableStringFieldUpdateOperationsInput | string | null
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
   export type NoteCreateManyTaskInput = {
     id?: string
     userId: string
@@ -25910,6 +31930,22 @@ export namespace Prisma {
     endAt?: Date | string | null
     timezone?: string
     reminders?: CalendarEventCreateremindersInput | number[]
+    companyId?: string | null
+    contactId?: string | null
+    applicationId?: string | null
+    projectId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+  }
+
+  export type DocumentCreateManyTaskInput = {
+    id?: string
+    userId: string
+    title: string
+    type?: $Enums.DocumentType
+    description?: string | null
+    tags?: DocumentCreatetagsInput | string[]
     companyId?: string | null
     contactId?: string | null
     applicationId?: string | null
@@ -26018,6 +32054,56 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
+  export type DocumentUpdateWithoutTaskInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    type?: EnumDocumentTypeFieldUpdateOperationsInput | $Enums.DocumentType
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: DocumentUpdatetagsInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user?: UserUpdateOneRequiredWithoutDocumentsNestedInput
+    company?: CompanyUpdateOneWithoutDocumentsNestedInput
+    contact?: ContactUpdateOneWithoutDocumentsNestedInput
+    application?: ApplicationUpdateOneWithoutDocumentsNestedInput
+    project?: ProjectUpdateOneWithoutDocumentsNestedInput
+    versions?: DocumentVersionUpdateManyWithoutDocumentNestedInput
+  }
+
+  export type DocumentUncheckedUpdateWithoutTaskInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    type?: EnumDocumentTypeFieldUpdateOperationsInput | $Enums.DocumentType
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: DocumentUpdatetagsInput | string[]
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    contactId?: NullableStringFieldUpdateOperationsInput | string | null
+    applicationId?: NullableStringFieldUpdateOperationsInput | string | null
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    versions?: DocumentVersionUncheckedUpdateManyWithoutDocumentNestedInput
+  }
+
+  export type DocumentUncheckedUpdateManyWithoutTaskInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    type?: EnumDocumentTypeFieldUpdateOperationsInput | $Enums.DocumentType
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: DocumentUpdatetagsInput | string[]
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    contactId?: NullableStringFieldUpdateOperationsInput | string | null
+    applicationId?: NullableStringFieldUpdateOperationsInput | string | null
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
   export type ProjectActivityCreateManyProjectInput = {
     id?: string
     createdById: string
@@ -26054,6 +32140,22 @@ export namespace Prisma {
     endAt?: Date | string | null
     timezone?: string
     reminders?: CalendarEventCreateremindersInput | number[]
+    companyId?: string | null
+    contactId?: string | null
+    applicationId?: string | null
+    taskId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+  }
+
+  export type DocumentCreateManyProjectInput = {
+    id?: string
+    userId: string
+    title: string
+    type?: $Enums.DocumentType
+    description?: string | null
+    tags?: DocumentCreatetagsInput | string[]
     companyId?: string | null
     contactId?: string | null
     applicationId?: string | null
@@ -26195,6 +32297,116 @@ export namespace Prisma {
     taskId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type DocumentUpdateWithoutProjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    type?: EnumDocumentTypeFieldUpdateOperationsInput | $Enums.DocumentType
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: DocumentUpdatetagsInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user?: UserUpdateOneRequiredWithoutDocumentsNestedInput
+    company?: CompanyUpdateOneWithoutDocumentsNestedInput
+    contact?: ContactUpdateOneWithoutDocumentsNestedInput
+    application?: ApplicationUpdateOneWithoutDocumentsNestedInput
+    task?: TaskUpdateOneWithoutDocumentsNestedInput
+    versions?: DocumentVersionUpdateManyWithoutDocumentNestedInput
+  }
+
+  export type DocumentUncheckedUpdateWithoutProjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    type?: EnumDocumentTypeFieldUpdateOperationsInput | $Enums.DocumentType
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: DocumentUpdatetagsInput | string[]
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    contactId?: NullableStringFieldUpdateOperationsInput | string | null
+    applicationId?: NullableStringFieldUpdateOperationsInput | string | null
+    taskId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    versions?: DocumentVersionUncheckedUpdateManyWithoutDocumentNestedInput
+  }
+
+  export type DocumentUncheckedUpdateManyWithoutProjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    type?: EnumDocumentTypeFieldUpdateOperationsInput | $Enums.DocumentType
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: DocumentUpdatetagsInput | string[]
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    contactId?: NullableStringFieldUpdateOperationsInput | string | null
+    applicationId?: NullableStringFieldUpdateOperationsInput | string | null
+    taskId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type DocumentVersionCreateManyDocumentInput = {
+    id?: string
+    userId: string
+    version: number
+    fileName: string
+    fileSize: number
+    mimeType: string
+    fileUrl: string
+    storageProvider?: string
+    storageKey?: string | null
+    changelog?: string | null
+    createdAt?: Date | string
+    deletedAt?: Date | string | null
+  }
+
+  export type DocumentVersionUpdateWithoutDocumentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    version?: IntFieldUpdateOperationsInput | number
+    fileName?: StringFieldUpdateOperationsInput | string
+    fileSize?: IntFieldUpdateOperationsInput | number
+    mimeType?: StringFieldUpdateOperationsInput | string
+    fileUrl?: StringFieldUpdateOperationsInput | string
+    storageProvider?: StringFieldUpdateOperationsInput | string
+    storageKey?: NullableStringFieldUpdateOperationsInput | string | null
+    changelog?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user?: UserUpdateOneRequiredWithoutDocumentVersionsNestedInput
+  }
+
+  export type DocumentVersionUncheckedUpdateWithoutDocumentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    version?: IntFieldUpdateOperationsInput | number
+    fileName?: StringFieldUpdateOperationsInput | string
+    fileSize?: IntFieldUpdateOperationsInput | number
+    mimeType?: StringFieldUpdateOperationsInput | string
+    fileUrl?: StringFieldUpdateOperationsInput | string
+    storageProvider?: StringFieldUpdateOperationsInput | string
+    storageKey?: NullableStringFieldUpdateOperationsInput | string | null
+    changelog?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type DocumentVersionUncheckedUpdateManyWithoutDocumentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    version?: IntFieldUpdateOperationsInput | number
+    fileName?: StringFieldUpdateOperationsInput | string
+    fileSize?: IntFieldUpdateOperationsInput | number
+    mimeType?: StringFieldUpdateOperationsInput | string
+    fileUrl?: StringFieldUpdateOperationsInput | string
+    storageProvider?: StringFieldUpdateOperationsInput | string
+    storageKey?: NullableStringFieldUpdateOperationsInput | string | null
+    changelog?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 

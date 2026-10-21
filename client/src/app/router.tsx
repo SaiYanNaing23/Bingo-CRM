@@ -13,6 +13,7 @@ const ApplicationPages = lazy(() => import('@/features/applications/pages'))
 const TaskPages = lazy(() => import('@/features/tasks/pages'))
 const ProjectPages = lazy(() => import('@/features/projects/pages'))
 const NotePages = lazy(() => import('@/features/notes/pages'))
+const DocumentPages = lazy(() => import('@/features/documents/pages'))
 const CalendarPages = lazy(() => import('@/features/calendar/pages'))
 const TodayPage = lazy(() => import('@/features/tasks/today-page'))
 const AppearancePage = lazy(() => import('@/features/settings/appearance-page'))
@@ -62,6 +63,7 @@ const routePages = [
   { path: 'tasks', Component: TaskPages },
   { path: 'projects', Component: ProjectPages },
   { path: 'notes', Component: NotePages },
+  { path: 'documents', Component: DocumentPages },
 ]
 export const router = createBrowserRouter([
   {

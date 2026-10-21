@@ -1,3 +1,4 @@
+import "dotenv/config";
 import { z } from "zod";
 declare const envSchema: z.ZodObject<{
     NODE_ENV: z.ZodDefault<z.ZodEnum<{
@@ -26,6 +27,7 @@ declare const envSchema: z.ZodObject<{
     SEED_ADMIN_EMAIL: z.ZodDefault<z.ZodString>;
     SEED_ADMIN_NAME: z.ZodDefault<z.ZodString>;
     SEED_ADMIN_PASSWORD: z.ZodDefault<z.ZodString>;
+    UPLOADTHING_TOKEN: z.ZodOptional<z.ZodString>;
 }, z.core.$strip>;
 export declare const env: {
     NODE_ENV: "development" | "test" | "production";
@@ -43,6 +45,7 @@ export declare const env: {
     SEED_ADMIN_EMAIL: string;
     SEED_ADMIN_NAME: string;
     SEED_ADMIN_PASSWORD: string;
+    UPLOADTHING_TOKEN?: string | undefined;
 };
 export type AppEnv = z.infer<typeof envSchema>;
 export {};

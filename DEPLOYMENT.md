@@ -1,20 +1,17 @@
-# Free deployment: Cloudflare Pages + Render + Neon
+# Free deployment: Cloudflare Worker + Render + Neon
 
-This repository has two deployable roots: `client/` (Vite static site) and
-`server/` (Express API). Use Neon PostgreSQL for persistent data. Render's free
+This repository has a Vite React client in `client/` and an Express API in
+`server/`. The existing Cloudflare Worker `bingo-crm` serves the built client
+as static assets. Render runs the API, and Neon stores the data. Render's free
 API sleeps after 15 minutes without incoming requests; no keep-awake job is
 configured.
 
-## 1. Database: Neon
+## 1. Neon database
 
-Create a Neon PostgreSQL project in `ap-southeast-1` (Singapore), or use an
-existing project. Copy its **pooled** connection string for the API and its
-**direct** connection string for Prisma migrations. Keep both private and never
-add them to client environment variables or Git.
-
-Before the first API deployment, apply the checked-in schema to the intended
-Neon database. From `server/`, set `DATABASE_URL` to that database and
-`DIRECT_URL` to its direct connection string, then run:
+Use a Neon PostgreSQL project. Keep its connection strings private and never
+put them in client build variables or Git. Before using a new database, apply
+the checked-in migrations from `server/` with `DATABASE_URL` set to the Neon
+pooled connection string and `DIRECT_URL` set to its direct connection string:
 
 ```sh
 npm ci
@@ -22,59 +19,54 @@ npm run prisma:generate
 npm run prisma:deploy
 ```
 
-Run `prisma:deploy` again when a later release adds migrations. Render Free
-does not provide a pre-deploy command, so the Blueprint intentionally does
-not run migrations during build or on every wake-up.
+Run `prisma:deploy` again whenever a later release adds migrations. Render
+Free has no pre-deploy command; the API intentionally does not run migrations
+on every wake-up.
 
-## 2. Reserve the Cloudflare Pages URL
+## 2. Render API
 
-Create a Pages project from this repository with root directory `client`,
-React (Vite) preset, build command `npm ci && npm run build`, and output
-directory `dist`. The initial build can complete before the API exists; sign-in
-will not work yet. Copy the new `https://your-project.pages.dev` origin for the
-Render configuration.
+Use one Render **Web Service** with root directory `server`, free compute,
+build command `npm ci && npm run prisma:generate && npm run build`, start
+command `npm start`, and health check `/api/v1/health`. Choose Singapore if
+using Neon `ap-southeast-1`.
 
-## 3. API: Render Free
-
-Create a Render Blueprint from this repository's `render.yaml`. It defines a
-Node web service with root directory `server/`, the production build/start
-commands, Singapore region, free plan, and `/api/v1/health` check.
-
-At Blueprint creation, enter:
+Set these Render environment variables:
 
 - `DATABASE_URL`: the Neon pooled connection string.
-- `CORS_ORIGIN`: the exact Cloudflare Pages origin, such as
-  `https://your-project.pages.dev` (no trailing slash).
+- `JWT_SECRET`: a strong random secret.
+- `CORS_ORIGIN`: the exact Cloudflare Worker origin, such as
+  `https://bingo-crm.pesilay2372002.workers.dev` (no trailing slash).
+- `UPLOADTHING_TOKEN`: needed only for document uploads.
 
-Render generates `JWT_SECRET`. If document uploads are needed, add
-`UPLOADTHING_TOKEN` to the Render service's environment settings. Do not run
-`prisma:seed` with the default admin password from `.env.example` on a public
-database.
+The existing `render.yaml` describes an alternative Blueprint deployment. If
+the Render Web Service already exists, configure that service directly; do not
+create a second service from the Blueprint. Do not run `prisma:seed` with the
+default admin password from `.env.example` on a public database.
 
-After deploy, confirm `https://your-api.onrender.com/api/v1/health` returns
-`status: "ok"`. The API URL is HTTPS and has no `/api/v1` suffix in Render's
-dashboard; add that suffix when configuring the client.
+Verify `https://bingo-crm.onrender.com/api/v1/health` returns `status: "ok"`.
+The bare API origin may return 404 because the routes live under `/api/v1`.
 
-## 4. Finish the Cloudflare Pages client
+## 3. Existing Cloudflare Worker for the client
 
-Set this build environment variable on the Pages project and trigger a new
-deployment:
+Commit and push `client/wrangler.jsonc` to the GitHub branch connected to the
+existing `bingo-crm` Worker. The Wrangler config tells Cloudflare to upload
+`client/dist` and serve `index.html` for React Router navigation.
+
+In the Worker's **Settings > Build** page, set:
 
 | Setting | Value |
 | --- | --- |
-| Build environment variable | `VITE_API_BASE_URL=https://your-api.onrender.com/api/v1` |
+| Production branch | `master` |
+| Root directory | `client` |
+| Build command | `npm ci && npm run build` |
+| Deploy command | `npx wrangler deploy` |
+| Build variable | `VITE_API_BASE_URL=https://bingo-crm.onrender.com/api/v1` |
 
-Set `VITE_API_BASE_URL` **before the final build**; Vite embeds it in the
-browser bundle. Cloudflare Pages serves React Router paths via its default SPA
-fallback because this project has no top-level `404.html`.
+`VITE_API_BASE_URL` is embedded during the client build, so rebuild after
+changing it. This is a build variable, not a runtime Worker secret. The
+Wrangler `name` must match the existing Worker name `bingo-crm`.
 
-The two public origins must match the Render `CORS_ORIGIN` setting exactly. If
-you change the Pages domain, update `CORS_ORIGIN` on Render. If you change the
-Render API URL, update `VITE_API_BASE_URL` on Cloudflare Pages and redeploy the
-client.
-
-## Final check
-
-Open the Pages URL, register or sign in, and create a test record. A first API
-request after Render has slept may take about a minute. Do not put real CRM
-records in a demo database unless you have a backup and access plan.
+After a successful deployment, open the Worker's `*.workers.dev` URL and try
+both `/` and a client route such as `/companies`. If a browser API request is
+blocked by CORS, compare its origin with Render's `CORS_ORIGIN` exactly. A
+first API request after Render sleeps may take about a minute.

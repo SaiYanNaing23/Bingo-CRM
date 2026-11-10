@@ -23,6 +23,7 @@ export async function request<T>(
     params?: Params
     signal?: AbortSignal
     anonymous?: boolean
+    cache?: RequestCache
   } = {},
 ): Promise<T> {
   const token = options.anonymous ? null : session.token()
@@ -35,6 +36,7 @@ export async function request<T>(
     response = await fetch(`${apiBase}${path}${search.size ? `?${search}` : ''}`, {
       method: options.method ?? 'GET',
       signal: options.signal,
+      cache: options.cache,
       headers: {
         Accept: 'application/json',
         ...(options.body !== undefined ? { 'Content-Type': 'application/json' } : {}),

@@ -70,3 +70,17 @@ After a successful deployment, open the Worker's `*.workers.dev` URL and try
 both `/` and a client route such as `/companies`. If a browser API request is
 blocked by CORS, compare its origin with Render's `CORS_ORIGIN` exactly. A
 first API request after Render sleeps may take about a minute.
+
+On every page load, the client calls the public `GET /api/v1/health/ready`
+endpoint before mounting authentication or workspace actions. A blocking
+"Waking up the server" dialog stays visible until both the API and a database
+`SELECT 1` probe succeed. Requests bypass the browser cache; the client retries
+failed probes every five seconds, times out individual requests after 15 seconds,
+and offers **Try again** after two minutes. Closing the page cancels the checks.
+There is no background keep-awake polling after startup succeeds.
+
+Deploy the API and client changes together, with the API first. Keep Render's
+health check set to `/api/v1/health`; this lightweight liveness check does not
+query the database. The readiness endpoint returns the same success envelope
+when ready, or HTTP 503 with code `SERVER_NOT_READY` while the database is
+unavailable. Neither health response is cached, and no login is required.
